@@ -1,0 +1,25 @@
+# Fdb version 4
+["pdflatex"] 1763809272.62465 "/home/eapiova/projects/zooReals/gemini.tex" "gemini.pdf" "gemini" 1763809272.73461 2
+  "/home/eapiova/projects/zooReals/gemini.tex" 1763808885.03583 30787 a948a98cdab1eadcfd63bd035c65dabc ""
+  "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
+  "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmr10.tfm" 1136768653 1296 45809c5a464d5f32c8f98ba97c1bb47f ""
+  "/usr/local/texlive/2025/texmf-dist/tex/generic/iftex/iftex.sty" 1734129479 7984 7dbb9280f03c0a315425f1b4f35d43ee ""
+  "/usr/local/texlive/2025/texmf-dist/tex/generic/iftex/ifvtex.sty" 1572645307 1057 525c2192b5febbd8c1f662c9468335bb ""
+  "/usr/local/texlive/2025/texmf-dist/tex/latex/base/article.cls" 1748806692 20144 b966087dda3b194755eb460d32e2ef75 ""
+  "/usr/local/texlive/2025/texmf-dist/tex/latex/base/size11.clo" 1748806692 8464 f339f4d5391fbe0425b2d94c90e6819e ""
+  "/usr/local/texlive/2025/texmf-dist/tex/latex/fontspec/fontspec.sty" 1715459803 3755 4872b99d810c024f9c09bb1c62ffee3b ""
+  "/usr/local/texlive/2025/texmf-dist/tex/latex/geometry/geometry.sty" 1578002852 41601 9cf6c5257b1bc7af01a58859749dd37a ""
+  "/usr/local/texlive/2025/texmf-dist/tex/latex/graphics/keyval.sty" 1748806692 2671 d9941f4bf4750e9b0603c9a2ec54693b ""
+  "/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def" 1751059413 30351 a2b09edc6c93a742566b222c33d0278e ""
+  "/usr/local/texlive/2025/texmf-dist/tex/latex/l3kernel/expl3.sty" 1758137594 6558 bec0a36183594509927de3d0194841f8 ""
+  "/usr/local/texlive/2025/texmf-dist/tex/latex/l3packages/xparse/xparse.sty" 1724879202 9783 ab4bee47700c04aadedb8da27591b0ab ""
+  "/usr/local/texlive/2025/texmf-dist/web2c/texmf.cnf" 1749313668 42213 4e2ca030e8e2640502016e9e45868dcb ""
+  "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1759151383 3628771 d4a20debd1ea756b11965ac2da84f87d ""
+  "/usr/local/texlive/2025/texmf.cnf" 1745488119.6569 455 5b996dcaa0eb4ef14a83b026bc0a008c ""
+  "gemini.aux" 1763809264.62432 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "gemini.tex" 1763808885.03583 30787 a948a98cdab1eadcfd63bd035c65dabc ""
+  (generated)
+  "gemini.aux"
+  "gemini.log"
+  "gemini.pdf"
+  (rewritten before read)
