@@ -1,0 +1,2734 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global/global}
+    \entry{AbramskyJung1994}{incollection}{}{}
+      \name{author}{2}{}{%
+        {{hash=9fe5cdf69e7c21fb4768948b13101d02}{%
+           family={Abramsky},
+           familyi={A\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=a58b04fb01c913e3a16ac39b5bc524c0}{%
+           family={Jung},
+           familyi={J\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford University Press}%
+      }
+      \strng{namehash}{9007f079c409ad7d1065fb5b75450fb5}
+      \strng{fullhash}{9007f079c409ad7d1065fb5b75450fb5}
+      \strng{fullhashraw}{9007f079c409ad7d1065fb5b75450fb5}
+      \strng{bibnamehash}{9007f079c409ad7d1065fb5b75450fb5}
+      \strng{authorbibnamehash}{9007f079c409ad7d1065fb5b75450fb5}
+      \strng{authornamehash}{9007f079c409ad7d1065fb5b75450fb5}
+      \strng{authorfullhash}{9007f079c409ad7d1065fb5b75450fb5}
+      \strng{authorfullhashraw}{9007f079c409ad7d1065fb5b75450fb5}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Handbook of Logic in Computer Science}
+      \field{title}{Domain Theory}
+      \field{volume}{3}
+      \field{year}{1994}
+      \field{pages}{1\bibrangedash 168}
+      \range{pages}{168}
+    \endentry
+    \entry{AbrialCansell2021}{misc}{}{}
+      \name{author}{2}{}{%
+        {{hash=a1803a12f626ab41994231aa9c6fe2f0}{%
+           family={Abrial},
+           familyi={A\bibinitperiod},
+           given={J.-R.},
+           giveni={J\bibinithyphendelim R\bibinitperiod}}}%
+        {{hash=e4165cf940f782102e0fcb6fc15f853d}{%
+           family={Cansell},
+           familyi={C\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{e92701f3a57042ac91cdbe9f319c6683}
+      \strng{fullhash}{e92701f3a57042ac91cdbe9f319c6683}
+      \strng{fullhashraw}{e92701f3a57042ac91cdbe9f319c6683}
+      \strng{bibnamehash}{e92701f3a57042ac91cdbe9f319c6683}
+      \strng{authorbibnamehash}{e92701f3a57042ac91cdbe9f319c6683}
+      \strng{authornamehash}{e92701f3a57042ac91cdbe9f319c6683}
+      \strng{authorfullhash}{e92701f3a57042ac91cdbe9f319c6683}
+      \strng{authorfullhashraw}{e92701f3a57042ac91cdbe9f319c6683}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{EBRP Project Notes}
+      \field{title}{Constructing the Reals from the Integers}
+      \field{year}{2021}
+    \endentry
+    \entry{AdamekMiliusMoss2025}{book}{}{}
+      \name{author}{3}{}{%
+        {{hash=d271afb9dd5fb30170c919f13fd4d084}{%
+           family={Adámek},
+           familyi={A\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=ec45d35e6d14524db5979e3418fe48b1}{%
+           family={Milius},
+           familyi={M\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=aae345e7b9158ba0df6ece566f14dd67}{%
+           family={Moss},
+           familyi={M\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{8ac863dccacf7c05b87dc6845c1cb6ae}
+      \strng{fullhash}{8ac863dccacf7c05b87dc6845c1cb6ae}
+      \strng{fullhashraw}{8ac863dccacf7c05b87dc6845c1cb6ae}
+      \strng{bibnamehash}{8ac863dccacf7c05b87dc6845c1cb6ae}
+      \strng{authorbibnamehash}{8ac863dccacf7c05b87dc6845c1cb6ae}
+      \strng{authornamehash}{8ac863dccacf7c05b87dc6845c1cb6ae}
+      \strng{authorfullhash}{8ac863dccacf7c05b87dc6845c1cb6ae}
+      \strng{authorfullhashraw}{8ac863dccacf7c05b87dc6845c1cb6ae}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{series}{Cambridge Tracts in Theoretical Computer Science}
+      \field{title}{Initial Algebras and Terminal Coalgebras}
+      \field{year}{2025}
+    \endentry
+    \entry{AgdaWiki}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=9550f92b2c4f5de5357ae1d4e4a912ec}{%
+           family={{Agda Wiki}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{9550f92b2c4f5de5357ae1d4e4a912ec}
+      \strng{fullhash}{9550f92b2c4f5de5357ae1d4e4a912ec}
+      \strng{fullhashraw}{9550f92b2c4f5de5357ae1d4e4a912ec}
+      \strng{bibnamehash}{9550f92b2c4f5de5357ae1d4e4a912ec}
+      \strng{authorbibnamehash}{9550f92b2c4f5de5357ae1d4e4a912ec}
+      \strng{authornamehash}{9550f92b2c4f5de5357ae1d4e4a912ec}
+      \strng{authorfullhash}{9550f92b2c4f5de5357ae1d4e4a912ec}
+      \strng{authorfullhashraw}{9550f92b2c4f5de5357ae1d4e4a912ec}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Agda Wiki Portal}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://wiki.portal.chalmers.se/agda/pmwiki.php
+      \endverb
+      \verb{url}
+      \verb https://wiki.portal.chalmers.se/agda/pmwiki.php
+      \endverb
+    \endentry
+    \entry{Arthan2004}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=f6093d31360b6aef9b5b5544a7844640}{%
+           family={Arthan},
+           familyi={A\bibinitperiod},
+           given={R.\bibnamedelimi D.},
+           giveni={R\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      }
+      \strng{namehash}{f6093d31360b6aef9b5b5544a7844640}
+      \strng{fullhash}{f6093d31360b6aef9b5b5544a7844640}
+      \strng{fullhashraw}{f6093d31360b6aef9b5b5544a7844640}
+      \strng{bibnamehash}{f6093d31360b6aef9b5b5544a7844640}
+      \strng{authorbibnamehash}{f6093d31360b6aef9b5b5544a7844640}
+      \strng{authornamehash}{f6093d31360b6aef9b5b5544a7844640}
+      \strng{authorfullhash}{f6093d31360b6aef9b5b5544a7844640}
+      \strng{authorfullhashraw}{f6093d31360b6aef9b5b5544a7844640}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{arXiv preprint arXiv:math/0405454}
+      \field{title}{The Eudoxus Real Numbers}
+      \field{year}{2004}
+      \verb{eprint}
+      \verb math/0405454
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/math/0405454
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/math/0405454
+      \endverb
+    \endentry
+    \entry{Avizienis1961}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=486826e6249ce8f61c17ac38e7ae734e}{%
+           family={Avizienis},
+           familyi={A\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{486826e6249ce8f61c17ac38e7ae734e}
+      \strng{fullhash}{486826e6249ce8f61c17ac38e7ae734e}
+      \strng{fullhashraw}{486826e6249ce8f61c17ac38e7ae734e}
+      \strng{bibnamehash}{486826e6249ce8f61c17ac38e7ae734e}
+      \strng{authorbibnamehash}{486826e6249ce8f61c17ac38e7ae734e}
+      \strng{authornamehash}{486826e6249ce8f61c17ac38e7ae734e}
+      \strng{authorfullhash}{486826e6249ce8f61c17ac38e7ae734e}
+      \strng{authorfullhashraw}{486826e6249ce8f61c17ac38e7ae734e}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IRE Transactions on Electronic Computers}
+      \field{title}{Signed-Digit Number Representations for Fast Parallel Arithmetic}
+      \field{volume}{EC-10}
+      \field{year}{1961}
+      \field{pages}{389\bibrangedash 400}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1109/TEC.1961.5219236
+      \endverb
+    \endentry
+    \entry{BauerCompleteOrderedFields}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=b70fb9616ca35fd3c22dc5e84760ecc7}{%
+           family={Bauer},
+           familyi={B\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{fullhash}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{fullhashraw}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{bibnamehash}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{authorbibnamehash}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{authornamehash}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{authorfullhash}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{authorfullhashraw}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \field{extraname}{1}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{On Complete Ordered Fields}
+      \field{year}{2019}
+      \verb{urlraw}
+      \verb https://math.andrej.com/2019/09/09/on-complete-ordered-fields/
+      \endverb
+      \verb{url}
+      \verb https://math.andrej.com/2019/09/09/on-complete-ordered-fields/
+      \endverb
+    \endentry
+    \entry{BauerHoTTReals2016}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=b70fb9616ca35fd3c22dc5e84760ecc7}{%
+           family={Bauer},
+           familyi={B\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{fullhash}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{fullhashraw}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{bibnamehash}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{authorbibnamehash}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{authornamehash}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{authorfullhash}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{authorfullhashraw}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \field{extraname}{2}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{CCA 2016 slides}
+      \field{title}{The Real Numbers in Homotopy Type Theory}
+      \field{year}{2016}
+      \verb{urlraw}
+      \verb https://math.andrej.com/wp-content/uploads/2016/06/hott-reals-cca2016.pdf
+      \endverb
+      \verb{url}
+      \verb https://math.andrej.com/wp-content/uploads/2016/06/hott-reals-cca2016.pdf
+      \endverb
+    \endentry
+    \entry{BauerIntervalDomain}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=b70fb9616ca35fd3c22dc5e84760ecc7}{%
+           family={Bauer},
+           familyi={B\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{fullhash}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{fullhashraw}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{bibnamehash}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{authorbibnamehash}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{authornamehash}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{authorfullhash}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \strng{authorfullhashraw}{b70fb9616ca35fd3c22dc5e84760ecc7}
+      \field{extraname}{3}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The Role of the Interval Domain in Modern Exact Real Arithmetic}
+      \field{year}{2007}
+      \verb{urlraw}
+      \verb https://math.andrej.com/2007/09/18/the-role-of-the-interval-domain-in-modern-exact-real-airthmetic/
+      \endverb
+      \verb{url}
+      \verb https://math.andrej.com/2007/09/18/the-role-of-the-interval-domain-in-modern-exact-real-airthmetic/
+      \endverb
+    \endentry
+    \entry{BauerKavkler2009}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=b70fb9616ca35fd3c22dc5e84760ecc7}{%
+           family={Bauer},
+           familyi={B\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=d0e0c314dbdfe16b97b4dedd065ae238}{%
+           family={Kavkler},
+           familyi={K\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{f2712083dd844d0f0abecc50d84cc80b}
+      \strng{fullhash}{f2712083dd844d0f0abecc50d84cc80b}
+      \strng{fullhashraw}{f2712083dd844d0f0abecc50d84cc80b}
+      \strng{bibnamehash}{f2712083dd844d0f0abecc50d84cc80b}
+      \strng{authorbibnamehash}{f2712083dd844d0f0abecc50d84cc80b}
+      \strng{authornamehash}{f2712083dd844d0f0abecc50d84cc80b}
+      \strng{authorfullhash}{f2712083dd844d0f0abecc50d84cc80b}
+      \strng{authorfullhashraw}{f2712083dd844d0f0abecc50d84cc80b}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Electronic Notes in Theoretical Computer Science}
+      \field{title}{Implementing Exact Real Arithmetic in Type Theory}
+      \field{volume}{202}
+      \field{year}{2009}
+      \field{pages}{3\bibrangedash 21}
+      \range{pages}{19}
+      \verb{doi}
+      \verb 10.1016/j.entcs.2008.03.002
+      \endverb
+    \endentry
+    \entry{BauerTaylor2009}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=b70fb9616ca35fd3c22dc5e84760ecc7}{%
+           family={Bauer},
+           familyi={B\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=9fc8b6405571bbdd9dd418e6cfcc7627}{%
+           family={Taylor},
+           familyi={T\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{8cfb503569086ecae92c4bf743f84ab2}
+      \strng{fullhash}{8cfb503569086ecae92c4bf743f84ab2}
+      \strng{fullhashraw}{8cfb503569086ecae92c4bf743f84ab2}
+      \strng{bibnamehash}{8cfb503569086ecae92c4bf743f84ab2}
+      \strng{authorbibnamehash}{8cfb503569086ecae92c4bf743f84ab2}
+      \strng{authornamehash}{8cfb503569086ecae92c4bf743f84ab2}
+      \strng{authorfullhash}{8cfb503569086ecae92c4bf743f84ab2}
+      \strng{authorfullhashraw}{8cfb503569086ecae92c4bf743f84ab2}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Electronic Notes in Theoretical Computer Science}
+      \field{title}{The Dedekind Reals in Abstract Stone Duality}
+      \field{volume}{203}
+      \field{year}{2009}
+      \field{pages}{69\bibrangedash 90}
+      \range{pages}{22}
+      \verb{doi}
+      \verb 10.1016/j.entcs.2008.05.018
+      \endverb
+    \endentry
+    \entry{Bishop1967}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=8cde713fce43221a37d21797bc232642}{%
+           family={Bishop},
+           familyi={B\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {McGraw-Hill}%
+      }
+      \strng{namehash}{8cde713fce43221a37d21797bc232642}
+      \strng{fullhash}{8cde713fce43221a37d21797bc232642}
+      \strng{fullhashraw}{8cde713fce43221a37d21797bc232642}
+      \strng{bibnamehash}{8cde713fce43221a37d21797bc232642}
+      \strng{authorbibnamehash}{8cde713fce43221a37d21797bc232642}
+      \strng{authornamehash}{8cde713fce43221a37d21797bc232642}
+      \strng{authorfullhash}{8cde713fce43221a37d21797bc232642}
+      \strng{authorfullhashraw}{8cde713fce43221a37d21797bc232642}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Foundations of Constructive Analysis}
+      \field{year}{1967}
+      \verb{urlraw}
+      \verb https://openlibrary.org/books/OL5546656M/Foundations_of_constructive_analysis
+      \endverb
+      \verb{url}
+      \verb https://openlibrary.org/books/OL5546656M/Foundations_of_constructive_analysis
+      \endverb
+    \endentry
+    \entry{BishopBridges1985}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=8cde713fce43221a37d21797bc232642}{%
+           family={Bishop},
+           familyi={B\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod}}}%
+        {{hash=c6a129b95c0fbac2149cc768d8841a0a}{%
+           family={Bridges},
+           familyi={B\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{affaab56cb1d0a6a1e896955e3bb0033}
+      \strng{fullhash}{affaab56cb1d0a6a1e896955e3bb0033}
+      \strng{fullhashraw}{affaab56cb1d0a6a1e896955e3bb0033}
+      \strng{bibnamehash}{affaab56cb1d0a6a1e896955e3bb0033}
+      \strng{authorbibnamehash}{affaab56cb1d0a6a1e896955e3bb0033}
+      \strng{authornamehash}{affaab56cb1d0a6a1e896955e3bb0033}
+      \strng{authorfullhash}{affaab56cb1d0a6a1e896955e3bb0033}
+      \strng{authorfullhashraw}{affaab56cb1d0a6a1e896955e3bb0033}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Constructive Analysis}
+      \field{year}{1985}
+      \verb{doi}
+      \verb 10.1007/978-3-642-61667-9
+      \endverb
+    \endentry
+    \entry{BlechschmidtHutzler2019}{misc}{}{}
+      \name{author}{2}{}{%
+        {{hash=78f9c0c60dc30cfd5d5d9a4459eeb997}{%
+           family={Blechschmidt},
+           familyi={B\bibinitperiod},
+           given={I.},
+           giveni={I\bibinitperiod}}}%
+        {{hash=daa4c3a982916e527f137a467377bad0}{%
+           family={Hutzler},
+           familyi={H\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{2cf71ffe00d89b23813b3c182102f824}
+      \strng{fullhash}{2cf71ffe00d89b23813b3c182102f824}
+      \strng{fullhashraw}{2cf71ffe00d89b23813b3c182102f824}
+      \strng{bibnamehash}{2cf71ffe00d89b23813b3c182102f824}
+      \strng{authorbibnamehash}{2cf71ffe00d89b23813b3c182102f824}
+      \strng{authornamehash}{2cf71ffe00d89b23813b3c182102f824}
+      \strng{authorfullhash}{2cf71ffe00d89b23813b3c182102f824}
+      \strng{authorfullhashraw}{2cf71ffe00d89b23813b3c182102f824}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{title}{A Constructive Knaster--Tarski Proof of the Uncountability of the Reals}
+      \field{year}{2019}
+      \verb{eprint}
+      \verb 1902.07366
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1902.07366
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1902.07366
+      \endverb
+    \endentry
+    \entry{Booij2020}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=9e9d67f18460a1e67c868b92bd94f0e3}{%
+           family={Booij},
+           familyi={B\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{9e9d67f18460a1e67c868b92bd94f0e3}
+      \strng{fullhash}{9e9d67f18460a1e67c868b92bd94f0e3}
+      \strng{fullhashraw}{9e9d67f18460a1e67c868b92bd94f0e3}
+      \strng{bibnamehash}{9e9d67f18460a1e67c868b92bd94f0e3}
+      \strng{authorbibnamehash}{9e9d67f18460a1e67c868b92bd94f0e3}
+      \strng{authornamehash}{9e9d67f18460a1e67c868b92bd94f0e3}
+      \strng{authorfullhash}{9e9d67f18460a1e67c868b92bd94f0e3}
+      \strng{authorfullhashraw}{9e9d67f18460a1e67c868b92bd94f0e3}
+      \field{extraname}{1}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{title}{The HoTT Reals are the Cauchy Completion of the Rationals}
+      \field{year}{2020}
+      \verb{eprint}
+      \verb 2004.04582
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2004.04582
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2004.04582
+      \endverb
+    \endentry
+    \entry{Booij2017}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=9e9d67f18460a1e67c868b92bd94f0e3}{%
+           family={Booij},
+           familyi={B\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{9e9d67f18460a1e67c868b92bd94f0e3}
+      \strng{fullhash}{9e9d67f18460a1e67c868b92bd94f0e3}
+      \strng{fullhashraw}{9e9d67f18460a1e67c868b92bd94f0e3}
+      \strng{bibnamehash}{9e9d67f18460a1e67c868b92bd94f0e3}
+      \strng{authorbibnamehash}{9e9d67f18460a1e67c868b92bd94f0e3}
+      \strng{authornamehash}{9e9d67f18460a1e67c868b92bd94f0e3}
+      \strng{authorfullhash}{9e9d67f18460a1e67c868b92bd94f0e3}
+      \strng{authorfullhashraw}{9e9d67f18460a1e67c868b92bd94f0e3}
+      \field{extraname}{2}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{title}{The HoTT Reals Coincide with the Escardó--Simpson Reals}
+      \field{year}{2017}
+      \verb{eprint}
+      \verb 1706.05956
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1706.05956
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1706.05956
+      \endverb
+    \endentry
+    \entry{BridgesRichman1987}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=c6a129b95c0fbac2149cc768d8841a0a}{%
+           family={Bridges},
+           familyi={B\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+        {{hash=64a90a0c1c9cba1521674fabdd2fa02b}{%
+           family={Richman},
+           familyi={R\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{be14bdd89fe84629170ddf79961bee6b}
+      \strng{fullhash}{be14bdd89fe84629170ddf79961bee6b}
+      \strng{fullhashraw}{be14bdd89fe84629170ddf79961bee6b}
+      \strng{bibnamehash}{be14bdd89fe84629170ddf79961bee6b}
+      \strng{authorbibnamehash}{be14bdd89fe84629170ddf79961bee6b}
+      \strng{authornamehash}{be14bdd89fe84629170ddf79961bee6b}
+      \strng{authorfullhash}{be14bdd89fe84629170ddf79961bee6b}
+      \strng{authorfullhashraw}{be14bdd89fe84629170ddf79961bee6b}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Varieties of Constructive Mathematics}
+      \field{year}{1987}
+      \verb{doi}
+      \verb 10.1017/CBO9780511565663
+      \endverb
+    \endentry
+    \entry{BrilliantCF}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=1bc510195917ad4ae6460564740c4490}{%
+           family={{Brilliant.org}},
+           familyi={B\bibinitperiod}}}%
+      }
+      \strng{namehash}{1bc510195917ad4ae6460564740c4490}
+      \strng{fullhash}{1bc510195917ad4ae6460564740c4490}
+      \strng{fullhashraw}{1bc510195917ad4ae6460564740c4490}
+      \strng{bibnamehash}{1bc510195917ad4ae6460564740c4490}
+      \strng{authorbibnamehash}{1bc510195917ad4ae6460564740c4490}
+      \strng{authornamehash}{1bc510195917ad4ae6460564740c4490}
+      \strng{authorfullhash}{1bc510195917ad4ae6460564740c4490}
+      \strng{authorfullhashraw}{1bc510195917ad4ae6460564740c4490}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Continued Fractions}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://brilliant.org/wiki/continued-fractions/
+      \endverb
+      \verb{url}
+      \verb https://brilliant.org/wiki/continued-fractions/
+      \endverb
+    \endentry
+    \entry{Chernov2021}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=ddeabc99e192eff7c35854a17e4b05a7}{%
+           family={Chernov},
+           familyi={C\bibinitperiod},
+           given={V.},
+           giveni={V\bibinitperiod}}}%
+      }
+      \strng{namehash}{ddeabc99e192eff7c35854a17e4b05a7}
+      \strng{fullhash}{ddeabc99e192eff7c35854a17e4b05a7}
+      \strng{fullhashraw}{ddeabc99e192eff7c35854a17e4b05a7}
+      \strng{bibnamehash}{ddeabc99e192eff7c35854a17e4b05a7}
+      \strng{authorbibnamehash}{ddeabc99e192eff7c35854a17e4b05a7}
+      \strng{authornamehash}{ddeabc99e192eff7c35854a17e4b05a7}
+      \strng{authorfullhash}{ddeabc99e192eff7c35854a17e4b05a7}
+      \strng{authorfullhashraw}{ddeabc99e192eff7c35854a17e4b05a7}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{title}{Constructive Real Numbers and Connectedness}
+      \field{year}{2021}
+      \verb{eprint}
+      \verb 2108.11189
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2108.11189
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2108.11189
+      \endverb
+    \endentry
+    \entry{CoqConstructiveReals}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=2496533851213d460307d496040e1b25}{%
+           family={{Coq Development Team}},
+           familyi={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{2496533851213d460307d496040e1b25}
+      \strng{fullhash}{2496533851213d460307d496040e1b25}
+      \strng{fullhashraw}{2496533851213d460307d496040e1b25}
+      \strng{bibnamehash}{2496533851213d460307d496040e1b25}
+      \strng{authorbibnamehash}{2496533851213d460307d496040e1b25}
+      \strng{authornamehash}{2496533851213d460307d496040e1b25}
+      \strng{authorfullhash}{2496533851213d460307d496040e1b25}
+      \strng{authorfullhashraw}{2496533851213d460307d496040e1b25}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Constructive Reals Interface}
+      \field{year}{2024}
+    \endentry
+    \entry{Dedekind1872}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=0a4ccaa7e482233ae5dff0b015852a52}{%
+           family={Dedekind},
+           familyi={D\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{0a4ccaa7e482233ae5dff0b015852a52}
+      \strng{fullhash}{0a4ccaa7e482233ae5dff0b015852a52}
+      \strng{fullhashraw}{0a4ccaa7e482233ae5dff0b015852a52}
+      \strng{bibnamehash}{0a4ccaa7e482233ae5dff0b015852a52}
+      \strng{authorbibnamehash}{0a4ccaa7e482233ae5dff0b015852a52}
+      \strng{authornamehash}{0a4ccaa7e482233ae5dff0b015852a52}
+      \strng{authorfullhash}{0a4ccaa7e482233ae5dff0b015852a52}
+      \strng{authorfullhashraw}{0a4ccaa7e482233ae5dff0b015852a52}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Stetigkeit und irrationale Zahlen}
+      \field{year}{1872}
+      \verb{urlraw}
+      \verb https://gdz.sub.uni-goettingen.de/id/PPN23569441X
+      \endverb
+      \verb{url}
+      \verb https://gdz.sub.uni-goettingen.de/id/PPN23569441X
+      \endverb
+    \endentry
+    \entry{Devillanova2021}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=d238072332e7ed43bdc98e1c62993728}{%
+           family={Devillanova},
+           familyi={D\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{d238072332e7ed43bdc98e1c62993728}
+      \strng{fullhash}{d238072332e7ed43bdc98e1c62993728}
+      \strng{fullhashraw}{d238072332e7ed43bdc98e1c62993728}
+      \strng{bibnamehash}{d238072332e7ed43bdc98e1c62993728}
+      \strng{authorbibnamehash}{d238072332e7ed43bdc98e1c62993728}
+      \strng{authornamehash}{d238072332e7ed43bdc98e1c62993728}
+      \strng{authorfullhash}{d238072332e7ed43bdc98e1c62993728}
+      \strng{authorfullhashraw}{d238072332e7ed43bdc98e1c62993728}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Atti della Accademia Peloritana}
+      \field{title}{The Fabulous Destiny of Richard Dedekind}
+      \field{volume}{99}
+      \field{year}{2021}
+      \verb{doi}
+      \verb 10.1478/AAPP.99S1A17
+      \endverb
+    \endentry
+    \entry{DiGianantonioReals}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=ea663e6689fdba4083d4eab80d4bc01e}{%
+           family={Di\bibnamedelima Gianantonio},
+           familyi={D\bibinitperiod\bibinitdelim G\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{ea663e6689fdba4083d4eab80d4bc01e}
+      \strng{fullhash}{ea663e6689fdba4083d4eab80d4bc01e}
+      \strng{fullhashraw}{ea663e6689fdba4083d4eab80d4bc01e}
+      \strng{bibnamehash}{ea663e6689fdba4083d4eab80d4bc01e}
+      \strng{authorbibnamehash}{ea663e6689fdba4083d4eab80d4bc01e}
+      \strng{authornamehash}{ea663e6689fdba4083d4eab80d4bc01e}
+      \strng{authorfullhash}{ea663e6689fdba4083d4eab80d4bc01e}
+      \strng{authorfullhashraw}{ea663e6689fdba4083d4eab80d4bc01e}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Information and Computation}
+      \field{title}{Real Number Computability and Domain Theory}
+      \field{volume}{127}
+      \field{year}{1996}
+      \field{pages}{11\bibrangedash 25}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1006/inco.1996.0048
+      \endverb
+    \endentry
+    \entry{EdalatRealComputability}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=f152348f598dc0a9e57d364344d0628e}{%
+           family={Edalat},
+           familyi={E\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{f152348f598dc0a9e57d364344d0628e}
+      \strng{fullhash}{f152348f598dc0a9e57d364344d0628e}
+      \strng{fullhashraw}{f152348f598dc0a9e57d364344d0628e}
+      \strng{bibnamehash}{f152348f598dc0a9e57d364344d0628e}
+      \strng{authorbibnamehash}{f152348f598dc0a9e57d364344d0628e}
+      \strng{authornamehash}{f152348f598dc0a9e57d364344d0628e}
+      \strng{authorfullhash}{f152348f598dc0a9e57d364344d0628e}
+      \strng{authorfullhashraw}{f152348f598dc0a9e57d364344d0628e}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Theoretical Computer Science}
+      \field{title}{A Domain-Theoretic Approach to Computability on the Real Line}
+      \field{volume}{210}
+      \field{year}{1999}
+      \field{pages}{73\bibrangedash 98}
+      \range{pages}{26}
+      \verb{doi}
+      \verb 10.1016/S0304-3975(98)00097-8
+      \endverb
+    \endentry
+    \entry{EdalatHeckmann1998}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=f152348f598dc0a9e57d364344d0628e}{%
+           family={Edalat},
+           familyi={E\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=3bf1b6acd2f2de7d76f57e9ce38eb7fa}{%
+           family={Heckmann},
+           familyi={H\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{01e8592dd420a909690c3355d37ff9d6}
+      \strng{fullhash}{01e8592dd420a909690c3355d37ff9d6}
+      \strng{fullhashraw}{01e8592dd420a909690c3355d37ff9d6}
+      \strng{bibnamehash}{01e8592dd420a909690c3355d37ff9d6}
+      \strng{authorbibnamehash}{01e8592dd420a909690c3355d37ff9d6}
+      \strng{authornamehash}{01e8592dd420a909690c3355d37ff9d6}
+      \strng{authorfullhash}{01e8592dd420a909690c3355d37ff9d6}
+      \strng{authorfullhashraw}{01e8592dd420a909690c3355d37ff9d6}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Theoretical Computer Science}
+      \field{title}{A Computational Model for Metric Spaces}
+      \field{volume}{193}
+      \field{year}{1998}
+      \field{pages}{53\bibrangedash 73}
+      \range{pages}{21}
+      \verb{doi}
+      \verb 10.1016/S0304-3975(97)00050-9
+      \endverb
+    \endentry
+    \entry{Escardo1996}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=01c70b0b6c150a5c9c04a6f717d8caea}{%
+           family={Escardó},
+           familyi={E\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{01c70b0b6c150a5c9c04a6f717d8caea}
+      \strng{fullhash}{01c70b0b6c150a5c9c04a6f717d8caea}
+      \strng{fullhashraw}{01c70b0b6c150a5c9c04a6f717d8caea}
+      \strng{bibnamehash}{01c70b0b6c150a5c9c04a6f717d8caea}
+      \strng{authorbibnamehash}{01c70b0b6c150a5c9c04a6f717d8caea}
+      \strng{authornamehash}{01c70b0b6c150a5c9c04a6f717d8caea}
+      \strng{authorfullhash}{01c70b0b6c150a5c9c04a6f717d8caea}
+      \strng{authorfullhashraw}{01c70b0b6c150a5c9c04a6f717d8caea}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Electronic Notes in Theoretical Computer Science}
+      \field{title}{PCF Extended with Real Numbers}
+      \field{volume}{6}
+      \field{year}{1997}
+      \field{pages}{199\bibrangedash 212}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1016/S1571-0661(05)80146-6
+      \endverb
+    \endentry
+    \entry{EscardoSimpson2001}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=01c70b0b6c150a5c9c04a6f717d8caea}{%
+           family={Escardó},
+           familyi={E\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=79257759907a687bd8d44af966a7769d}{%
+           family={Simpson},
+           familyi={S\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{01416a9d4e69d0dacd153e6f7bcd9ebd}
+      \strng{fullhash}{01416a9d4e69d0dacd153e6f7bcd9ebd}
+      \strng{fullhashraw}{01416a9d4e69d0dacd153e6f7bcd9ebd}
+      \strng{bibnamehash}{01416a9d4e69d0dacd153e6f7bcd9ebd}
+      \strng{authorbibnamehash}{01416a9d4e69d0dacd153e6f7bcd9ebd}
+      \strng{authornamehash}{01416a9d4e69d0dacd153e6f7bcd9ebd}
+      \strng{authorfullhash}{01416a9d4e69d0dacd153e6f7bcd9ebd}
+      \strng{authorfullhashraw}{01416a9d4e69d0dacd153e6f7bcd9ebd}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Theoretical Computer Science}
+      \field{title}{A Universal Characterization of the Closed Real Interval}
+      \field{volume}{287}
+      \field{year}{2002}
+      \field{pages}{513\bibrangedash 546}
+      \range{pages}{34}
+      \verb{doi}
+      \verb 10.1016/S0304-3975(01)00178-5
+      \endverb
+    \endentry
+    \entry{FefermanPredicative}{incollection}{}{}
+      \name{author}{1}{}{%
+        {{hash=efd7d43351ad19ad0f9537eb43909420}{%
+           family={Feferman},
+           familyi={F\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{efd7d43351ad19ad0f9537eb43909420}
+      \strng{fullhash}{efd7d43351ad19ad0f9537eb43909420}
+      \strng{fullhashraw}{efd7d43351ad19ad0f9537eb43909420}
+      \strng{bibnamehash}{efd7d43351ad19ad0f9537eb43909420}
+      \strng{authorbibnamehash}{efd7d43351ad19ad0f9537eb43909420}
+      \strng{authornamehash}{efd7d43351ad19ad0f9537eb43909420}
+      \strng{authorfullhash}{efd7d43351ad19ad0f9537eb43909420}
+      \strng{authorfullhashraw}{efd7d43351ad19ad0f9537eb43909420}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Essays on the Foundations of Mathematics}
+      \field{title}{Predicative Foundations of Arithmetic}
+      \field{year}{1962}
+    \endentry
+    \entry{Fokma2021}{thesis}{}{}
+      \name{author}{1}{}{%
+        {{hash=2ddbad6a789793c2e5346773307d3a0d}{%
+           family={Fokma},
+           familyi={F\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {TU Eindhoven}%
+      }
+      \strng{namehash}{2ddbad6a789793c2e5346773307d3a0d}
+      \strng{fullhash}{2ddbad6a789793c2e5346773307d3a0d}
+      \strng{fullhashraw}{2ddbad6a789793c2e5346773307d3a0d}
+      \strng{bibnamehash}{2ddbad6a789793c2e5346773307d3a0d}
+      \strng{authorbibnamehash}{2ddbad6a789793c2e5346773307d3a0d}
+      \strng{authornamehash}{2ddbad6a789793c2e5346773307d3a0d}
+      \strng{authorfullhash}{2ddbad6a789793c2e5346773307d3a0d}
+      \strng{authorfullhashraw}{2ddbad6a789793c2e5346773307d3a0d}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The Eudoxus Reals Constructed in Homotopy Type Theory}
+      \field{type}{mathesis}
+      \field{year}{2021}
+      \verb{urlraw}
+      \verb https://research.tue.nl/en/studentTheses/the-eudoxus-reals-constructed-in-homotopy-type-theory
+      \endverb
+      \verb{url}
+      \verb https://research.tue.nl/en/studentTheses/the-eudoxus-reals-constructed-in-homotopy-type-theory
+      \endverb
+    \endentry
+    \entry{FourmanGrayson1982}{incollection}{}{}
+      \name{author}{2}{}{%
+        {{hash=3e62afdf9c6513231406ba46fec2bcb3}{%
+           family={Fourman},
+           familyi={F\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=8df438c363ea4d5c6c8ab356266ca525}{%
+           family={Grayson},
+           familyi={G\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {North-Holland}%
+      }
+      \strng{namehash}{1d8152d534e1be06a0fdb04087f98cc0}
+      \strng{fullhash}{1d8152d534e1be06a0fdb04087f98cc0}
+      \strng{fullhashraw}{1d8152d534e1be06a0fdb04087f98cc0}
+      \strng{bibnamehash}{1d8152d534e1be06a0fdb04087f98cc0}
+      \strng{authorbibnamehash}{1d8152d534e1be06a0fdb04087f98cc0}
+      \strng{authornamehash}{1d8152d534e1be06a0fdb04087f98cc0}
+      \strng{authorfullhash}{1d8152d534e1be06a0fdb04087f98cc0}
+      \strng{authorfullhashraw}{1d8152d534e1be06a0fdb04087f98cc0}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Studies in Logic}
+      \field{title}{Formal Spaces}
+      \field{volume}{31}
+      \field{year}{1982}
+      \field{pages}{107\bibrangedash 122}
+      \range{pages}{16}
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S0049237X0800160X
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S0049237X0800160X
+      \endverb
+    \endentry
+    \entry{Grossack2024}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=ddebfb9cdbea9daccda8a75ccabf4181}{%
+           family={Grossack},
+           familyi={G\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{ddebfb9cdbea9daccda8a75ccabf4181}
+      \strng{fullhash}{ddebfb9cdbea9daccda8a75ccabf4181}
+      \strng{fullhashraw}{ddebfb9cdbea9daccda8a75ccabf4181}
+      \strng{bibnamehash}{ddebfb9cdbea9daccda8a75ccabf4181}
+      \strng{authorbibnamehash}{ddebfb9cdbea9daccda8a75ccabf4181}
+      \strng{authornamehash}{ddebfb9cdbea9daccda8a75ccabf4181}
+      \strng{authorfullhash}{ddebfb9cdbea9daccda8a75ccabf4181}
+      \strng{authorfullhashraw}{ddebfb9cdbea9daccda8a75ccabf4181}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Life in Johnstone's Topological Topos}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://grossack.site/2024/07/03/life-in-johnstones-topological-topos.html
+      \endverb
+      \verb{url}
+      \verb https://grossack.site/2024/07/03/life-in-johnstones-topological-topos.html
+      \endverb
+    \endentry
+    \entry{Hall2010}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=c90885d8fbb509d706191ecfed90e34c}{%
+           family={Hall},
+           familyi={H\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Cal Poly}%
+      }
+      \strng{namehash}{c90885d8fbb509d706191ecfed90e34c}
+      \strng{fullhash}{c90885d8fbb509d706191ecfed90e34c}
+      \strng{fullhashraw}{c90885d8fbb509d706191ecfed90e34c}
+      \strng{bibnamehash}{c90885d8fbb509d706191ecfed90e34c}
+      \strng{authorbibnamehash}{c90885d8fbb509d706191ecfed90e34c}
+      \strng{authornamehash}{c90885d8fbb509d706191ecfed90e34c}
+      \strng{authorfullhash}{c90885d8fbb509d706191ecfed90e34c}
+      \strng{authorfullhashraw}{c90885d8fbb509d706191ecfed90e34c}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Completeness of Ordered Fields}
+      \field{type}{techreport}
+      \field{year}{2010}
+      \verb{urlraw}
+      \verb https://digitalcommons.calpoly.edu/mathsp/3
+      \endverb
+      \verb{url}
+      \verb https://digitalcommons.calpoly.edu/mathsp/3
+      \endverb
+    \endentry
+    \entry{Johnstone1982}{inproceedings}{}{}
+      \name{author}{1}{}{%
+        {{hash=699dbaece968cea1c962c7c10d8ac344}{%
+           family={Johnstone},
+           familyi={J\bibinitperiod},
+           given={P.\bibnamedelimi T.},
+           giveni={P\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+      }
+      \strng{namehash}{699dbaece968cea1c962c7c10d8ac344}
+      \strng{fullhash}{699dbaece968cea1c962c7c10d8ac344}
+      \strng{fullhashraw}{699dbaece968cea1c962c7c10d8ac344}
+      \strng{bibnamehash}{699dbaece968cea1c962c7c10d8ac344}
+      \strng{authorbibnamehash}{699dbaece968cea1c962c7c10d8ac344}
+      \strng{authornamehash}{699dbaece968cea1c962c7c10d8ac344}
+      \strng{authorfullhash}{699dbaece968cea1c962c7c10d8ac344}
+      \strng{authorfullhashraw}{699dbaece968cea1c962c7c10d8ac344}
+      \field{extraname}{1}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Category Theory Conference}
+      \field{series}{Springer LNM}
+      \field{title}{Metric Spaces in Topoi}
+      \field{volume}{871}
+      \field{year}{1981}
+      \field{pages}{247\bibrangedash 269}
+      \range{pages}{23}
+      \verb{doi}
+      \verb 10.1007/BFb0090024
+      \endverb
+    \endentry
+    \entry{Johnstone2002}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=699dbaece968cea1c962c7c10d8ac344}{%
+           family={Johnstone},
+           familyi={J\bibinitperiod},
+           given={P.\bibnamedelimi T.},
+           giveni={P\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford University Press}%
+      }
+      \strng{namehash}{699dbaece968cea1c962c7c10d8ac344}
+      \strng{fullhash}{699dbaece968cea1c962c7c10d8ac344}
+      \strng{fullhashraw}{699dbaece968cea1c962c7c10d8ac344}
+      \strng{bibnamehash}{699dbaece968cea1c962c7c10d8ac344}
+      \strng{authorbibnamehash}{699dbaece968cea1c962c7c10d8ac344}
+      \strng{authornamehash}{699dbaece968cea1c962c7c10d8ac344}
+      \strng{authorfullhash}{699dbaece968cea1c962c7c10d8ac344}
+      \strng{authorfullhashraw}{699dbaece968cea1c962c7c10d8ac344}
+      \field{extraname}{2}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Sketches of an Elephant: A Topos Theory Compendium}
+      \field{year}{2002}
+      \verb{urlraw}
+      \verb https://global.oup.com/academic/product/sketches-of-an-elephant-a-topos-theory-compendium-9780198534259
+      \endverb
+      \verb{url}
+      \verb https://global.oup.com/academic/product/sketches-of-an-elephant-a-topos-theory-compendium-9780198534259
+      \endverb
+    \endentry
+    \entry{deJong2023}{thesis}{}{}
+      \name{author}{1}{}{%
+        {{hash=8d37397f933b5a2daf699ab093cb6822}{%
+           family={Jong},
+           familyi={J\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod},
+           prefix={de},
+           prefixi={d\bibinitperiod}}}%
+      }
+      \strng{namehash}{8d37397f933b5a2daf699ab093cb6822}
+      \strng{fullhash}{8d37397f933b5a2daf699ab093cb6822}
+      \strng{fullhashraw}{8d37397f933b5a2daf699ab093cb6822}
+      \strng{bibnamehash}{8d37397f933b5a2daf699ab093cb6822}
+      \strng{authorbibnamehash}{8d37397f933b5a2daf699ab093cb6822}
+      \strng{authornamehash}{8d37397f933b5a2daf699ab093cb6822}
+      \strng{authorfullhash}{8d37397f933b5a2daf699ab093cb6822}
+      \strng{authorfullhashraw}{8d37397f933b5a2daf699ab093cb6822}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{title}{Domain Theory in Constructive and Predicative Univalent Foundations}
+      \field{type}{phdthesis}
+      \field{year}{2023}
+      \verb{eprint}
+      \verb 2301.12405
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2301.12405
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2301.12405
+      \endverb
+    \endentry
+    \entry{Keskin2025}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=a9d71b608cc0cf3078d30125d6315578}{%
+           family={Keskin},
+           familyi={K\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{a9d71b608cc0cf3078d30125d6315578}
+      \strng{fullhash}{a9d71b608cc0cf3078d30125d6315578}
+      \strng{fullhashraw}{a9d71b608cc0cf3078d30125d6315578}
+      \strng{bibnamehash}{a9d71b608cc0cf3078d30125d6315578}
+      \strng{authorbibnamehash}{a9d71b608cc0cf3078d30125d6315578}
+      \strng{authornamehash}{a9d71b608cc0cf3078d30125d6315578}
+      \strng{authorfullhash}{a9d71b608cc0cf3078d30125d6315578}
+      \strng{authorfullhashraw}{a9d71b608cc0cf3078d30125d6315578}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Archive of Formal Proofs}
+      \field{title}{Eudoxus Reals}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://www.isa-afp.org/entries/Eudoxus_Reals.html
+      \endverb
+      \verb{url}
+      \verb https://www.isa-afp.org/entries/Eudoxus_Reals.html
+      \endverb
+    \endentry
+    \entry{KosteckiSDG}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=a3d91d8394e6ac37c7827054ff49c72b}{%
+           family={Kostecki},
+           familyi={K\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{a3d91d8394e6ac37c7827054ff49c72b}
+      \strng{fullhash}{a3d91d8394e6ac37c7827054ff49c72b}
+      \strng{fullhashraw}{a3d91d8394e6ac37c7827054ff49c72b}
+      \strng{bibnamehash}{a3d91d8394e6ac37c7827054ff49c72b}
+      \strng{authorbibnamehash}{a3d91d8394e6ac37c7827054ff49c72b}
+      \strng{authornamehash}{a3d91d8394e6ac37c7827054ff49c72b}
+      \strng{authorfullhash}{a3d91d8394e6ac37c7827054ff49c72b}
+      \strng{authorfullhashraw}{a3d91d8394e6ac37c7827054ff49c72b}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{An Introduction to Synthetic Differential Geometry}
+      \field{year}{2009}
+      \verb{urlraw}
+      \verb https://www.fuw.edu.pl/~kostecki/sdg.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.fuw.edu.pl/~kostecki/sdg.pdf
+      \endverb
+    \endentry
+    \entry{LubarskyENTCS2007}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=99ef0c8e280c18d6026a9d53752dc002}{%
+           family={Lubarsky},
+           familyi={L\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{99ef0c8e280c18d6026a9d53752dc002}
+      \strng{fullhash}{99ef0c8e280c18d6026a9d53752dc002}
+      \strng{fullhashraw}{99ef0c8e280c18d6026a9d53752dc002}
+      \strng{bibnamehash}{99ef0c8e280c18d6026a9d53752dc002}
+      \strng{authorbibnamehash}{99ef0c8e280c18d6026a9d53752dc002}
+      \strng{authornamehash}{99ef0c8e280c18d6026a9d53752dc002}
+      \strng{authorfullhash}{99ef0c8e280c18d6026a9d53752dc002}
+      \strng{authorfullhashraw}{99ef0c8e280c18d6026a9d53752dc002}
+      \field{extraname}{1}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Electronic Notes in Theoretical Computer Science}
+      \field{title}{On the Cauchy Completeness of the Constructive Cauchy Reals}
+      \field{volume}{167}
+      \field{year}{2007}
+      \field{pages}{307\bibrangedash 323}
+      \range{pages}{17}
+      \verb{doi}
+      \verb 10.1016/j.entcs.2006.05.018
+      \endverb
+    \endentry
+    \entry{Lubarsky2007}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=99ef0c8e280c18d6026a9d53752dc002}{%
+           family={Lubarsky},
+           familyi={L\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{99ef0c8e280c18d6026a9d53752dc002}
+      \strng{fullhash}{99ef0c8e280c18d6026a9d53752dc002}
+      \strng{fullhashraw}{99ef0c8e280c18d6026a9d53752dc002}
+      \strng{bibnamehash}{99ef0c8e280c18d6026a9d53752dc002}
+      \strng{authorbibnamehash}{99ef0c8e280c18d6026a9d53752dc002}
+      \strng{authornamehash}{99ef0c8e280c18d6026a9d53752dc002}
+      \strng{authorfullhash}{99ef0c8e280c18d6026a9d53752dc002}
+      \strng{authorfullhashraw}{99ef0c8e280c18d6026a9d53752dc002}
+      \field{extraname}{2}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Mathematical Logic Quarterly}
+      \field{title}{On the Cauchy Completeness of the Constructive Dedekind Reals}
+      \field{volume}{53}
+      \field{year}{2007}
+      \field{pages}{396\bibrangedash 414}
+      \range{pages}{19}
+      \verb{doi}
+      \verb 10.1002/malq.200710009
+      \endverb
+    \endentry
+    \entry{LubarskyRathjen2007}{incollection}{}{}
+      \name{author}{2}{}{%
+        {{hash=99ef0c8e280c18d6026a9d53752dc002}{%
+           family={Lubarsky},
+           familyi={L\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=30153d105dcb110f9e309f5ddf0ee0a3}{%
+           family={Rathjen},
+           familyi={R\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{53a4f94e4b9bc1783e2b0d01b06c007e}
+      \strng{fullhash}{53a4f94e4b9bc1783e2b0d01b06c007e}
+      \strng{fullhashraw}{53a4f94e4b9bc1783e2b0d01b06c007e}
+      \strng{bibnamehash}{53a4f94e4b9bc1783e2b0d01b06c007e}
+      \strng{authorbibnamehash}{53a4f94e4b9bc1783e2b0d01b06c007e}
+      \strng{authornamehash}{53a4f94e4b9bc1783e2b0d01b06c007e}
+      \strng{authorfullhash}{53a4f94e4b9bc1783e2b0d01b06c007e}
+      \strng{authorfullhashraw}{53a4f94e4b9bc1783e2b0d01b06c007e}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Logic Colloquium 2004}
+      \field{series}{LNCS}
+      \field{title}{On the Constructive Dedekind Reals}
+      \field{volume}{4514}
+      \field{year}{2007}
+      \field{pages}{129\bibrangedash 142}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1007/978-3-540-72734-7_9
+      \endverb
+    \endentry
+    \entry{MacLaneMoerdijk1992}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=b52f472451feefbc827bef7a2cdd6e0e}{%
+           family={Mac\bibnamedelima Lane},
+           familyi={M\bibinitperiod\bibinitdelim L\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=34e04dda68ab2684976fd8ef37c93da6}{%
+           family={Moerdijk},
+           familyi={M\bibinitperiod},
+           given={I.},
+           giveni={I\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{b4eddc113221e3664d7e071d65297d69}
+      \strng{fullhash}{b4eddc113221e3664d7e071d65297d69}
+      \strng{fullhashraw}{b4eddc113221e3664d7e071d65297d69}
+      \strng{bibnamehash}{b4eddc113221e3664d7e071d65297d69}
+      \strng{authorbibnamehash}{b4eddc113221e3664d7e071d65297d69}
+      \strng{authornamehash}{b4eddc113221e3664d7e071d65297d69}
+      \strng{authorfullhash}{b4eddc113221e3664d7e071d65297d69}
+      \strng{authorfullhashraw}{b4eddc113221e3664d7e071d65297d69}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Sheaves in Geometry and Logic}
+      \field{year}{1992}
+      \verb{doi}
+      \verb 10.1007/978-1-4612-0927-0
+      \endverb
+    \endentry
+    \entry{MacNeille1937}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=94042bb3f892c533f1911a53c44669bd}{%
+           family={MacNeille},
+           familyi={M\bibinitperiod},
+           given={H.\bibnamedelimi M.},
+           giveni={H\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \strng{namehash}{94042bb3f892c533f1911a53c44669bd}
+      \strng{fullhash}{94042bb3f892c533f1911a53c44669bd}
+      \strng{fullhashraw}{94042bb3f892c533f1911a53c44669bd}
+      \strng{bibnamehash}{94042bb3f892c533f1911a53c44669bd}
+      \strng{authorbibnamehash}{94042bb3f892c533f1911a53c44669bd}
+      \strng{authornamehash}{94042bb3f892c533f1911a53c44669bd}
+      \strng{authorfullhash}{94042bb3f892c533f1911a53c44669bd}
+      \strng{authorfullhashraw}{94042bb3f892c533f1911a53c44669bd}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Transactions of the American Mathematical Society}
+      \field{title}{Partially Ordered Sets}
+      \field{volume}{42}
+      \field{year}{1937}
+      \field{pages}{416\bibrangedash 460}
+      \range{pages}{45}
+      \verb{doi}
+      \verb 10.1090/S0002-9947-1937-1501929-X
+      \endverb
+    \endentry
+    \entry{MathStackConstructiveReals}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=f70e74d466926ba4a1ffb6bf4b94e833}{%
+           family={{Math StackExchange}},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{f70e74d466926ba4a1ffb6bf4b94e833}
+      \strng{fullhash}{f70e74d466926ba4a1ffb6bf4b94e833}
+      \strng{fullhashraw}{f70e74d466926ba4a1ffb6bf4b94e833}
+      \strng{bibnamehash}{f70e74d466926ba4a1ffb6bf4b94e833}
+      \strng{authorbibnamehash}{f70e74d466926ba4a1ffb6bf4b94e833}
+      \strng{authornamehash}{f70e74d466926ba4a1ffb6bf4b94e833}
+      \strng{authorfullhash}{f70e74d466926ba4a1ffb6bf4b94e833}
+      \strng{authorfullhashraw}{f70e74d466926ba4a1ffb6bf4b94e833}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Constructive Representation of Real Numbers}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://math.stackexchange.com/questions/5093384
+      \endverb
+      \verb{url}
+      \verb https://math.stackexchange.com/questions/5093384
+      \endverb
+    \endentry
+    \entry{MathOverflowCauchyModulus}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=f4f742af10f08e64f95cee35fb8317ce}{%
+           family={MathOverflow},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{fullhash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{fullhashraw}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{bibnamehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authorbibnamehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authornamehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authorfullhash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authorfullhashraw}{f4f742af10f08e64f95cee35fb8317ce}
+      \field{extraname}{1}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Cauchy Real Numbers with and without Modulus}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://mathoverflow.net/questions/289900
+      \endverb
+      \verb{url}
+      \verb https://mathoverflow.net/questions/289900
+      \endverb
+    \endentry
+    \entry{MathOverflowSDG}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=f4f742af10f08e64f95cee35fb8317ce}{%
+           family={MathOverflow},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{fullhash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{fullhashraw}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{bibnamehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authorbibnamehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authornamehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authorfullhash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authorfullhashraw}{f4f742af10f08e64f95cee35fb8317ce}
+      \field{extraname}{2}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Constructive Analysis and Synthetic Differential Geometry}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://mathoverflow.net/questions/286187
+      \endverb
+      \verb{url}
+      \verb https://mathoverflow.net/questions/286187
+      \endverb
+    \endentry
+    \entry{MathOverflowDedekindCauchy}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=f4f742af10f08e64f95cee35fb8317ce}{%
+           family={MathOverflow},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{fullhash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{fullhashraw}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{bibnamehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authorbibnamehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authornamehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authorfullhash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authorfullhashraw}{f4f742af10f08e64f95cee35fb8317ce}
+      \field{extraname}{3}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Difference Between Constructive Dedekind and Cauchy Reals in Computation}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://mathoverflow.net/questions/236483
+      \endverb
+      \verb{url}
+      \verb https://mathoverflow.net/questions/236483
+      \endverb
+    \endentry
+    \entry{MathOverflowBauerHanson}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=f4f742af10f08e64f95cee35fb8317ce}{%
+           family={MathOverflow},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{fullhash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{fullhashraw}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{bibnamehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authorbibnamehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authornamehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authorfullhash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authorfullhashraw}{f4f742af10f08e64f95cee35fb8317ce}
+      \field{extraname}{4}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Is Bauer--Hanson's Result There is a Topos Where the Dedekind Reals are Countable...}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://mathoverflow.net/questions/453312
+      \endverb
+      \verb{url}
+      \verb https://mathoverflow.net/questions/453312
+      \endverb
+    \endentry
+    \entry{MathOverflowLocales}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=f4f742af10f08e64f95cee35fb8317ce}{%
+           family={MathOverflow},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{fullhash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{fullhashraw}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{bibnamehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authorbibnamehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authornamehash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authorfullhash}{f4f742af10f08e64f95cee35fb8317ce}
+      \strng{authorfullhashraw}{f4f742af10f08e64f95cee35fb8317ce}
+      \field{extraname}{5}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Locales in Constructive Mathematics}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://mathoverflow.net/questions/275548
+      \endverb
+      \verb{url}
+      \verb https://mathoverflow.net/questions/275548
+      \endverb
+    \endentry
+    \entry{Murray2022}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=2d9ca1fbfa6cafe728f503da1e384f71}{%
+           family={Murray},
+           familyi={M\bibinitperiod},
+           given={Z.},
+           giveni={Z\bibinitperiod}}}%
+      }
+      \strng{namehash}{2d9ca1fbfa6cafe728f503da1e384f71}
+      \strng{fullhash}{2d9ca1fbfa6cafe728f503da1e384f71}
+      \strng{fullhashraw}{2d9ca1fbfa6cafe728f503da1e384f71}
+      \strng{bibnamehash}{2d9ca1fbfa6cafe728f503da1e384f71}
+      \strng{authorbibnamehash}{2d9ca1fbfa6cafe728f503da1e384f71}
+      \strng{authornamehash}{2d9ca1fbfa6cafe728f503da1e384f71}
+      \strng{authorfullhash}{2d9ca1fbfa6cafe728f503da1e384f71}
+      \strng{authorfullhashraw}{2d9ca1fbfa6cafe728f503da1e384f71}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{title}{Constructive Analysis in the Agda Proof Assistant}
+      \field{year}{2022}
+      \verb{eprint}
+      \verb 2205.08354
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2205.08354
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2205.08354
+      \endverb
+    \endentry
+    \entry{nLabArchimedean}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=7a26d92ad0740e6d358c6fe228fa3eb7}{%
+           family={nLab},
+           familyi={n\bibinitperiod}}}%
+      }
+      \strng{namehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{fullhash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{fullhashraw}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{bibnamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorbibnamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authornamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorfullhash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorfullhashraw}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \field{extraname}{1}
+      \field{sortinit}{n}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Archimedean Ordered Field}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://ncatlab.org/nlab/show/Archimedean+ordered+field
+      \endverb
+      \verb{url}
+      \verb https://ncatlab.org/nlab/show/Archimedean+ordered+field
+      \endverb
+    \endentry
+    \entry{nLabCauchyReals}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=7a26d92ad0740e6d358c6fe228fa3eb7}{%
+           family={nLab},
+           familyi={n\bibinitperiod}}}%
+      }
+      \strng{namehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{fullhash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{fullhashraw}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{bibnamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorbibnamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authornamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorfullhash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorfullhashraw}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \field{extraname}{2}
+      \field{sortinit}{n}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Cauchy Real Number}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://ncatlab.org/nlab/show/Cauchy+real+number
+      \endverb
+      \verb{url}
+      \verb https://ncatlab.org/nlab/show/Cauchy+real+number
+      \endverb
+    \endentry
+    \entry{nLabCoalgebraInterval}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=7a26d92ad0740e6d358c6fe228fa3eb7}{%
+           family={nLab},
+           familyi={n\bibinitperiod}}}%
+      }
+      \strng{namehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{fullhash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{fullhashraw}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{bibnamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorbibnamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authornamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorfullhash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorfullhashraw}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \field{extraname}{3}
+      \field{sortinit}{n}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Coalgebra of the Real Interval}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://ncatlab.org/nlab/show/coalgebra+of+the+real+interval
+      \endverb
+      \verb{url}
+      \verb https://ncatlab.org/nlab/show/coalgebra+of+the+real+interval
+      \endverb
+    \endentry
+    \entry{nLabHoTTReal}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=7a26d92ad0740e6d358c6fe228fa3eb7}{%
+           family={nLab},
+           familyi={n\bibinitperiod}}}%
+      }
+      \strng{namehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{fullhash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{fullhashraw}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{bibnamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorbibnamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authornamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorfullhash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorfullhashraw}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \field{extraname}{4}
+      \field{sortinit}{n}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{HoTT Book Real Number}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://ncatlab.org/nlab/show/HoTT+book+real+number
+      \endverb
+      \verb{url}
+      \verb https://ncatlab.org/nlab/show/HoTT+book+real+number
+      \endverb
+    \endentry
+    \entry{nLabMacNeille}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=7a26d92ad0740e6d358c6fe228fa3eb7}{%
+           family={nLab},
+           familyi={n\bibinitperiod}}}%
+      }
+      \strng{namehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{fullhash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{fullhashraw}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{bibnamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorbibnamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authornamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorfullhash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorfullhashraw}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \field{extraname}{5}
+      \field{sortinit}{n}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{MacNeille Real Number}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://ncatlab.org/nlab/show/MacNeille+real+number
+      \endverb
+      \verb{url}
+      \verb https://ncatlab.org/nlab/show/MacNeille+real+number
+      \endverb
+    \endentry
+    \entry{nLabOneSided}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=7a26d92ad0740e6d358c6fe228fa3eb7}{%
+           family={nLab},
+           familyi={n\bibinitperiod}}}%
+      }
+      \strng{namehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{fullhash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{fullhashraw}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{bibnamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorbibnamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authornamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorfullhash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorfullhashraw}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \field{extraname}{6}
+      \field{sortinit}{n}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{One-Sided Real Number}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://ncatlab.org/nlab/show/one-sided+real+number
+      \endverb
+      \verb{url}
+      \verb https://ncatlab.org/nlab/show/one-sided+real+number
+      \endverb
+    \endentry
+    \entry{nLabRealNumbers}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=7a26d92ad0740e6d358c6fe228fa3eb7}{%
+           family={nLab},
+           familyi={n\bibinitperiod}}}%
+      }
+      \strng{namehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{fullhash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{fullhashraw}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{bibnamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorbibnamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authornamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorfullhash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorfullhashraw}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \field{extraname}{7}
+      \field{sortinit}{n}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Real Numbers Object}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://ncatlab.org/nlab/show/real+numbers+object
+      \endverb
+      \verb{url}
+      \verb https://ncatlab.org/nlab/show/real+numbers+object
+      \endverb
+    \endentry
+    \entry{nLabSmoothTopos}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=7a26d92ad0740e6d358c6fe228fa3eb7}{%
+           family={nLab},
+           familyi={n\bibinitperiod}}}%
+      }
+      \strng{namehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{fullhash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{fullhashraw}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{bibnamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorbibnamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authornamehash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorfullhash}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \strng{authorfullhashraw}{7a26d92ad0740e6d358c6fe228fa3eb7}
+      \field{extraname}{8}
+      \field{sortinit}{n}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Smooth Topos}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://ncatlab.org/nlab/show/smooth+topos
+      \endverb
+      \verb{url}
+      \verb https://ncatlab.org/nlab/show/smooth+topos
+      \endverb
+    \endentry
+    \entry{PalmgrenCNSA}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=0cf9729d45ca1c1c7fbb6a2dc9449028}{%
+           family={Palmgren},
+           familyi={P\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{0cf9729d45ca1c1c7fbb6a2dc9449028}
+      \strng{fullhash}{0cf9729d45ca1c1c7fbb6a2dc9449028}
+      \strng{fullhashraw}{0cf9729d45ca1c1c7fbb6a2dc9449028}
+      \strng{bibnamehash}{0cf9729d45ca1c1c7fbb6a2dc9449028}
+      \strng{authorbibnamehash}{0cf9729d45ca1c1c7fbb6a2dc9449028}
+      \strng{authornamehash}{0cf9729d45ca1c1c7fbb6a2dc9449028}
+      \strng{authorfullhash}{0cf9729d45ca1c1c7fbb6a2dc9449028}
+      \strng{authorfullhashraw}{0cf9729d45ca1c1c7fbb6a2dc9449028}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Mathematical Logic Quarterly}
+      \field{title}{Constructive Nonstandard Analysis}
+      \field{volume}{44}
+      \field{year}{1998}
+      \field{pages}{71\bibrangedash 103}
+      \range{pages}{33}
+      \verb{doi}
+      \verb 10.1002/malq.19980440105
+      \endverb
+    \endentry
+    \entry{PattinsonMohammadian2021}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=d61f99ff01d01a10cbf317f98480e958}{%
+           family={Pattinson},
+           familyi={P\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+        {{hash=c63ff705454151f7993d48d8e77a1ab5}{%
+           family={Mohammadian},
+           familyi={M\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{8e6d74ccb440af254385e8ca6aac1ca4}
+      \strng{fullhash}{8e6d74ccb440af254385e8ca6aac1ca4}
+      \strng{fullhashraw}{8e6d74ccb440af254385e8ca6aac1ca4}
+      \strng{bibnamehash}{8e6d74ccb440af254385e8ca6aac1ca4}
+      \strng{authorbibnamehash}{8e6d74ccb440af254385e8ca6aac1ca4}
+      \strng{authornamehash}{8e6d74ccb440af254385e8ca6aac1ca4}
+      \strng{authorfullhash}{8e6d74ccb440af254385e8ca6aac1ca4}
+      \strng{authorfullhashraw}{8e6d74ccb440af254385e8ca6aac1ca4}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Logical Methods in Computer Science}
+      \field{title}{Constructive Domains with Classical Witnesses}
+      \field{volume}{17}
+      \field{year}{2021}
+      \verb{doi}
+      \verb 10.23638/LMCS-17(3:17)2021
+      \endverb
+    \endentry
+    \entry{Dusko2002}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=c49652537e3e6dc76ab299807e03b0b6}{%
+           family={Pavlović},
+           familyi={P\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+        {{hash=31431cd375652028d6265fed435c187b}{%
+           family={Prange},
+           familyi={P\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{85a8f333ec9a117435ab92c1bc68cb77}
+      \strng{fullhash}{85a8f333ec9a117435ab92c1bc68cb77}
+      \strng{fullhashraw}{85a8f333ec9a117435ab92c1bc68cb77}
+      \strng{bibnamehash}{85a8f333ec9a117435ab92c1bc68cb77}
+      \strng{authorbibnamehash}{85a8f333ec9a117435ab92c1bc68cb77}
+      \strng{authornamehash}{85a8f333ec9a117435ab92c1bc68cb77}
+      \strng{authorfullhash}{85a8f333ec9a117435ab92c1bc68cb77}
+      \strng{authorfullhashraw}{85a8f333ec9a117435ab92c1bc68cb77}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Theoretical Computer Science}
+      \field{title}{The Continuum as a Final Coalgebra}
+      \field{volume}{280}
+      \field{year}{2002}
+      \field{pages}{285\bibrangedash 301}
+      \range{pages}{17}
+      \verb{doi}
+      \verb 10.1016/S0304-3975(01)00027-5
+      \endverb
+    \endentry
+    \entry{PicadoPultr2012}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=866ce291bdaca7f4e1c225ff5bff9f74}{%
+           family={Picado},
+           familyi={P\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=5fef3e048af0a579d48fe2e294ba7601}{%
+           family={Pultr},
+           familyi={P\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{b679dd41b2960ebb850b08ab88343bb5}
+      \strng{fullhash}{b679dd41b2960ebb850b08ab88343bb5}
+      \strng{fullhashraw}{b679dd41b2960ebb850b08ab88343bb5}
+      \strng{bibnamehash}{b679dd41b2960ebb850b08ab88343bb5}
+      \strng{authorbibnamehash}{b679dd41b2960ebb850b08ab88343bb5}
+      \strng{authornamehash}{b679dd41b2960ebb850b08ab88343bb5}
+      \strng{authorfullhash}{b679dd41b2960ebb850b08ab88343bb5}
+      \strng{authorfullhashraw}{b679dd41b2960ebb850b08ab88343bb5}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Frames and Locales}
+      \field{year}{2012}
+      \verb{doi}
+      \verb 10.1007/978-3-0348-0154-6
+      \endverb
+    \endentry
+    \entry{PrataliThesis}{thesis}{}{}
+      \name{author}{1}{}{%
+        {{hash=e70bf73006c351f0acd95ef509308b10}{%
+           family={Pratali},
+           familyi={P\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {University of Pisa}%
+      }
+      \strng{namehash}{e70bf73006c351f0acd95ef509308b10}
+      \strng{fullhash}{e70bf73006c351f0acd95ef509308b10}
+      \strng{fullhashraw}{e70bf73006c351f0acd95ef509308b10}
+      \strng{bibnamehash}{e70bf73006c351f0acd95ef509308b10}
+      \strng{authorbibnamehash}{e70bf73006c351f0acd95ef509308b10}
+      \strng{authornamehash}{e70bf73006c351f0acd95ef509308b10}
+      \strng{authorfullhash}{e70bf73006c351f0acd95ef509308b10}
+      \strng{authorfullhashraw}{e70bf73006c351f0acd95ef509308b10}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The Construction of Real Numbers in Homotopy Type Theory}
+      \field{type}{mathesis}
+      \field{year}{2016}
+      \verb{urlraw}
+      \verb https://etd.adm.unipi.it/theses/available/etd-06082016-113314/
+      \endverb
+      \verb{url}
+      \verb https://etd.adm.unipi.it/theses/available/etd-06082016-113314/
+      \endverb
+    \endentry
+    \entry{PROMYS2023}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=d8c44c2ce2a41894253f78dfd4bf0945}{%
+           family={{PROMYS Research Lab}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{d8c44c2ce2a41894253f78dfd4bf0945}
+      \strng{fullhash}{d8c44c2ce2a41894253f78dfd4bf0945}
+      \strng{fullhashraw}{d8c44c2ce2a41894253f78dfd4bf0945}
+      \strng{bibnamehash}{d8c44c2ce2a41894253f78dfd4bf0945}
+      \strng{authorbibnamehash}{d8c44c2ce2a41894253f78dfd4bf0945}
+      \strng{authornamehash}{d8c44c2ce2a41894253f78dfd4bf0945}
+      \strng{authorfullhash}{d8c44c2ce2a41894253f78dfd4bf0945}
+      \strng{authorfullhashraw}{d8c44c2ce2a41894253f78dfd4bf0945}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{title}{The Eudoxus Reals}
+      \field{year}{2023}
+      \verb{eprint}
+      \verb 2310.04534
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2310.04534
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2310.04534
+      \endverb
+    \endentry
+    \entry{ResearchGateBishopReals}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=9c71ca0e8ac5da7336ffa149007898f9}{%
+           family={{ResearchGate}},
+           familyi={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{9c71ca0e8ac5da7336ffa149007898f9}
+      \strng{fullhash}{9c71ca0e8ac5da7336ffa149007898f9}
+      \strng{fullhashraw}{9c71ca0e8ac5da7336ffa149007898f9}
+      \strng{bibnamehash}{9c71ca0e8ac5da7336ffa149007898f9}
+      \strng{authorbibnamehash}{9c71ca0e8ac5da7336ffa149007898f9}
+      \strng{authornamehash}{9c71ca0e8ac5da7336ffa149007898f9}
+      \strng{authorfullhash}{9c71ca0e8ac5da7336ffa149007898f9}
+      \strng{authorfullhashraw}{9c71ca0e8ac5da7336ffa149007898f9}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Mathematical Foundations of Real Numbers and its Application in Computation}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://www.researchgate.net/publication/385359856
+      \endverb
+      \verb{url}
+      \verb https://www.researchgate.net/publication/385359856
+      \endverb
+    \endentry
+    \entry{RichmanSurvey}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=64a90a0c1c9cba1521674fabdd2fa02b}{%
+           family={Richman},
+           familyi={R\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{64a90a0c1c9cba1521674fabdd2fa02b}
+      \strng{fullhash}{64a90a0c1c9cba1521674fabdd2fa02b}
+      \strng{fullhashraw}{64a90a0c1c9cba1521674fabdd2fa02b}
+      \strng{bibnamehash}{64a90a0c1c9cba1521674fabdd2fa02b}
+      \strng{authorbibnamehash}{64a90a0c1c9cba1521674fabdd2fa02b}
+      \strng{authornamehash}{64a90a0c1c9cba1521674fabdd2fa02b}
+      \strng{authorfullhash}{64a90a0c1c9cba1521674fabdd2fa02b}
+      \strng{authorfullhashraw}{64a90a0c1c9cba1521674fabdd2fa02b}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Mathematical Monthly}
+      \field{title}{Real Numbers in Constructive Mathematics}
+      \field{volume}{104}
+      \field{year}{1997}
+      \field{pages}{546\bibrangedash 551}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1080/00029890.1997.11990683
+      \endverb
+    \endentry
+    \entry{ResearchGateCoinduction}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=47500343cae57c7e255524386f67e0e3}{%
+           family={Rutten},
+           familyi={R\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{47500343cae57c7e255524386f67e0e3}
+      \strng{fullhash}{47500343cae57c7e255524386f67e0e3}
+      \strng{fullhashraw}{47500343cae57c7e255524386f67e0e3}
+      \strng{bibnamehash}{47500343cae57c7e255524386f67e0e3}
+      \strng{authorbibnamehash}{47500343cae57c7e255524386f67e0e3}
+      \strng{authornamehash}{47500343cae57c7e255524386f67e0e3}
+      \strng{authorfullhash}{47500343cae57c7e255524386f67e0e3}
+      \strng{authorfullhashraw}{47500343cae57c7e255524386f67e0e3}
+      \field{extraname}{1}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{ResearchGate preprint}
+      \field{title}{Coinduction for Exact Real Number Computation}
+      \field{year}{2015}
+      \verb{urlraw}
+      \verb https://www.researchgate.net/publication/277942366_Coinduction_for_exact_real_number_computation
+      \endverb
+      \verb{url}
+      \verb https://www.researchgate.net/publication/277942366_Coinduction_for_exact_real_number_computation
+      \endverb
+    \endentry
+    \entry{Rutten2000}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=28cba1040d8208b7b61cae81a4261850}{%
+           family={Rutten},
+           familyi={R\bibinitperiod},
+           given={J.\bibnamedelimi J.\bibnamedelimi M.\bibnamedelimi M.},
+           giveni={J\bibinitperiod\bibinitdelim J\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \strng{namehash}{28cba1040d8208b7b61cae81a4261850}
+      \strng{fullhash}{28cba1040d8208b7b61cae81a4261850}
+      \strng{fullhashraw}{28cba1040d8208b7b61cae81a4261850}
+      \strng{bibnamehash}{28cba1040d8208b7b61cae81a4261850}
+      \strng{authorbibnamehash}{28cba1040d8208b7b61cae81a4261850}
+      \strng{authornamehash}{28cba1040d8208b7b61cae81a4261850}
+      \strng{authorfullhash}{28cba1040d8208b7b61cae81a4261850}
+      \strng{authorfullhashraw}{28cba1040d8208b7b61cae81a4261850}
+      \field{extraname}{2}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Theoretical Computer Science}
+      \field{title}{Universal Coalgebra: A Theory of Systems}
+      \field{volume}{249}
+      \field{year}{2000}
+      \field{pages}{3\bibrangedash 80}
+      \range{pages}{78}
+      \verb{doi}
+      \verb 10.1016/S0304-3975(00)00056-6
+      \endverb
+    \endentry
+    \entry{Schanuel1992}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=57b3be1a2c85ec3c118da1f4f50a5ae8}{%
+           family={Schanuel},
+           familyi={S\bibinitperiod},
+           given={S.\bibnamedelimi H.},
+           giveni={S\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+      }
+      \strng{namehash}{57b3be1a2c85ec3c118da1f4f50a5ae8}
+      \strng{fullhash}{57b3be1a2c85ec3c118da1f4f50a5ae8}
+      \strng{fullhashraw}{57b3be1a2c85ec3c118da1f4f50a5ae8}
+      \strng{bibnamehash}{57b3be1a2c85ec3c118da1f4f50a5ae8}
+      \strng{authorbibnamehash}{57b3be1a2c85ec3c118da1f4f50a5ae8}
+      \strng{authornamehash}{57b3be1a2c85ec3c118da1f4f50a5ae8}
+      \strng{authorfullhash}{57b3be1a2c85ec3c118da1f4f50a5ae8}
+      \strng{authorfullhashraw}{57b3be1a2c85ec3c118da1f4f50a5ae8}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the American Mathematical Society}
+      \field{title}{The Eudoxus Real Numbers}
+      \field{volume}{114}
+      \field{year}{1992}
+      \field{pages}{543\bibrangedash 552}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1090/S0002-9939-1992-1076586-6
+      \endverb
+    \endentry
+    \entry{Shulman2022}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=702c1da7b69c84f09ea8909a1646b134}{%
+           family={Shulman},
+           familyi={S\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{702c1da7b69c84f09ea8909a1646b134}
+      \strng{fullhash}{702c1da7b69c84f09ea8909a1646b134}
+      \strng{fullhashraw}{702c1da7b69c84f09ea8909a1646b134}
+      \strng{bibnamehash}{702c1da7b69c84f09ea8909a1646b134}
+      \strng{authorbibnamehash}{702c1da7b69c84f09ea8909a1646b134}
+      \strng{authornamehash}{702c1da7b69c84f09ea8909a1646b134}
+      \strng{authorfullhash}{702c1da7b69c84f09ea8909a1646b134}
+      \strng{authorfullhashraw}{702c1da7b69c84f09ea8909a1646b134}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{MacNeille Reals}
+      \field{year}{2022}
+    \endentry
+    \entry{Stout1976}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=b6ad50ff2c635baeb8d3753c213781b1}{%
+           family={Stout},
+           familyi={S\bibinitperiod},
+           given={L.\bibnamedelimi N.},
+           giveni={L\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+      }
+      \strng{namehash}{b6ad50ff2c635baeb8d3753c213781b1}
+      \strng{fullhash}{b6ad50ff2c635baeb8d3753c213781b1}
+      \strng{fullhashraw}{b6ad50ff2c635baeb8d3753c213781b1}
+      \strng{bibnamehash}{b6ad50ff2c635baeb8d3753c213781b1}
+      \strng{authorbibnamehash}{b6ad50ff2c635baeb8d3753c213781b1}
+      \strng{authornamehash}{b6ad50ff2c635baeb8d3753c213781b1}
+      \strng{authorfullhash}{b6ad50ff2c635baeb8d3753c213781b1}
+      \strng{authorfullhashraw}{b6ad50ff2c635baeb8d3753c213781b1}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Cahiers de Topologie et Géométrie Différentielle Catégoriques}
+      \field{title}{Topological Properties of the Real Numbers Object in a Topos}
+      \field{volume}{17}
+      \field{year}{1976}
+      \field{pages}{133\bibrangedash 148}
+      \range{pages}{16}
+    \endentry
+    \entry{Street2003}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=cda36380aa428354320f0d11a75155a6}{%
+           family={Street},
+           familyi={S\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{cda36380aa428354320f0d11a75155a6}
+      \strng{fullhash}{cda36380aa428354320f0d11a75155a6}
+      \strng{fullhashraw}{cda36380aa428354320f0d11a75155a6}
+      \strng{bibnamehash}{cda36380aa428354320f0d11a75155a6}
+      \strng{authorbibnamehash}{cda36380aa428354320f0d11a75155a6}
+      \strng{authornamehash}{cda36380aa428354320f0d11a75155a6}
+      \strng{authorfullhash}{cda36380aa428354320f0d11a75155a6}
+      \strng{authorfullhashraw}{cda36380aa428354320f0d11a75155a6}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{title}{The Most General Real Numbers}
+      \field{year}{2003}
+      \verb{eprint}
+      \verb math/0309030
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/math/0309030
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/math/0309030
+      \endverb
+    \endentry
+    \entry{Tarski1951}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=0225ae7a3b24989e6664572bb25c3824}{%
+           family={Tarski},
+           familyi={T\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {University of California Press}%
+      }
+      \strng{namehash}{0225ae7a3b24989e6664572bb25c3824}
+      \strng{fullhash}{0225ae7a3b24989e6664572bb25c3824}
+      \strng{fullhashraw}{0225ae7a3b24989e6664572bb25c3824}
+      \strng{bibnamehash}{0225ae7a3b24989e6664572bb25c3824}
+      \strng{authorbibnamehash}{0225ae7a3b24989e6664572bb25c3824}
+      \strng{authornamehash}{0225ae7a3b24989e6664572bb25c3824}
+      \strng{authorfullhash}{0225ae7a3b24989e6664572bb25c3824}
+      \strng{authorfullhashraw}{0225ae7a3b24989e6664572bb25c3824}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2nd}
+      \field{title}{A Decision Method for Elementary Algebra and Geometry}
+      \field{year}{1951}
+    \endentry
+    \entry{TaylorASDReals}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=9fc8b6405571bbdd9dd418e6cfcc7627}{%
+           family={Taylor},
+           familyi={T\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{9fc8b6405571bbdd9dd418e6cfcc7627}
+      \strng{fullhash}{9fc8b6405571bbdd9dd418e6cfcc7627}
+      \strng{fullhashraw}{9fc8b6405571bbdd9dd418e6cfcc7627}
+      \strng{bibnamehash}{9fc8b6405571bbdd9dd418e6cfcc7627}
+      \strng{authorbibnamehash}{9fc8b6405571bbdd9dd418e6cfcc7627}
+      \strng{authornamehash}{9fc8b6405571bbdd9dd418e6cfcc7627}
+      \strng{authorfullhash}{9fc8b6405571bbdd9dd418e6cfcc7627}
+      \strng{authorfullhashraw}{9fc8b6405571bbdd9dd418e6cfcc7627}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Slides}
+      \field{title}{The Dedekind Reals in ASD}
+      \field{year}{2005}
+      \verb{urlraw}
+      \verb https://paultaylor.eu/slides/05-CCA-Kyoto1.pdf
+      \endverb
+      \verb{url}
+      \verb https://paultaylor.eu/slides/05-CCA-Kyoto1.pdf
+      \endverb
+    \endentry
+    \entry{HoTT2013}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=442342e4c110679c9300286fa98ac758}{%
+           family={{The Univalent Foundations Program}},
+           familyi={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{442342e4c110679c9300286fa98ac758}
+      \strng{fullhash}{442342e4c110679c9300286fa98ac758}
+      \strng{fullhashraw}{442342e4c110679c9300286fa98ac758}
+      \strng{bibnamehash}{442342e4c110679c9300286fa98ac758}
+      \strng{authorbibnamehash}{442342e4c110679c9300286fa98ac758}
+      \strng{authornamehash}{442342e4c110679c9300286fa98ac758}
+      \strng{authorfullhash}{442342e4c110679c9300286fa98ac758}
+      \strng{authorfullhashraw}{442342e4c110679c9300286fa98ac758}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Homotopy Type Theory: Univalent Foundations of Mathematics}
+      \field{year}{2013}
+      \verb{urlraw}
+      \verb https://homotopytypetheory.org/book
+      \endverb
+      \verb{url}
+      \verb https://homotopytypetheory.org/book
+      \endverb
+    \endentry
+    \entry{TomasiDedekind}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=4558f7860ea80e259c240354eb5a2b19}{%
+           family={Tomasi},
+           familyi={T\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{4558f7860ea80e259c240354eb5a2b19}
+      \strng{fullhash}{4558f7860ea80e259c240354eb5a2b19}
+      \strng{fullhashraw}{4558f7860ea80e259c240354eb5a2b19}
+      \strng{bibnamehash}{4558f7860ea80e259c240354eb5a2b19}
+      \strng{authorbibnamehash}{4558f7860ea80e259c240354eb5a2b19}
+      \strng{authornamehash}{4558f7860ea80e259c240354eb5a2b19}
+      \strng{authorfullhash}{4558f7860ea80e259c240354eb5a2b19}
+      \strng{authorfullhashraw}{4558f7860ea80e259c240354eb5a2b19}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{University of Padova lecture notes}
+      \field{title}{Fondamenti della Matematica: Sezioni di Dedekind}
+      \field{year}{2012}
+    \endentry
+    \entry{TroelstraVanDalen1988}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=bb1097c867fe6d4954cefabcae42612f}{%
+           family={Troelstra},
+           familyi={T\bibinitperiod},
+           given={A.\bibnamedelimi S.},
+           giveni={A\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=7d79ca0916b4f2e4d8dbc57244fe74b5}{%
+           family={Dalen},
+           familyi={D\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod},
+           prefix={van},
+           prefixi={v\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {North-Holland}%
+      }
+      \strng{namehash}{5099920eabdc739908032301fd691473}
+      \strng{fullhash}{5099920eabdc739908032301fd691473}
+      \strng{fullhashraw}{5099920eabdc739908032301fd691473}
+      \strng{bibnamehash}{5099920eabdc739908032301fd691473}
+      \strng{authorbibnamehash}{5099920eabdc739908032301fd691473}
+      \strng{authornamehash}{5099920eabdc739908032301fd691473}
+      \strng{authorfullhash}{5099920eabdc739908032301fd691473}
+      \strng{authorfullhashraw}{5099920eabdc739908032301fd691473}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Constructivism in Mathematics}
+      \field{volume}{I--II}
+      \field{year}{1988}
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/bookseries/studies-in-logic-and-the-foundations-of-mathematics/vol/121
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/bookseries/studies-in-logic-and-the-foundations-of-mathematics/vol/121
+      \endverb
+    \endentry
+    \entry{Vickers1996}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=ebcc597c839388e91c4ab02076db1ca9}{%
+           family={Vickers},
+           familyi={V\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{ebcc597c839388e91c4ab02076db1ca9}
+      \strng{fullhash}{ebcc597c839388e91c4ab02076db1ca9}
+      \strng{fullhashraw}{ebcc597c839388e91c4ab02076db1ca9}
+      \strng{bibnamehash}{ebcc597c839388e91c4ab02076db1ca9}
+      \strng{authorbibnamehash}{ebcc597c839388e91c4ab02076db1ca9}
+      \strng{authornamehash}{ebcc597c839388e91c4ab02076db1ca9}
+      \strng{authorfullhash}{ebcc597c839388e91c4ab02076db1ca9}
+      \strng{authorfullhashraw}{ebcc597c839388e91c4ab02076db1ca9}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Topology via Logic}
+      \field{year}{1996}
+      \verb{doi}
+      \verb 10.1017/CBO9780511569258
+      \endverb
+    \endentry
+    \entry{ConstructiveCF}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=346bd4c938743e85ab86161d711ae7fd}{%
+           family={Vuillemin},
+           familyi={V\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{346bd4c938743e85ab86161d711ae7fd}
+      \strng{fullhash}{346bd4c938743e85ab86161d711ae7fd}
+      \strng{fullhashraw}{346bd4c938743e85ab86161d711ae7fd}
+      \strng{bibnamehash}{346bd4c938743e85ab86161d711ae7fd}
+      \strng{authorbibnamehash}{346bd4c938743e85ab86161d711ae7fd}
+      \strng{authornamehash}{346bd4c938743e85ab86161d711ae7fd}
+      \strng{authorfullhash}{346bd4c938743e85ab86161d711ae7fd}
+      \strng{authorfullhashraw}{346bd4c938743e85ab86161d711ae7fd}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{SIAM Journal on Computing}
+      \field{number}{2}
+      \field{title}{Two Constructive Results in Continued Fractions}
+      \field{volume}{5}
+      \field{year}{1976}
+      \field{pages}{231\bibrangedash 248}
+      \range{pages}{18}
+      \verb{doi}
+      \verb 10.1137/0205019
+      \endverb
+    \endentry
+    \entry{vanDerWeideFrumin2024}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{hash=aefded160bfd5cb3d2617ed179534339}{%
+           family={Weide},
+           familyi={W\bibinitperiod},
+           given={N.},
+           giveni={N\bibinitperiod},
+           prefix={van\bibnamedelima der},
+           prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod}}}%
+        {{hash=a539aee25cd0777390f7d2e374b4fe43}{%
+           family={Frumin},
+           familyi={F\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{a89788955f7d0358edad7cb7c03248e9}
+      \strng{fullhash}{a89788955f7d0358edad7cb7c03248e9}
+      \strng{fullhashraw}{a89788955f7d0358edad7cb7c03248e9}
+      \strng{bibnamehash}{a89788955f7d0358edad7cb7c03248e9}
+      \strng{authorbibnamehash}{a89788955f7d0358edad7cb7c03248e9}
+      \strng{authornamehash}{a89788955f7d0358edad7cb7c03248e9}
+      \strng{authorfullhash}{a89788955f7d0358edad7cb7c03248e9}
+      \strng{authorfullhashraw}{a89788955f7d0358edad7cb7c03248e9}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{TYPES 2023}
+      \field{series}{LNCS}
+      \field{title}{The Interval Domain in Homotopy Type Theory}
+      \field{volume}{14560}
+      \field{year}{2024}
+      \field{pages}{381\bibrangedash 399}
+      \range{pages}{19}
+      \verb{doi}
+      \verb 10.1007/978-3-031-58367-4_18
+      \endverb
+    \endentry
+    \entry{Weihrauch2000}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=bae5b633df563c366c259178b424d082}{%
+           family={Weihrauch},
+           familyi={W\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{bae5b633df563c366c259178b424d082}
+      \strng{fullhash}{bae5b633df563c366c259178b424d082}
+      \strng{fullhashraw}{bae5b633df563c366c259178b424d082}
+      \strng{bibnamehash}{bae5b633df563c366c259178b424d082}
+      \strng{authorbibnamehash}{bae5b633df563c366c259178b424d082}
+      \strng{authornamehash}{bae5b633df563c366c259178b424d082}
+      \strng{authorfullhash}{bae5b633df563c366c259178b424d082}
+      \strng{authorfullhashraw}{bae5b633df563c366c259178b424d082}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Computable Analysis}
+      \field{year}{2000}
+      \verb{doi}
+      \verb 10.1007/978-3-642-56999-9
+      \endverb
+    \endentry
+    \entry{WiesnetKopp2021}{misc}{}{}
+      \name{author}{2}{}{%
+        {{hash=316de79cbf56e780a4648e5472110ff0}{%
+           family={Wiesnet},
+           familyi={W\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+        {{hash=ea86c21294c814a4bcebf0a3bbfa1948}{%
+           family={Kopp},
+           familyi={K\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{8ab0efcee812b0be29777ec712da5563}
+      \strng{fullhash}{8ab0efcee812b0be29777ec712da5563}
+      \strng{fullhashraw}{8ab0efcee812b0be29777ec712da5563}
+      \strng{bibnamehash}{8ab0efcee812b0be29777ec712da5563}
+      \strng{authorbibnamehash}{8ab0efcee812b0be29777ec712da5563}
+      \strng{authornamehash}{8ab0efcee812b0be29777ec712da5563}
+      \strng{authorfullhash}{8ab0efcee812b0be29777ec712da5563}
+      \strng{authorfullhashraw}{8ab0efcee812b0be29777ec712da5563}
+      \field{extraname}{1}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{title}{Limits of Real Numbers in the Binary Signed Digit Representation}
+      \field{year}{2021}
+      \verb{eprint}
+      \verb 2103.15702
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2103.15702
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2103.15702
+      \endverb
+    \endentry
+    \entry{WiesnetKopp2022}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=316de79cbf56e780a4648e5472110ff0}{%
+           family={Wiesnet},
+           familyi={W\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+        {{hash=ea86c21294c814a4bcebf0a3bbfa1948}{%
+           family={Kopp},
+           familyi={K\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{8ab0efcee812b0be29777ec712da5563}
+      \strng{fullhash}{8ab0efcee812b0be29777ec712da5563}
+      \strng{fullhashraw}{8ab0efcee812b0be29777ec712da5563}
+      \strng{bibnamehash}{8ab0efcee812b0be29777ec712da5563}
+      \strng{authorbibnamehash}{8ab0efcee812b0be29777ec712da5563}
+      \strng{authornamehash}{8ab0efcee812b0be29777ec712da5563}
+      \strng{authorfullhash}{8ab0efcee812b0be29777ec712da5563}
+      \strng{authorfullhashraw}{8ab0efcee812b0be29777ec712da5563}
+      \field{extraname}{2}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Logical Methods in Computer Science}
+      \field{title}{Limits of Real Numbers in the Binary Signed Digit Representation}
+      \field{volume}{18}
+      \field{year}{2022}
+      \verb{doi}
+      \verb 10.46298/lmcs-18(3:26)2022
+      \endverb
+    \endentry
+    \entry{WikiCantorDedekind}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=9c677286866aad38f8e9b660f5411814}{%
+           family={Wikipedia},
+           familyi={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{fullhash}{9c677286866aad38f8e9b660f5411814}
+      \strng{fullhashraw}{9c677286866aad38f8e9b660f5411814}
+      \strng{bibnamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorbibnamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authornamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorfullhash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorfullhashraw}{9c677286866aad38f8e9b660f5411814}
+      \field{extraname}{1}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Cantor--Dedekind Axiom}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://en.wikipedia.org/wiki/Cantor%E2%80%93Dedekind_axiom
+      \endverb
+      \verb{url}
+      \verb https://en.wikipedia.org/wiki/Cantor%E2%80%93Dedekind_axiom
+      \endverb
+    \endentry
+    \entry{WikiRealConstruction}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=9c677286866aad38f8e9b660f5411814}{%
+           family={Wikipedia},
+           familyi={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{fullhash}{9c677286866aad38f8e9b660f5411814}
+      \strng{fullhashraw}{9c677286866aad38f8e9b660f5411814}
+      \strng{bibnamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorbibnamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authornamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorfullhash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorfullhashraw}{9c677286866aad38f8e9b660f5411814}
+      \field{extraname}{2}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Construction of the Real Numbers}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://en.wikipedia.org/wiki/Construction_of_the_real_numbers
+      \endverb
+      \verb{url}
+      \verb https://en.wikipedia.org/wiki/Construction_of_the_real_numbers
+      \endverb
+    \endentry
+    \entry{WikiContinuedFraction}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=9c677286866aad38f8e9b660f5411814}{%
+           family={Wikipedia},
+           familyi={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{fullhash}{9c677286866aad38f8e9b660f5411814}
+      \strng{fullhashraw}{9c677286866aad38f8e9b660f5411814}
+      \strng{bibnamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorbibnamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authornamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorfullhash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorfullhashraw}{9c677286866aad38f8e9b660f5411814}
+      \field{extraname}{3}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Continued Fraction}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://en.wikipedia.org/wiki/Continued_fraction
+      \endverb
+      \verb{url}
+      \verb https://en.wikipedia.org/wiki/Continued_fraction
+      \endverb
+    \endentry
+    \entry{WikiNestedIntervals}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=9c677286866aad38f8e9b660f5411814}{%
+           family={Wikipedia},
+           familyi={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{fullhash}{9c677286866aad38f8e9b660f5411814}
+      \strng{fullhashraw}{9c677286866aad38f8e9b660f5411814}
+      \strng{bibnamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorbibnamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authornamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorfullhash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorfullhashraw}{9c677286866aad38f8e9b660f5411814}
+      \field{extraname}{4}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Nested Intervals}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://en.wikipedia.org/wiki/Nested_intervals
+      \endverb
+      \verb{url}
+      \verb https://en.wikipedia.org/wiki/Nested_intervals
+      \endverb
+    \endentry
+    \entry{WikiSurreal}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=9c677286866aad38f8e9b660f5411814}{%
+           family={Wikipedia},
+           familyi={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{fullhash}{9c677286866aad38f8e9b660f5411814}
+      \strng{fullhashraw}{9c677286866aad38f8e9b660f5411814}
+      \strng{bibnamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorbibnamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authornamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorfullhash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorfullhashraw}{9c677286866aad38f8e9b660f5411814}
+      \field{extraname}{5}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Surreal Number}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://en.wikipedia.org/wiki/Surreal_number
+      \endverb
+      \verb{url}
+      \verb https://en.wikipedia.org/wiki/Surreal_number
+      \endverb
+    \endentry
+    \entry{Zanardo2012}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=9a74f0be87367e79cb03d9be6b62dc65}{%
+           family={Zanardo},
+           familyi={Z\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{9a74f0be87367e79cb03d9be6b62dc65}
+      \strng{fullhash}{9a74f0be87367e79cb03d9be6b62dc65}
+      \strng{fullhashraw}{9a74f0be87367e79cb03d9be6b62dc65}
+      \strng{bibnamehash}{9a74f0be87367e79cb03d9be6b62dc65}
+      \strng{authorbibnamehash}{9a74f0be87367e79cb03d9be6b62dc65}
+      \strng{authornamehash}{9a74f0be87367e79cb03d9be6b62dc65}
+      \strng{authorfullhash}{9a74f0be87367e79cb03d9be6b62dc65}
+      \strng{authorfullhashraw}{9a74f0be87367e79cb03d9be6b62dc65}
+      \field{sortinit}{Z}
+      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Dept. of Mathematics, Univ. of Padova}
+      \field{title}{La Struttura dei Numeri Reali: Costruzione e Proprietà}
+      \field{year}{2012}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
