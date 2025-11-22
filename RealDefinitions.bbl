@@ -19,6 +19,32 @@
 
 \refsection{0}
   \datalist[entry]{nty/global//global/global/global}
+    \entry{Aberth1980}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=2f178447c5429d36fc76676eddeafbde}{%
+           family={Aberth},
+           familyi={A\bibinitperiod},
+           given={O.},
+           giveni={O\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {McGraw-Hill}%
+      }
+      \strng{namehash}{2f178447c5429d36fc76676eddeafbde}
+      \strng{fullhash}{2f178447c5429d36fc76676eddeafbde}
+      \strng{fullhashraw}{2f178447c5429d36fc76676eddeafbde}
+      \strng{bibnamehash}{2f178447c5429d36fc76676eddeafbde}
+      \strng{authorbibnamehash}{2f178447c5429d36fc76676eddeafbde}
+      \strng{authornamehash}{2f178447c5429d36fc76676eddeafbde}
+      \strng{authorfullhash}{2f178447c5429d36fc76676eddeafbde}
+      \strng{authorfullhashraw}{2f178447c5429d36fc76676eddeafbde}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Computable Analysis}
+      \field{year}{1980}
+    \endentry
     \entry{AbramskyJung1994}{incollection}{}{}
       \name{author}{2}{}{%
         {{hash=9fe5cdf69e7c21fb4768948b13101d02}{%
@@ -411,6 +437,37 @@
       \range{pages}{22}
       \verb{doi}
       \verb 10.1016/j.entcs.2008.05.018
+      \endverb
+    \endentry
+    \entry{Beeson2015}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=ccf56e6db96cb32b9efe2787b958e202}{%
+           family={Beeson},
+           familyi={B\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{ccf56e6db96cb32b9efe2787b958e202}
+      \strng{fullhash}{ccf56e6db96cb32b9efe2787b958e202}
+      \strng{fullhashraw}{ccf56e6db96cb32b9efe2787b958e202}
+      \strng{bibnamehash}{ccf56e6db96cb32b9efe2787b958e202}
+      \strng{authorbibnamehash}{ccf56e6db96cb32b9efe2787b958e202}
+      \strng{authornamehash}{ccf56e6db96cb32b9efe2787b958e202}
+      \strng{authorfullhash}{ccf56e6db96cb32b9efe2787b958e202}
+      \strng{authorfullhashraw}{ccf56e6db96cb32b9efe2787b958e202}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Annals of Pure and Applied Logic}
+      \field{number}{11}
+      \field{title}{A Constructive Version of Tarski's Geometry}
+      \field{volume}{166}
+      \field{year}{2015}
+      \field{pages}{1199\bibrangedash 1273}
+      \range{pages}{75}
+      \verb{doi}
+      \verb 10.1016/j.apal.2015.07.006
       \endverb
     \endentry
     \entry{Bishop1967}{book}{}{}
@@ -1155,6 +1212,32 @@
       \field{pages}{879\bibrangedash 916}
       \range{pages}{38}
     \endentry
+    \entry{Gonshor1986}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=f69cdc489d76092bc37a09d900fab22f}{%
+           family={Gonshor},
+           familyi={G\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{f69cdc489d76092bc37a09d900fab22f}
+      \strng{fullhash}{f69cdc489d76092bc37a09d900fab22f}
+      \strng{fullhashraw}{f69cdc489d76092bc37a09d900fab22f}
+      \strng{bibnamehash}{f69cdc489d76092bc37a09d900fab22f}
+      \strng{authorbibnamehash}{f69cdc489d76092bc37a09d900fab22f}
+      \strng{authornamehash}{f69cdc489d76092bc37a09d900fab22f}
+      \strng{authorfullhash}{f69cdc489d76092bc37a09d900fab22f}
+      \strng{authorfullhashraw}{f69cdc489d76092bc37a09d900fab22f}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{An Introduction to the Theory of Surreal Numbers}
+      \field{year}{1986}
+    \endentry
     \entry{Grossack2024}{misc}{}{}
       \name{author}{1}{}{%
         {{hash=ddebfb9cdbea9daccda8a75ccabf4181}{%
@@ -1619,6 +1702,40 @@
       \range{pages}{45}
       \verb{doi}
       \verb 10.1090/S0002-9947-1937-1501929-X
+      \endverb
+    \endentry
+    \entry{Mamane2004}{inproceedings}{}{}
+      \name{author}{1}{}{%
+        {{hash=90d77651bf70da0f86d0e5eab0e316dc}{%
+           family={Mamane},
+           familyi={M\bibinitperiod},
+           given={L.\bibnamedelimi E.},
+           giveni={L\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{90d77651bf70da0f86d0e5eab0e316dc}
+      \strng{fullhash}{90d77651bf70da0f86d0e5eab0e316dc}
+      \strng{fullhashraw}{90d77651bf70da0f86d0e5eab0e316dc}
+      \strng{bibnamehash}{90d77651bf70da0f86d0e5eab0e316dc}
+      \strng{authorbibnamehash}{90d77651bf70da0f86d0e5eab0e316dc}
+      \strng{authornamehash}{90d77651bf70da0f86d0e5eab0e316dc}
+      \strng{authorfullhash}{90d77651bf70da0f86d0e5eab0e316dc}
+      \strng{authorfullhashraw}{90d77651bf70da0f86d0e5eab0e316dc}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Types for Proofs and Programs}
+      \field{series}{LNCS}
+      \field{title}{Surreal Numbers in Coq}
+      \field{volume}{3839}
+      \field{year}{2004}
+      \field{pages}{170\bibrangedash 185}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1007/11617990_11
       \endverb
     \endentry
     \entry{MathStackConstructiveReals}{misc}{}{}
@@ -2108,6 +2225,40 @@
       \verb 10.23638/LMCS-17(3:17)2021
       \endverb
     \endentry
+    \entry{PaulinMohring1993}{inproceedings}{}{}
+      \name{author}{1}{}{%
+        {{hash=f58d51a37b424be36c42ac13c72966c7}{%
+           family={Paulin-Mohring},
+           familyi={P\bibinithyphendelim M\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{f58d51a37b424be36c42ac13c72966c7}
+      \strng{fullhash}{f58d51a37b424be36c42ac13c72966c7}
+      \strng{fullhashraw}{f58d51a37b424be36c42ac13c72966c7}
+      \strng{bibnamehash}{f58d51a37b424be36c42ac13c72966c7}
+      \strng{authorbibnamehash}{f58d51a37b424be36c42ac13c72966c7}
+      \strng{authornamehash}{f58d51a37b424be36c42ac13c72966c7}
+      \strng{authorfullhash}{f58d51a37b424be36c42ac13c72966c7}
+      \strng{authorfullhashraw}{f58d51a37b424be36c42ac13c72966c7}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Typed Lambda Calculi and Applications}
+      \field{series}{LNCS}
+      \field{title}{Inductive Definitions in the System Coq - Rules and Properties}
+      \field{volume}{664}
+      \field{year}{1993}
+      \field{pages}{328\bibrangedash 345}
+      \range{pages}{18}
+      \verb{doi}
+      \verb 10.1007/BFb0037116
+      \endverb
+    \endentry
     \entry{Dusko2002}{article}{}{}
       \name{author}{2}{}{%
         {{hash=c49652537e3e6dc76ab299807e03b0b6}{%
@@ -2583,6 +2734,7 @@
       \strng{authornamehash}{0225ae7a3b24989e6664572bb25c3824}
       \strng{authorfullhash}{0225ae7a3b24989e6664572bb25c3824}
       \strng{authorfullhashraw}{0225ae7a3b24989e6664572bb25c3824}
+      \field{extraname}{1}
       \field{sortinit}{T}
       \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
       \field{labelnamesource}{author}
@@ -2594,6 +2746,36 @@
       \verb{url}
       \verb https://www.rand.org/pubs/reports/R109.html
       \endverb
+    \endentry
+    \entry{Tarski1959}{incollection}{}{}
+      \name{author}{1}{}{%
+        {{hash=0225ae7a3b24989e6664572bb25c3824}{%
+           family={Tarski},
+           familyi={T\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {North-Holland}%
+      }
+      \strng{namehash}{0225ae7a3b24989e6664572bb25c3824}
+      \strng{fullhash}{0225ae7a3b24989e6664572bb25c3824}
+      \strng{fullhashraw}{0225ae7a3b24989e6664572bb25c3824}
+      \strng{bibnamehash}{0225ae7a3b24989e6664572bb25c3824}
+      \strng{authorbibnamehash}{0225ae7a3b24989e6664572bb25c3824}
+      \strng{authornamehash}{0225ae7a3b24989e6664572bb25c3824}
+      \strng{authorfullhash}{0225ae7a3b24989e6664572bb25c3824}
+      \strng{authorfullhashraw}{0225ae7a3b24989e6664572bb25c3824}
+      \field{extraname}{2}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{The Axiomatic Method}
+      \field{title}{What is Elementary Geometry?}
+      \field{year}{1959}
+      \field{pages}{16\bibrangedash 29}
+      \range{pages}{14}
     \endentry
     \entry{TaylorASDReals}{misc}{}{}
       \name{author}{1}{}{%

@@ -2489,21 +2489,28 @@
     <bcf:citekey order="26" intorder="3">PalmgrenCNSA</bcf:citekey>
     <bcf:citekey order="27" intorder="1">FefermanPredicative</bcf:citekey>
     <bcf:citekey order="27" intorder="2">BridgesMaietti2006</bcf:citekey>
+    <bcf:citekey order="27" intorder="3">PaulinMohring1993</bcf:citekey>
     <bcf:citekey order="28" intorder="1">Conway1976</bcf:citekey>
-    <bcf:citekey order="28" intorder="2">Knuth1974</bcf:citekey>
-    <bcf:citekey order="28" intorder="3">WikiSurreal</bcf:citekey>
+    <bcf:citekey order="28" intorder="2">Gonshor1986</bcf:citekey>
+    <bcf:citekey order="28" intorder="3">Mamane2004</bcf:citekey>
+    <bcf:citekey order="28" intorder="4">Knuth1974</bcf:citekey>
+    <bcf:citekey order="28" intorder="5">WikiSurreal</bcf:citekey>
     <bcf:citekey order="29" intorder="1">Tarski1951</bcf:citekey>
-    <bcf:citekey order="29" intorder="2">Perout2013</bcf:citekey>
-    <bcf:citekey order="29" intorder="3">WikiCantorDedekind</bcf:citekey>
+    <bcf:citekey order="29" intorder="2">Tarski1959</bcf:citekey>
+    <bcf:citekey order="29" intorder="3">Beeson2015</bcf:citekey>
+    <bcf:citekey order="29" intorder="4">Perout2013</bcf:citekey>
+    <bcf:citekey order="29" intorder="5">WikiCantorDedekind</bcf:citekey>
     <bcf:citekey order="30" intorder="1">Turing1937</bcf:citekey>
-    <bcf:citekey order="30" intorder="2">Weihrauch2000</bcf:citekey>
-    <bcf:citekey order="30" intorder="3">Geuvers2000</bcf:citekey>
+    <bcf:citekey order="30" intorder="2">Aberth1980</bcf:citekey>
+    <bcf:citekey order="30" intorder="3">Weihrauch2000</bcf:citekey>
+    <bcf:citekey order="30" intorder="4">Geuvers2000</bcf:citekey>
     <bcf:citekey order="31" intorder="1">Tao2016</bcf:citekey>
     <bcf:citekey order="31" intorder="2">BartleSherbert2011</bcf:citekey>
     <bcf:citekey order="31" intorder="3">WikiRealConstruction</bcf:citekey>
-    <bcf:citekey order="32" intorder="1">BishopBridges1985</bcf:citekey>
-    <bcf:citekey order="32" intorder="2">BridgesMaietti2006</bcf:citekey>
-    <bcf:citekey order="32" intorder="3">ResearchGateBishopReals</bcf:citekey>
+    <bcf:citekey order="32" intorder="1">Bishop1967</bcf:citekey>
+    <bcf:citekey order="32" intorder="2">BishopBridges1985</bcf:citekey>
+    <bcf:citekey order="32" intorder="3">BridgesMaietti2006</bcf:citekey>
+    <bcf:citekey order="32" intorder="4">ResearchGateBishopReals</bcf:citekey>
     <bcf:citekey order="33" intorder="1">FarahWeiss2015</bcf:citekey>
     <bcf:citekey order="34" intorder="1">Vickers1996</bcf:citekey>
     <bcf:citekey order="34" intorder="2">FourmanGrayson1982</bcf:citekey>

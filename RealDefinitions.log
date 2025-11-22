@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.9.29)  22 NOV 2025 11:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.9.29)  22 NOV 2025 13:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -591,13 +591,13 @@ Overfull \hbox (1.45097pt too wide) in paragraph at lines 98--98
  []
 
 
+
+[8]
 Overfull \hbox (47.06595pt too wide) in paragraph at lines 98--98
 []\T1/cmr/m/n/10.95 S. Vick-ers. \T1/cmr/m/it/10.95 Topol-ogy via Logic\T1/cmr/m/n/10.95 . Cam-bridge Uni-ver-sity Press, 1996. \T1/cmr/m/sc/10.95 doi\T1/cmr/m/n/10.95 : []$\T1/cmtt/m/n/10.95 10 . 1017 / CBO9780511569258$[]\T1/cmr/m/n/10.95 . 
  []
 
 
-
-[8]
 Overfull \hbox (8.65002pt too wide) in paragraph at lines 98--98
 []\T1/cmr/m/n/10.95 Wikipedia. \T1/cmr/m/it/10.95 Con-tin-ued Frac-tion\T1/cmr/m/n/10.95 . 2024. \T1/cmr/m/sc/10.95 url\T1/cmr/m/n/10.95 : []$\T1/cmtt/m/n/10.95 https : / / en . wikipedia . org / wiki / Continued _
  []
@@ -616,18 +616,18 @@ Package logreq Info: Writing requests to 'RealDefinitions.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 17284 strings out of 467748
- 310699 string characters out of 5426965
- 1154809 words of memory out of 5000000
- 45673 multiletter control sequences out of 15000+600000
+ 17308 strings out of 467748
+ 311637 string characters out of 5426965
+ 1155161 words of memory out of 5000000
+ 45691 multiletter control sequences out of 15000+600000
  642388 words of font info for 80 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,5n,79p,841b,1475s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,5n,79p,852b,1472s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfcc1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on RealDefinitions.pdf (9 pages, 295442 bytes).
+Output written on RealDefinitions.pdf (9 pages, 296927 bytes).
 PDF statistics:
- 666 PDF objects out of 1000 (max. 8388607)
- 615 compressed objects within 7 object streams
- 155 named destinations out of 1000 (max. 500000)
+ 683 PDF objects out of 1000 (max. 8388607)
+ 632 compressed objects within 7 object streams
+ 161 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
