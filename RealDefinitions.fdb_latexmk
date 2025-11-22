@@ -1,13 +1,13 @@
 # Fdb version 4
-["biber RealDefinitions"] 1763802102.79869 "RealDefinitions.bcf" "RealDefinitions.bbl" "RealDefinitions" 1763802104.20494 0
-  "RealDefinitions.bcf" 1763802104.16737 121806 a944b386f279205250a602ea3d793ad7 "pdflatex"
-  "references.bib" 1763801967.9273 21196 838cbc40bb9081c73238790499d78206 ""
+["biber RealDefinitions"] 1763805765.37793 "RealDefinitions.bcf" "RealDefinitions.bbl" "RealDefinitions" 1763805768.65855 0
+  "RealDefinitions.bcf" 1763805768.60971 123108 68772552c1d0aae9cea38442b020be25 "pdflatex"
+  "references.bib" 1763805724.47239 25116 afa35070d4ffac44fb8af44021f58fce ""
   (generated)
   "RealDefinitions.bbl"
   "RealDefinitions.blg"
   (rewritten before read)
-["pdflatex"] 1763802103.42493 "/home/eapiova/projects/zooReals/RealDefinitions.tex" "RealDefinitions.pdf" "RealDefinitions" 1763802104.20515 0
-  "/home/eapiova/projects/zooReals/RealDefinitions.tex" 1763802060.45499 15704 87a55b2b9f8ed5b81146b6fbb3c0c89e ""
+["pdflatex"] 1763805767.80026 "/home/eapiova/projects/zooReals/RealDefinitions.tex" "RealDefinitions.pdf" "RealDefinitions" 1763805768.6588 0
+  "/home/eapiova/projects/zooReals/RealDefinitions.tex" 1763805764.34726 15975 24b627101c8aa26e23ee8195f0095a0b ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -120,11 +120,11 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1759151324 5528139 daf1353d2d3d7fed9df2ebbf1b26218e ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1759151383 3628771 d4a20debd1ea756b11965ac2da84f87d ""
   "/usr/local/texlive/2025/texmf.cnf" 1745488119.6569 455 5b996dcaa0eb4ef14a83b026bc0a008c ""
-  "RealDefinitions.aux" 1763802104.15842 20826 f8b27943847e00eb4e7eb0c0aa3ee44a "pdflatex"
-  "RealDefinitions.bbl" 1763802103.41022 108493 6f2f46f438f46f4d387f74a753309932 "biber RealDefinitions"
-  "RealDefinitions.out" 1763802103.71003 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "RealDefinitions.run.xml" 1763802104.16902 2382 fdfefbc3d8720aa6c04d267c57391018 "pdflatex"
-  "RealDefinitions.tex" 1763802060.45499 15704 87a55b2b9f8ed5b81146b6fbb3c0c89e ""
+  "RealDefinitions.aux" 1763805768.59757 23011 9b18c63c2cf1a08609cf33ae9201d16c "pdflatex"
+  "RealDefinitions.bbl" 1763805766.04184 127143 582a9861ff0d847fa2cbd501b65f10d1 "biber RealDefinitions"
+  "RealDefinitions.out" 1763805768.0965 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "RealDefinitions.run.xml" 1763805768.61149 2382 fdfefbc3d8720aa6c04d267c57391018 "pdflatex"
+  "RealDefinitions.tex" 1763805764.34726 15975 24b627101c8aa26e23ee8195f0095a0b ""
   (generated)
   "RealDefinitions.aux"
   "RealDefinitions.bcf"
