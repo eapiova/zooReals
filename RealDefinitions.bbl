@@ -42,6 +42,7 @@
       \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
+      \field{isbn}{978-0070000797}
       \field{title}{Computable Analysis}
       \field{year}{1980}
     \endentry
@@ -243,7 +244,7 @@
       \field{pages}{389\bibrangedash 400}
       \range{pages}{12}
       \verb{doi}
-      \verb 10.1109/TEC.1961.5219236
+      \verb 10.1109/TEC.1961.5219227
       \endverb
     \endentry
     \entry{BartleSherbert2011}{book}{}{}
@@ -275,6 +276,7 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{edition}{4th}
+      \field{isbn}{978-0-471-43331-6}
       \field{title}{Introduction to Real Analysis}
       \field{year}{2011}
     \endentry
@@ -395,13 +397,13 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Electronic Notes in Theoretical Computer Science}
-      \field{title}{Implementing Exact Real Arithmetic in Type Theory}
+      \field{title}{Implementing Real Numbers With RZ}
       \field{volume}{202}
-      \field{year}{2009}
-      \field{pages}{3\bibrangedash 21}
-      \range{pages}{19}
+      \field{year}{2008}
+      \field{pages}{365\bibrangedash 384}
+      \range{pages}{20}
       \verb{doi}
-      \verb 10.1016/j.entcs.2008.03.002
+      \verb 10.1016/j.entcs.2008.03.027
       \endverb
     \endentry
     \entry{BauerTaylor2009}{article}{}{}
@@ -468,6 +470,41 @@
       \range{pages}{75}
       \verb{doi}
       \verb 10.1016/j.apal.2015.07.006
+      \endverb
+    \endentry
+    \entry{ResearchGateCoinduction}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=68f9d1b8aac38f7ecd4e0ba607e69e75}{%
+           family={Berger},
+           familyi={B\bibinitperiod},
+           given={U.},
+           giveni={U\bibinitperiod}}}%
+        {{hash=033e5f7ca796a1feeb95b19fed196f0f}{%
+           family={Hou},
+           familyi={H\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{c81336642020b1ba65be6a5f49b87869}
+      \strng{fullhash}{c81336642020b1ba65be6a5f49b87869}
+      \strng{fullhashraw}{c81336642020b1ba65be6a5f49b87869}
+      \strng{bibnamehash}{c81336642020b1ba65be6a5f49b87869}
+      \strng{authorbibnamehash}{c81336642020b1ba65be6a5f49b87869}
+      \strng{authornamehash}{c81336642020b1ba65be6a5f49b87869}
+      \strng{authorfullhash}{c81336642020b1ba65be6a5f49b87869}
+      \strng{authorfullhashraw}{c81336642020b1ba65be6a5f49b87869}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Theory of Computing Systems}
+      \field{title}{Coinduction for Exact Real Number Computation}
+      \field{volume}{43}
+      \field{year}{2008}
+      \field{pages}{394\bibrangedash 409}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1007/s00224-007-9017-6
       \endverb
     \endentry
     \entry{Bishop1967}{book}{}{}
@@ -716,6 +753,9 @@
       \field{labeltitlesource}{title}
       \field{title}{Handbook of Constructive Mathematics}
       \field{year}{2023}
+      \verb{doi}
+      \verb 10.1017/9781009039888
+      \endverb
     \endentry
     \entry{BrilliantCF}{misc}{}{}
       \name{author}{1}{}{%
@@ -800,6 +840,7 @@
       \field{sortinithash}{4d103a86280481745c9c897c925753c0}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
+      \field{isbn}{978-0121863500}
       \field{title}{On Numbers and Games}
       \field{year}{1976}
     \endentry
@@ -1002,14 +1043,14 @@
       \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{Electronic Notes in Theoretical Computer Science}
+      \field{journaltitle}{Theoretical Computer Science}
       \field{title}{PCF Extended with Real Numbers}
-      \field{volume}{6}
-      \field{year}{1997}
-      \field{pages}{199\bibrangedash 212}
-      \range{pages}{14}
+      \field{volume}{162}
+      \field{year}{1996}
+      \field{pages}{79\bibrangedash 115}
+      \range{pages}{37}
       \verb{doi}
-      \verb 10.1016/S1571-0661(05)80146-6
+      \verb 10.1016/0304-3975(95)00250-2
       \endverb
     \endentry
     \entry{EscardoSimpson2001}{article}{}{}
@@ -1075,6 +1116,15 @@
       \field{journaltitle}{The Journal of Symbolic Logic}
       \field{title}{The Reals as Rational Cauchy Filters}
       \field{year}{2015}
+      \verb{doi}
+      \verb 10.48550/arXiv.1503.04348
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1503.04348
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1503.04348
+      \endverb
     \endentry
     \entry{FefermanPredicative}{incollection}{}{}
       \name{author}{1}{}{%
@@ -1207,10 +1257,13 @@
       \field{labeltitlesource}{title}
       \field{journaltitle}{Mathematical Structures in Computer Science}
       \field{title}{Constructive Analysis, Types and Exact Real Numbers}
-      \field{volume}{12}
-      \field{year}{2002}
+      \field{volume}{17}
+      \field{year}{2007}
       \field{pages}{879\bibrangedash 916}
       \range{pages}{38}
+      \verb{doi}
+      \verb 10.1017/S0960129506005834
+      \endverb
     \endentry
     \entry{Gonshor1986}{book}{}{}
       \name{author}{1}{}{%
@@ -1237,6 +1290,9 @@
       \field{labeltitlesource}{title}
       \field{title}{An Introduction to the Theory of Surreal Numbers}
       \field{year}{1986}
+      \verb{doi}
+      \verb 10.1017/CBO9780511629143
+      \endverb
     \endentry
     \entry{Grossack2024}{misc}{}{}
       \name{author}{1}{}{%
@@ -1426,6 +1482,12 @@
       \field{labeltitlesource}{title}
       \field{title}{Elementary Calculus: An Infinitesimal Approach}
       \field{year}{1976}
+      \verb{urlraw}
+      \verb https://www.math.wisc.edu/~keisler/calc.html
+      \endverb
+      \verb{url}
+      \verb https://www.math.wisc.edu/~keisler/calc.html
+      \endverb
     \endentry
     \entry{Keskin2025}{misc}{}{}
       \name{author}{1}{}{%
@@ -1480,6 +1542,7 @@
       \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
+      \field{isbn}{978-0201038125}
       \field{title}{Surreal Numbers}
       \field{year}{1974}
     \endentry
@@ -1509,6 +1572,9 @@
       \field{edition}{2nd}
       \field{title}{Synthetic Differential Geometry}
       \field{year}{2006}
+      \verb{doi}
+      \verb 10.1017/CBO9780511550812
+      \endverb
     \endentry
     \entry{KosteckiSDG}{misc}{}{}
       \name{author}{1}{}{%
@@ -2320,6 +2386,12 @@
       \field{title}{Tarski's Axioms of Euclidean Geometry}
       \field{type}{mathesis}
       \field{year}{2013}
+      \verb{urlraw}
+      \verb http://hdl.handle.net/20.500.11956/57343
+      \endverb
+      \verb{url}
+      \verb http://hdl.handle.net/20.500.11956/57343
+      \endverb
     \endentry
     \entry{PicadoPultr2012}{book}{}{}
       \name{author}{2}{}{%
@@ -2499,39 +2571,9 @@
       \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
+      \field{isbn}{978-0691044903}
       \field{title}{Non-standard Analysis}
       \field{year}{1966}
-    \endentry
-    \entry{ResearchGateCoinduction}{misc}{}{}
-      \name{author}{1}{}{%
-        {{hash=47500343cae57c7e255524386f67e0e3}{%
-           family={Rutten},
-           familyi={R\bibinitperiod},
-           given={J.},
-           giveni={J\bibinitperiod}}}%
-      }
-      \strng{namehash}{47500343cae57c7e255524386f67e0e3}
-      \strng{fullhash}{47500343cae57c7e255524386f67e0e3}
-      \strng{fullhashraw}{47500343cae57c7e255524386f67e0e3}
-      \strng{bibnamehash}{47500343cae57c7e255524386f67e0e3}
-      \strng{authorbibnamehash}{47500343cae57c7e255524386f67e0e3}
-      \strng{authornamehash}{47500343cae57c7e255524386f67e0e3}
-      \strng{authorfullhash}{47500343cae57c7e255524386f67e0e3}
-      \strng{authorfullhashraw}{47500343cae57c7e255524386f67e0e3}
-      \field{extraname}{1}
-      \field{sortinit}{R}
-      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{note}{ResearchGate preprint}
-      \field{title}{Coinduction for Exact Real Number Computation}
-      \field{year}{2015}
-      \verb{urlraw}
-      \verb https://www.researchgate.net/publication/277942366_Coinduction_for_exact_real_number_computation
-      \endverb
-      \verb{url}
-      \verb https://www.researchgate.net/publication/277942366_Coinduction_for_exact_real_number_computation
-      \endverb
     \endentry
     \entry{Rutten2000}{article}{}{}
       \name{author}{1}{}{%
@@ -2549,7 +2591,6 @@
       \strng{authornamehash}{28cba1040d8208b7b61cae81a4261850}
       \strng{authorfullhash}{28cba1040d8208b7b61cae81a4261850}
       \strng{authorfullhashraw}{28cba1040d8208b7b61cae81a4261850}
-      \field{extraname}{2}
       \field{sortinit}{R}
       \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
       \field{labelnamesource}{author}
@@ -2643,7 +2684,7 @@
       \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{Cahiers de Topologie et Géométrie Différentielle Catégoriques}
+      \field{journaltitle}{Cahiers de Topologie et Géométrie Différentielles Catégoriques}
       \field{title}{Topological Properties of the Real Numbers Object in a Topos}
       \field{volume}{17}
       \field{year}{1976}
@@ -2714,6 +2755,9 @@
       \field{labeltitlesource}{title}
       \field{title}{Analysis I}
       \field{year}{2016}
+      \verb{doi}
+      \verb 10.1007/978-981-10-1789-6
+      \endverb
     \endentry
     \entry{Tarski1951}{book}{}{}
       \name{author}{1}{}{%
@@ -2776,6 +2820,9 @@
       \field{year}{1959}
       \field{pages}{16\bibrangedash 29}
       \range{pages}{14}
+      \verb{doi}
+      \verb 10.1016/S0049-237X(08)71527-4
+      \endverb
     \endentry
     \entry{TaylorASDReals}{misc}{}{}
       \name{author}{1}{}{%
@@ -2924,6 +2971,9 @@
       \field{year}{1937}
       \field{pages}{230\bibrangedash 265}
       \range{pages}{36}
+      \verb{doi}
+      \verb 10.1112/plms/s2-42.1.230
+      \endverb
     \endentry
     \entry{Vickers1996}{book}{}{}
       \name{author}{1}{}{%
@@ -3125,7 +3175,7 @@
       \field{volume}{18}
       \field{year}{2022}
       \verb{doi}
-      \verb 10.46298/lmcs-18(3:26)2022
+      \verb 10.46298/lmcs-18(3:24)2022
       \endverb
     \endentry
     \entry{WikiCantorDedekind}{misc}{}{}
@@ -3289,7 +3339,7 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{note}{Dept. of Mathematics, Univ. of Padova}
-      \field{title}{La Struttura dei Numeri Reali: Costruzione e Proprietà}
+      \field{title}{La Struttura dei Numeri Reali: Costruzione e Proprietá}
       \field{year}{2012}
     \endentry
   \enddatalist
