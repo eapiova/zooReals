@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bcf:controlfile version="3.11" bltxversion="3.21" xmlns:bcf="https://sourceforge.net/projects/biblatex">
+<bcf:controlfile version="3.11" bltxversion="3.20" xmlns:bcf="https://sourceforge.net/projects/biblatex">
   <!-- BIBER OPTIONS -->
   <bcf:options component="biber" type="global">
     <bcf:option type="singlevalued">
@@ -514,7 +514,6 @@
     <bcf:option datatype="string">alphaothers</bcf:option>
     <bcf:option datatype="string">sortalphaothers</bcf:option>
     <bcf:option datatype="string">presort</bcf:option>
-    <bcf:option datatype="string">citepagerange</bcf:option>
     <bcf:option datatype="string">texencoding</bcf:option>
     <bcf:option datatype="string">bibencoding</bcf:option>
     <bcf:option datatype="string">sortingtemplatename</bcf:option>
@@ -2404,19 +2403,16 @@
     <bcf:citekey order="4" intorder="7">MathOverflowBauerHanson</bcf:citekey>
     <bcf:citekey order="5" intorder="1">Chernov2021</bcf:citekey>
     <bcf:citekey order="5" intorder="2">AbrialCansell2021</bcf:citekey>
-    <bcf:citekey order="5" intorder="3">ResearchGateCoinduction</bcf:citekey>
-    <bcf:citekey order="5" intorder="4">Weihrauch2000</bcf:citekey>
-    <bcf:citekey order="5" intorder="5">WikiNestedIntervals</bcf:citekey>
+    <bcf:citekey order="5" intorder="3">Weihrauch2000</bcf:citekey>
+    <bcf:citekey order="5" intorder="4">WikiNestedIntervals</bcf:citekey>
     <bcf:citekey order="6" intorder="1">BrilliantCF</bcf:citekey>
     <bcf:citekey order="6" intorder="2">WikiContinuedFraction</bcf:citekey>
     <bcf:citekey order="6" intorder="3">ConstructiveCF</bcf:citekey>
-    <bcf:citekey order="7" intorder="1">ResearchGateCoinduction</bcf:citekey>
-    <bcf:citekey order="7" intorder="2">MathStackConstructiveReals</bcf:citekey>
-    <bcf:citekey order="7" intorder="3">WiesnetKopp2021</bcf:citekey>
-    <bcf:citekey order="8" intorder="1">WiesnetKopp2022</bcf:citekey>
-    <bcf:citekey order="8" intorder="2">BauerKavkler2009</bcf:citekey>
-    <bcf:citekey order="8" intorder="3">Escardo1996</bcf:citekey>
-    <bcf:citekey order="8" intorder="4">Avizienis1961</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">WiesnetKopp2022</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">Ambridge2024</bcf:citekey>
+    <bcf:citekey order="8" intorder="2">TypeTopology</bcf:citekey>
+    <bcf:citekey order="8" intorder="3">WiesnetKopp2022</bcf:citekey>
+    <bcf:citekey order="8" intorder="4">WikiSignedDigit</bcf:citekey>
     <bcf:citekey order="9" intorder="1">vanDerWeideFrumin2024</bcf:citekey>
     <bcf:citekey order="9" intorder="2">PattinsonMohammadian2021</bcf:citekey>
     <bcf:citekey order="9" intorder="3">deJong2023</bcf:citekey>
@@ -2426,6 +2422,8 @@
     <bcf:citekey order="9" intorder="7">EdalatRealComputability</bcf:citekey>
     <bcf:citekey order="9" intorder="8">DiGianantonioReals</bcf:citekey>
     <bcf:citekey order="9" intorder="9">TaylorASDReals</bcf:citekey>
+    <bcf:citekey order="9" intorder="10">Escardo1996</bcf:citekey>
+    <bcf:citekey order="9" intorder="11">BauerKavkler2009</bcf:citekey>
     <bcf:citekey order="10" intorder="1">nLabOneSided</bcf:citekey>
     <bcf:citekey order="10" intorder="2">BlechschmidtHutzler2019</bcf:citekey>
     <bcf:citekey order="10" intorder="3">CoqConstructiveReals</bcf:citekey>
@@ -2526,9 +2524,9 @@
     <bcf:citekey order="36" intorder="3">Booij2020</bcf:citekey>
     <bcf:citekey order="36" intorder="4">Murray2022</bcf:citekey>
     <bcf:citekey order="37" intorder="1">Weihrauch2000</bcf:citekey>
-    <bcf:citekey order="37" intorder="2">ResearchGateCoinduction</bcf:citekey>
-    <bcf:citekey order="37" intorder="3">WiesnetKopp2022</bcf:citekey>
-    <bcf:citekey order="37" intorder="4">MathStackConstructiveReals</bcf:citekey>
+    <bcf:citekey order="37" intorder="2">WiesnetKopp2022</bcf:citekey>
+    <bcf:citekey order="37" intorder="3">MathStackConstructiveReals</bcf:citekey>
+    <bcf:citekey order="37" intorder="4">BergerHou2007</bcf:citekey>
     <bcf:citekey order="38" intorder="1">EscardoSimpson2001</bcf:citekey>
     <bcf:citekey order="38" intorder="2">AdamekMiliusMoss2025</bcf:citekey>
     <bcf:citekey order="38" intorder="3">nLabCoalgebraInterval</bcf:citekey>
@@ -2562,7 +2560,7 @@
     <bcf:citekey order="44" intorder="3">Booij2020</bcf:citekey>
     <bcf:citekey order="44" intorder="4">EscardoSimpson2001</bcf:citekey>
     <bcf:citekey order="45" intorder="1">Weihrauch2000</bcf:citekey>
-    <bcf:citekey order="45" intorder="2">ResearchGateCoinduction</bcf:citekey>
+    <bcf:citekey order="45" intorder="2">BergerHou2007</bcf:citekey>
     <bcf:citekey order="45" intorder="3">MathStackConstructiveReals</bcf:citekey>
     <bcf:citekey order="45" intorder="4">WiesnetKopp2022</bcf:citekey>
     <bcf:citekey order="46" intorder="1">Vickers1996</bcf:citekey>

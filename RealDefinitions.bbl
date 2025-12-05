@@ -183,6 +183,47 @@
       \verb https://wiki.portal.chalmers.se/agda/pmwiki.php
       \endverb
     \endentry
+    \entry{Ambridge2024}{thesis}{}{}
+      \name{author}{1}{}{%
+        {{hash=cf7d1e7b6ca596571ead0466eea6bfa8}{%
+           family={Ambridge},
+           familyi={A\bibinitperiod},
+           given={Todd\bibnamedelima Waugh},
+           giveni={T\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {University of Birmingham}%
+      }
+      \strng{namehash}{cf7d1e7b6ca596571ead0466eea6bfa8}
+      \strng{fullhash}{cf7d1e7b6ca596571ead0466eea6bfa8}
+      \strng{fullhashraw}{cf7d1e7b6ca596571ead0466eea6bfa8}
+      \strng{bibnamehash}{cf7d1e7b6ca596571ead0466eea6bfa8}
+      \strng{authorbibnamehash}{cf7d1e7b6ca596571ead0466eea6bfa8}
+      \strng{authornamehash}{cf7d1e7b6ca596571ead0466eea6bfa8}
+      \strng{authorfullhash}{cf7d1e7b6ca596571ead0466eea6bfa8}
+      \strng{authorfullhashraw}{cf7d1e7b6ca596571ead0466eea6bfa8}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{note}{Implements ternary signed-digit encodings in Agda with verified arithmetic operations}
+      \field{title}{Exact Real Search: Formalised Optimisation and Regression in Constructive Univalent Mathematics}
+      \field{type}{phdthesis}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.48550/arXiv.2401.09270
+      \endverb
+      \verb{eprint}
+      \verb 2401.09270
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2401.09270
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2401.09270
+      \endverb
+    \endentry
     \entry{Arthan2004}{article}{}{}
       \name{author}{1}{}{%
         {{hash=f6093d31360b6aef9b5b5544a7844640}{%
@@ -215,36 +256,6 @@
       \endverb
       \verb{url}
       \verb https://arxiv.org/abs/math/0405454
-      \endverb
-    \endentry
-    \entry{Avizienis1961}{article}{}{}
-      \name{author}{1}{}{%
-        {{hash=486826e6249ce8f61c17ac38e7ae734e}{%
-           family={Avizienis},
-           familyi={A\bibinitperiod},
-           given={A.},
-           giveni={A\bibinitperiod}}}%
-      }
-      \strng{namehash}{486826e6249ce8f61c17ac38e7ae734e}
-      \strng{fullhash}{486826e6249ce8f61c17ac38e7ae734e}
-      \strng{fullhashraw}{486826e6249ce8f61c17ac38e7ae734e}
-      \strng{bibnamehash}{486826e6249ce8f61c17ac38e7ae734e}
-      \strng{authorbibnamehash}{486826e6249ce8f61c17ac38e7ae734e}
-      \strng{authornamehash}{486826e6249ce8f61c17ac38e7ae734e}
-      \strng{authorfullhash}{486826e6249ce8f61c17ac38e7ae734e}
-      \strng{authorfullhashraw}{486826e6249ce8f61c17ac38e7ae734e}
-      \field{sortinit}{A}
-      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{IRE Transactions on Electronic Computers}
-      \field{title}{Signed-Digit Number Representations for Fast Parallel Arithmetic}
-      \field{volume}{EC-10}
-      \field{year}{1961}
-      \field{pages}{389\bibrangedash 400}
-      \range{pages}{12}
-      \verb{doi}
-      \verb 10.1109/TEC.1961.5219227
       \endverb
     \endentry
     \entry{BartleSherbert2011}{book}{}{}
@@ -472,27 +483,30 @@
       \verb 10.1016/j.apal.2015.07.006
       \endverb
     \endentry
-    \entry{ResearchGateCoinduction}{article}{}{}
+    \entry{BergerHou2007}{article}{}{}
       \name{author}{2}{}{%
-        {{hash=68f9d1b8aac38f7ecd4e0ba607e69e75}{%
+        {{hash=bc1dff07b3c80a25bc5ff1cc47bd2e6f}{%
            family={Berger},
            familyi={B\bibinitperiod},
-           given={U.},
+           given={Ulrich},
            giveni={U\bibinitperiod}}}%
-        {{hash=033e5f7ca796a1feeb95b19fed196f0f}{%
+        {{hash=665e7df40cfa73d1016b9daf55c65144}{%
            family={Hou},
            familyi={H\bibinitperiod},
-           given={T.},
+           given={Tie},
            giveni={T\bibinitperiod}}}%
       }
-      \strng{namehash}{c81336642020b1ba65be6a5f49b87869}
-      \strng{fullhash}{c81336642020b1ba65be6a5f49b87869}
-      \strng{fullhashraw}{c81336642020b1ba65be6a5f49b87869}
-      \strng{bibnamehash}{c81336642020b1ba65be6a5f49b87869}
-      \strng{authorbibnamehash}{c81336642020b1ba65be6a5f49b87869}
-      \strng{authornamehash}{c81336642020b1ba65be6a5f49b87869}
-      \strng{authorfullhash}{c81336642020b1ba65be6a5f49b87869}
-      \strng{authorfullhashraw}{c81336642020b1ba65be6a5f49b87869}
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{5a289b52b950631d958bf3d5597a5da7}
+      \strng{fullhash}{5a289b52b950631d958bf3d5597a5da7}
+      \strng{fullhashraw}{5a289b52b950631d958bf3d5597a5da7}
+      \strng{bibnamehash}{5a289b52b950631d958bf3d5597a5da7}
+      \strng{authorbibnamehash}{5a289b52b950631d958bf3d5597a5da7}
+      \strng{authornamehash}{5a289b52b950631d958bf3d5597a5da7}
+      \strng{authorfullhash}{5a289b52b950631d958bf3d5597a5da7}
+      \strng{authorfullhashraw}{5a289b52b950631d958bf3d5597a5da7}
       \field{sortinit}{B}
       \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
       \field{labelnamesource}{author}
@@ -501,8 +515,8 @@
       \field{title}{Coinduction for Exact Real Number Computation}
       \field{volume}{43}
       \field{year}{2008}
-      \field{pages}{394\bibrangedash 409}
-      \range{pages}{16}
+      \field{pages}{38\bibrangedash 51}
+      \range{pages}{14}
       \verb{doi}
       \verb 10.1007/s00224-007-9017-6
       \endverb
@@ -1086,6 +1100,39 @@
       \range{pages}{34}
       \verb{doi}
       \verb 10.1016/S0304-3975(01)00178-5
+      \endverb
+    \endentry
+    \entry{TypeTopology}{misc}{}{}
+      \name{author}{2}{}{%
+        {{hash=a341ceadad0f8976db77608c93d8a41d}{%
+           family={Escardó},
+           familyi={E\bibinitperiod},
+           given={Martín\bibnamedelima H.},
+           giveni={M\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=a8b2e39951bba535f313f563f6abaef6}{%
+           family={{contributors}},
+           familyi={c\bibinitperiod}}}%
+      }
+      \strng{namehash}{738acc76c05cf91bb44c674381dff418}
+      \strng{fullhash}{738acc76c05cf91bb44c674381dff418}
+      \strng{fullhashraw}{738acc76c05cf91bb44c674381dff418}
+      \strng{bibnamehash}{738acc76c05cf91bb44c674381dff418}
+      \strng{authorbibnamehash}{738acc76c05cf91bb44c674381dff418}
+      \strng{authornamehash}{738acc76c05cf91bb44c674381dff418}
+      \strng{authorfullhash}{738acc76c05cf91bb44c674381dff418}
+      \strng{authorfullhashraw}{738acc76c05cf91bb44c674381dff418}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Includes signed-digit real encodings in \texttt{TWA.Thesis.Chapter5.SignedDigit}}
+      \field{title}{{TypeTopology}: Various new theorems in constructive univalent mathematics written in {Agda}}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://github.com/martinescardo/TypeTopology
+      \endverb
+      \verb{url}
+      \verb https://github.com/martinescardo/TypeTopology
       \endverb
     \endentry
     \entry{FarahWeiss2015}{article}{}{}
@@ -3105,45 +3152,6 @@
       \verb 10.1007/978-3-642-56999-9
       \endverb
     \endentry
-    \entry{WiesnetKopp2021}{misc}{}{}
-      \name{author}{2}{}{%
-        {{hash=316de79cbf56e780a4648e5472110ff0}{%
-           family={Wiesnet},
-           familyi={W\bibinitperiod},
-           given={T.},
-           giveni={T\bibinitperiod}}}%
-        {{hash=ea86c21294c814a4bcebf0a3bbfa1948}{%
-           family={Kopp},
-           familyi={K\bibinitperiod},
-           given={T.},
-           giveni={T\bibinitperiod}}}%
-      }
-      \strng{namehash}{8ab0efcee812b0be29777ec712da5563}
-      \strng{fullhash}{8ab0efcee812b0be29777ec712da5563}
-      \strng{fullhashraw}{8ab0efcee812b0be29777ec712da5563}
-      \strng{bibnamehash}{8ab0efcee812b0be29777ec712da5563}
-      \strng{authorbibnamehash}{8ab0efcee812b0be29777ec712da5563}
-      \strng{authornamehash}{8ab0efcee812b0be29777ec712da5563}
-      \strng{authorfullhash}{8ab0efcee812b0be29777ec712da5563}
-      \strng{authorfullhashraw}{8ab0efcee812b0be29777ec712da5563}
-      \field{extraname}{1}
-      \field{sortinit}{W}
-      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprinttype}{arXiv}
-      \field{title}{Limits of Real Numbers in the Binary Signed Digit Representation}
-      \field{year}{2021}
-      \verb{eprint}
-      \verb 2103.15702
-      \endverb
-      \verb{urlraw}
-      \verb https://arxiv.org/abs/2103.15702
-      \endverb
-      \verb{url}
-      \verb https://arxiv.org/abs/2103.15702
-      \endverb
-    \endentry
     \entry{WiesnetKopp2022}{article}{}{}
       \name{author}{2}{}{%
         {{hash=316de79cbf56e780a4648e5472110ff0}{%
@@ -3165,7 +3173,6 @@
       \strng{authornamehash}{8ab0efcee812b0be29777ec712da5563}
       \strng{authorfullhash}{8ab0efcee812b0be29777ec712da5563}
       \strng{authorfullhashraw}{8ab0efcee812b0be29777ec712da5563}
-      \field{extraname}{2}
       \field{sortinit}{W}
       \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
       \field{labelnamesource}{author}
@@ -3290,7 +3297,7 @@
       \verb https://en.wikipedia.org/wiki/Nested_intervals
       \endverb
     \endentry
-    \entry{WikiSurreal}{misc}{}{}
+    \entry{WikiSignedDigit}{misc}{}{}
       \name{author}{1}{}{%
         {{hash=9c677286866aad38f8e9b660f5411814}{%
            family={Wikipedia},
@@ -3305,6 +3312,34 @@
       \strng{authorfullhash}{9c677286866aad38f8e9b660f5411814}
       \strng{authorfullhashraw}{9c677286866aad38f8e9b660f5411814}
       \field{extraname}{5}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Signed-digit representation}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://en.wikipedia.org/wiki/Signed-digit_representation
+      \endverb
+      \verb{url}
+      \verb https://en.wikipedia.org/wiki/Signed-digit_representation
+      \endverb
+    \endentry
+    \entry{WikiSurreal}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=9c677286866aad38f8e9b660f5411814}{%
+           family={Wikipedia},
+           familyi={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{fullhash}{9c677286866aad38f8e9b660f5411814}
+      \strng{fullhashraw}{9c677286866aad38f8e9b660f5411814}
+      \strng{bibnamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorbibnamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authornamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorfullhash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorfullhashraw}{9c677286866aad38f8e9b660f5411814}
+      \field{extraname}{6}
       \field{sortinit}{W}
       \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
       \field{labelnamesource}{author}
