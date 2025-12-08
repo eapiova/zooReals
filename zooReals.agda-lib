@@ -1,0 +1,5 @@
+name: zooReals
+include: src
+depend: 
+  cubical-cauchy
+flags: --cubical --guardedness
