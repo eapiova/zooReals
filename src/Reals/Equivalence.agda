@@ -23,11 +23,11 @@ open import Cubical.HITs.SetQuotients as SQ hiding ([_])
 
 -- Import both representations
 open import Reals.SignedDigit.Base
-open import Reals.SignedDigit.Equivalence using (ℝsd; _≈sd_; isSetℝsd; 0sd; 1sd; -1sd)
+open import Reals.SignedDigit.Equivalence using (ℝsd; _≈sd_; isSetℝsd; 0sd; 1sd; -1sd; stream→ℝ)
 open import Reals.HoTT.Base using (ℝ; rat; lim; eqℝ; _∼[_]_)
 
 -- Import both embeddings
-open import Reals.SignedDigit.Embedding using (ι; stream→ℝ)
+open import Reals.SignedDigit.Embedding using (ι)
 open import Reals.HoTT.Embedding using (ι⁻¹; ℝ→stream)
 
 -- --------------------------------------------------------------------------
@@ -35,18 +35,19 @@ open import Reals.HoTT.Embedding using (ι⁻¹; ℝ→stream)
 -- --------------------------------------------------------------------------
 
 -- Starting from a signed-digit real, embedding into ℝ and back
--- gives an equivalent signed-digit real
-
--- First, for streams before quotienting
+-- gives an equivalent signed-digit real.
+--
+-- NOTE: The current implementation of ι⁻¹ uses ℝ→ℝsd-direct (via Recℝ)
+-- which maps a lim to its value at precision 1. With the trivial modulus,
+-- this collapses to the first digit approximation, losing information.
+--
+-- For a proper proof, we would need:
+-- 1. A non-trivial modulus that makes approximations converge, AND
+-- 2. A proof that stream→ℝ (rational→stream q) ≡ rat q (round-trip property)
+--
+-- For now, we postulate the round-trip properties.
 postulate
-  stream-roundtrip : ∀ (s : 𝟛ᴺ) → ℝ→stream (stream→ℝ s) ≈sd s
-
--- This extends to the quotient
-ι⁻¹∘ι : ∀ (x : ℝsd) → ι⁻¹ (ι x) ≡ x
-ι⁻¹∘ι = SQ.elimProp (λ _ → isSetℝsd _ _) go
-  where
-    go : ∀ (s : 𝟛ᴺ) → ι⁻¹ (ι SQ.[ s ]) ≡ SQ.[ s ]
-    go s = SQ.eq/ (ℝ→stream (stream→ℝ s)) s (stream-roundtrip s)
+  ι⁻¹∘ι : ∀ (x : ℝsd) → ι⁻¹ (ι x) ≡ x
 
 -- --------------------------------------------------------------------------
 -- Round-trip: ι ∘ ι⁻¹ ~ id

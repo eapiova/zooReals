@@ -29,7 +29,7 @@ open import Cubical.Data.Rationals.Fast.Order as ℚO using (ℚ₊; _ℚ₊+_; 
 open import Cubical.HITs.SetQuotients as SQ hiding ([_])
 
 open import Reals.SignedDigit.Base
-open import Reals.SignedDigit.Equivalence using (ℝsd; _≈sd_; isSetℝsd; 0sd; 1sd; -1sd; approx; inv2^; tail-bound-sym; 2^ℕ₊₁)
+open import Reals.SignedDigit.Equivalence using (ℝsd; _≈sd_; isSetℝsd; 0sd; 1sd; -1sd; approx; inv2^; tail-bound-sym; 2^ℕ₊₁; stream→ℝ; approxℚ₊; approxℚ₊-cauchy; ℚ→ℚᶠ)
 open import Reals.HoTT.Base using (ℝ; rat; lim; _∼[_]_; rat-rat-fromAbs)
 open import Cubical.HITs.CauchyReals.Closeness using (isSetℝ; refl∼)
 
@@ -70,63 +70,35 @@ default-fuel = 1000
 
 -- The approx function from Equivalence uses the regular ℚ.
 -- We need to convert to Fast ℚ for the HoTT reals.
+-- ℚ→ℚᶠ is imported from Equivalence.agda
 ℚˢ→ℚ : ℚˢ → ℚ.ℚ
-ℚˢ→ℚ = SQ.rec ℚ.isSetℚ (λ { (a , b) → ℚ.[_/_] a b }) compat
-  where
-    toFast-rel : (x y : ℤ × ℕ₊₁) → ℚᵇ._∼_ x y → ℚ._∼_ x y
-    toFast-rel (a , b) (c , d) rel =
-      sym (ℤᶠ.·≡·f a (ℚ.ℕ₊₁→ℤ d)) ∙ rel ∙ ℤᶠ.·≡·f c (ℚ.ℕ₊₁→ℤ b)
-
-    compat : (x y : ℤ × ℕ₊₁) → ℚᵇ._∼_ x y → ℚ.[_/_] (fst x) (snd x) ≡ ℚ.[_/_] (fst y) (snd y)
-    compat (a , b) (c , d) rel = ℚ.eq/ (a , b) (c , d) (toFast-rel (a , b) (c , d) rel)
+ℚˢ→ℚ = ℚ→ℚᶠ
 
 approxF : 𝟛ᴺ → ℕ → ℚ.ℚ  -- Approximation using Fast rationals
 approxF s n = ℚˢ→ℚ (approx s n)
 
--- Convert a positive rational precision to a natural number
--- (compute how many digits we need for that precision)
--- We need n such that 1/2^{n+1} ≤ ε, i.e., 2^{n+1} ≥ 1/ε
--- This means 2 · 2^n ≥ 1/ε, so 2^n ≥ 1/(2ε)
--- We find n = find-n-fuel(ε) which gives us ε · 2^n ≥ 1
-ℚ₊→ℕ : ℚ₊ → ℕ
-ℚ₊→ℕ (ε , _) = find-n-fuel default-fuel ε
-
--- Given a stream, produce approximations indexed by ℚ₊ using the modulus
-approxℚ₊ : 𝟛ᴺ → ℚ₊ → ℚ.ℚ
-approxℚ₊ s ε = approxF s (ℚ₊→ℕ ε)
+-- approxℚ₊ and ℚ₊→ℕ are imported from Equivalence.agda
 
 -- --------------------------------------------------------------------------
 -- Embedding a single stream into ℝ
 -- --------------------------------------------------------------------------
 
--- The approximation sequence is Cauchy
--- This requires showing that |approx s m - approx s n| ≤ 2^{-min(m,n)}
--- and that our modulus ℚ₊→ℕ ensures this bound is within the precision
--- In the current development we postulate this Cauchy property; a
--- constructive proof will later use the tail-bound lemmas from
--- Reals.SignedDigit.Equivalence.
-postulate
-  approxℚ₊-cauchy : (s : 𝟛ᴺ)
-    → ∀ (δ ε : ℚ₊) → rat (approxℚ₊ s δ) ∼[ δ ℚ₊+ ε ] rat (approxℚ₊ s ε)
+-- stream→ℝ and approxℚ₊-cauchy are imported from Equivalence.agda
+-- stream→ℝ s = lim (λ ε → rat (approxℚ₊ s ε)) (approxℚ₊-cauchy s)
 
--- Embed a stream into the HoTT reals using the first partial sum
--- (placeholder; see `stream→ℝ-lim` below for the `lim`-based version)
-stream→ℝ : 𝟛ᴺ → ℝ
-stream→ℝ s = rat (approxF s 0)
-
--- Alternative: embed a stream via the Cauchy limit of its ℚ₊-indexed
--- approximations. This is the intended final construction of ι; the
--- code above still uses the simpler placeholder definition for now.
+-- Alternative name for backwards compatibility
 stream→ℝ-lim : 𝟛ᴺ → ℝ
-stream→ℝ-lim s = lim (λ ε → rat (approxℚ₊ s ε)) (approxℚ₊-cauchy s)
+stream→ℝ-lim = stream→ℝ
 
 -- --------------------------------------------------------------------------
 -- The embedding respects the equivalence relation
 -- --------------------------------------------------------------------------
 
--- Two ≈sd-equivalent streams map to equal reals
+-- Two ≈sd-equivalent streams map to equal reals.
+-- With the new ≈sd definition (s ≈sd t = stream→ℝ s ≡ stream→ℝ t),
+-- this is trivially the identity.
 stream→ℝ-resp : ∀ s t → s ≈sd t → stream→ℝ s ≡ stream→ℝ t
-stream→ℝ-resp s t h = cong rat (cong ℚˢ→ℚ (h 0))
+stream→ℝ-resp s t h = h
 
 -- --------------------------------------------------------------------------
 -- ℝ is a set (required for quotient elimination)
