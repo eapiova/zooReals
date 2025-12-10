@@ -191,6 +191,119 @@ approxℚ₊ s ε = approxF s (ℚ₊→ℕ ε)
     compat : (x y : ℤ × ℕ₊₁) → ℚF._∼_ x y → go x ≡ go y
     compat (a , b) (c , d) rel = ℚB.eq/ (a , b) (c , d) (fromFast-rel (a , b) (c , d) rel)
 
+------------------------------------------------------------------------
+-- Slow/Fast ℚ bridging lemmas for ordering
+------------------------------------------------------------------------
+
+-- The key insight: both slow and fast ℚ use the same underlying representation
+-- ℤ × ℕ₊₁ and the same ordering definition (a/b < c/d iff a·d < c·b in ℤ).
+-- The only difference is that fast ℚ uses fast integer multiplication.
+-- Since slow and fast integer multiplication are propositionally equal
+-- (via ℤᶠ.·≡·f), the orderings are equivalent.
+
+-- Round-trip: ℚᶠ→ℚ (ℚ→ℚᶠ x) ≡ x
+ℚ-round-trip : (x : ℚ) → ℚᶠ→ℚ (ℚ→ℚᶠ x) ≡ x
+ℚ-round-trip = SQ.elimProp (λ _ → ℚB.isSetℚ _ _) (λ _ → refl)
+
+-- Round-trip: ℚ→ℚᶠ (ℚᶠ→ℚ x) ≡ x
+ℚᶠ-round-trip : (x : ℚᶠ) → ℚ→ℚᶠ (ℚᶠ→ℚ x) ≡ x
+ℚᶠ-round-trip = SQ.elimProp (λ _ → ℚF.isSetℚ _ _) (λ _ → refl)
+
+-- For the ordering bridging, we need to work with the fast ℤ ordering
+-- Import fast ℤ ordering
+open import Cubical.Data.Int.Fast.Order as ℤFO using () renaming (_<_ to _<ℤf_)
+
+-- The ℚ orderings are defined as:
+-- Slow: a/b < c/d iff a · ℕ₊₁→ℤ d ℤ.< c · ℕ₊₁→ℤ b (slow ℤ mult)
+-- Fast: a/b < c/d iff a ·f ℕ₊₁→ℤ d <ℤf c ·f ℕ₊₁→ℤ b (fast ℤ mult)
+--
+-- Both ℤ orderings are the same (based on ℕ), but the multiplication differs.
+-- ℤᶠ.·≡·f shows: a ℤ.· b ≡ a ℤf.· b
+--
+-- For the ordering bridging, we use the fact that both ℚ orderings compute
+-- on representatives to integer comparisons: a/b < c/d iff a·d < c·b
+-- The integer ordering ℤO._<_ is the same for both slow and fast integers
+-- (defined in terms of ℕ ordering), but the multiplication differs.
+
+-- Bridge the slow/fast ℤ orderings
+-- Both ℤ orderings are: m ≤ n = Σ[ k ∈ ℕ ] m + pos k ≡ n
+-- The difference is slow uses ℤ._ from Int.Base, fast uses from Int.Fast.Base
+-- Since +≡+f : a ℤs.+ b ≡ a ℤf.+ b, the orderings are propositionally equal.
+--
+-- For ℤ.<: m < n = suc m ≤ n = Σ[ k ∈ ℕ ] (suc m) + pos k ≡ n
+-- Slow sucℤ uses slow +, fast sucℤ uses fast +.
+
+open import Cubical.Data.Int.Fast.Properties as ℤᶠP using (+≡+f)
+open import Cubical.Data.Int.Fast.Base as ℤf using () renaming (_·_ to _·f_)
+
+-- Bridge slow ℤ≤ to fast ℤ≤
+-- slow: m ℤO.≤ n = Σ[ k ∈ ℕ ] m ℤ.+ pos k ≡ n (slow +)
+-- fast: m ℤFO.≤ n = Σ[ k ∈ ℕ ] m ℤf.+ pos k ≡ n (fast +)
+ℤ≤-slow→fast : (m n : ℤ) → m ℤO.≤ n → m ℤFO.≤ n
+ℤ≤-slow→fast m n (k , p) = k , sym (+≡+f m (pos k)) ∙ p
+
+ℤ≤-fast→slow : (m n : ℤ) → m ℤFO.≤ n → m ℤO.≤ n
+ℤ≤-fast→slow m n (k , p) = k , +≡+f m (pos k) ∙ p
+
+-- slow sucℤ is defined: sucℤ m = ... (pattern matching)
+-- But m +pos 1 = sucℤ (m +pos 0) = sucℤ m definitionally
+-- So m ℤ.+ pos 1 = m +pos 1 = sucℤ m
+-- And pos 1 ℤ.+ m = m ℤ.+ pos 1 by +Comm (slow)
+-- Then pos 1 ℤ.+ m ≡ pos 1 ℤf.+ m by +≡+f
+-- And pos 1 ℤf.+ m = ℤFO.sucℤ m by definition of ℤFO.sucℤ
+-- So: sucℤ m = m ℤ.+ pos 1 ≡ pos 1 ℤ.+ m ≡ pos 1 ℤf.+ m = ℤFO.sucℤ m
+open import Cubical.Data.Int.Properties as ℤP' using (+Comm)
+
+sucℤ-eq : (m : ℤ) → ℤ.sucℤ m ≡ ℤFO.sucℤ m
+sucℤ-eq m = ℤP'.+Comm m (pos 1) ∙ +≡+f (pos 1) m
+
+-- Bridge slow ℤ< to fast ℤ<
+-- slow: m ℤO.< n = sucℤ m ℤO.≤ n
+-- fast: m ℤFO.< n = sucℤf m ℤFO.≤ n
+ℤ<-slow→fast : (m n : ℤ) → m ℤO.< n → m ℤFO.< n
+ℤ<-slow→fast m n lt = subst (ℤFO._≤ n) (sucℤ-eq m) (ℤ≤-slow→fast (ℤ.sucℤ m) n lt)
+
+ℤ<-fast→slow : (m n : ℤ) → m ℤFO.< n → m ℤO.< n
+ℤ<-fast→slow m n lt = subst (ℤO._≤ n) (sym (sucℤ-eq m)) (ℤ≤-fast→slow (ℤFO.sucℤ m) n lt)
+
+-- Now bridge the ℚ orderings
+-- slow ℚ: [ a , b ] ℚO.< [ c , d ] = a ℤ.· ℕ₊₁→ℤ d ℤO.< c ℤ.· ℕ₊₁→ℤ b
+-- fast ℚ: [ a , b ] ℚFO.< [ c , d ] = inj (a ℤf.· ℕ₊₁→ℤ d ℤFO.< c ℤf.· ℕ₊₁→ℤ b)
+--
+-- Using ·≡·f : a ℤ.· b ≡ a ℤf.· b, we can bridge these.
+
+-- Helper: isProp for fast ℚ<
+open import Cubical.Data.Rationals.Fast.Order as ℚFO using (isProp<)
+
+ℚ→ℚᶠ-< : (x y : ℚ) → x ℚO.< y → ℚ→ℚᶠ x ℚFO.< ℚ→ℚᶠ y
+ℚ→ℚᶠ-< = SQ.elimProp2 (λ _ _ → isPropΠ (λ _ → ℚFO.isProp< _ _)) go
+  where
+    go : (ab cd : ℤ × ℕ₊₁) → SQ.[ ab ] ℚO.< SQ.[ cd ] → ℚ→ℚᶠ SQ.[ ab ] ℚFO.< ℚ→ℚᶠ SQ.[ cd ]
+    go (a , b) (c , d) lt = ℚFO.inj step
+      where
+        -- lt : a ℤ.· ℕ₊₁→ℤ d ℤO.< c ℤ.· ℕ₊₁→ℤ b (using slow ℤ mult and order)
+        -- goal : a ·f ℕ₊₁→ℤ d ℤFO.< c ·f ℕ₊₁→ℤ b (using fast ℤ mult and order)
+        step : (a ·f ℚB.ℕ₊₁→ℤ d) ℤFO.< (c ·f ℚB.ℕ₊₁→ℤ b)
+        step = subst2 ℤFO._<_ (ℤᶠ.·≡·f a (ℚB.ℕ₊₁→ℤ d)) (ℤᶠ.·≡·f c (ℚB.ℕ₊₁→ℤ b))
+               (ℤ<-slow→fast _ _ lt)
+
+ℚᶠ→ℚ-< : (x y : ℚᶠ) → x ℚFO.< y → ℚᶠ→ℚ x ℚO.< ℚᶠ→ℚ y
+ℚᶠ→ℚ-< = SQ.elimProp2 (λ x y → isPropΠ (λ _ → ℚO.isProp< (ℚᶠ→ℚ x) (ℚᶠ→ℚ y))) go
+  where
+    go : (ab cd : ℤ × ℕ₊₁) → ℚF.[ ab ] ℚFO.< ℚF.[ cd ] → ℚᶠ→ℚ ℚF.[ ab ] ℚO.< ℚᶠ→ℚ ℚF.[ cd ]
+    go (a , b) (c , d) (ℚFO.inj lt) = step
+      where
+        -- lt : a ℤf.· ℕ₊₁→ℤ d ℤFO.< c ℤf.· ℕ₊₁→ℤ b (using fast ℤ mult and order)
+        -- goal : a ℤ.· ℕ₊₁→ℤ d ℤO.< c ℤ.· ℕ₊₁→ℤ b (using slow ℤ mult and order)
+        step : a ℤ.· ℚB.ℕ₊₁→ℤ d ℤO.< c ℤ.· ℚB.ℕ₊₁→ℤ b
+        step = subst2 ℤO._<_ (sym (ℤᶠ.·≡·f a (ℚB.ℕ₊₁→ℤ d))) (sym (ℤᶠ.·≡·f c (ℚB.ℕ₊₁→ℤ b)))
+               (ℤ<-fast→slow _ _ lt)
+
+-- Corollary: x < ℚᶠ→ℚ y iff ℚ→ℚᶠ x < y
+ℚ<ℚᶠ→ℚ : (x : ℚ) (y : ℚᶠ) → x ℚO.< ℚᶠ→ℚ y → ℚ→ℚᶠ x ℚFO.< y
+ℚ<ℚᶠ→ℚ x y x<fy = subst (ℚ→ℚᶠ x ℚFO.<_) (ℚᶠ-round-trip y) (ℚ→ℚᶠ-< x (ℚᶠ→ℚ y) x<fy)
+
+
 -- The approximation sequence is Cauchy
 -- Using the tail bound: |approx s m - approx s n| ≤ 1/2^{min m n}
 -- With proper modulus: 1/2^{ℚ₊→ℕ δ} < δ and 1/2^{ℚ₊→ℕ ε} < ε
