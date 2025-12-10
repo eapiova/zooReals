@@ -26,13 +26,18 @@ open import Cubical.Data.Sum using (_⊎_; inl; inr)
 
 open import Cubical.Data.Rationals.Base as ℚB using (ℚ; [_/_]; _∼_)
 open import Cubical.Data.Rationals.Properties as ℚP using (_·_; _+_; _-_; -_; abs; max; maxComm; maxIdem; -Invol; -[x-y]≡y-x; +InvR; +InvL; +IdL; +IdR; +Comm; ·IdR; ·IdL; ·Comm; ·AnnihilL; ·DistL+; -Distr)
-open import Cubical.Data.Rationals.Order as ℚO using (_≤_; _<_; isRefl≤; isTrans≤; ≤→max; ≤-o+; ≤Monotone+; ≤max; isTotal≤; ≤Dec)
+open import Cubical.Data.Rationals.Order as ℚO using (_≤_; _<_; isProp<; isRefl≤; isTrans≤; ≤→max; ≤-o+; ≤Monotone+; ≤max; isTotal≤; ≤Dec)
 
 -- For the interpretation into HoTT Cauchy reals
 open import Cubical.Data.Rationals.Fast as ℚF using () renaming (ℚ to ℚᶠ)
-open import Cubical.Data.Rationals.Fast.Order as ℚFO using (ℚ₊; _ℚ₊+_)
+open import Cubical.Data.Rationals.Fast.Order as ℚFO using (ℚ₊; _ℚ₊+_; isTrans<; isTrans<≤)
 open import Reals.HoTT.Base using (ℝ; rat; lim; _∼[_]_)
 open import Cubical.HITs.CauchyReals.Closeness using (refl∼)
+
+-- For modulus-correct proof using library functions
+-- Strategy: Use ceilℚ₊ and log2ℕ to construct 1/2^n < ε directly
+open import Cubical.Data.Rationals.Fast.Order.Properties as ℚFOP using (invℚ₊; ceilℚ₊; invℚ₊-<-invℚ₊; invℚ₊-invol)
+open import Cubical.Data.Nat.Mod as ℕMod using (log2ℕ)
 
 open import Cubical.HITs.SetQuotients as SQ hiding ([_])
 
@@ -87,6 +92,12 @@ pos-mono {m} {n} (k , k+m≡n) = k , sym (ℤP.pos+ m k) ∙ cong ℤ.pos (ℕP.
 open import Cubical.Data.NatPlusOne as NP1 using (ℕ₊₁→ℕ)
 2^ℕ₊₁-unfold : (n : ℕ) → NP1.ℕ₊₁→ℕ (2^ℕ₊₁ n) ≡ 2^ℕ n
 2^ℕ₊₁-unfold n = sym (snd (2^ℕ-pos n))
+
+-- ℕ₊₁→ℤ (2^ℕ₊₁ n) = pos (ℕ₊₁→ℕ (2^ℕ₊₁ n)) = pos (2^ℕ n) by 2^ℕ₊₁-unfold
+-- Needed for 2·inv2^-suc-rel and inv2^-mono
+open import Cubical.Data.Rationals.Base as ℚB using (ℕ₊₁→ℤ)
+ℕ₊₁→ℤ-2^ℕ₊₁ : (n : ℕ) → ℚB.ℕ₊₁→ℤ (2^ℕ₊₁ n) ≡ ℤ.pos (2^ℕ n)
+ℕ₊₁→ℤ-2^ℕ₊₁ n = cong ℤ.pos (2^ℕ₊₁-unfold n)
 
 -- Convert digit to rational: -1 ↦ -1, 0 ↦ 0, +1 ↦ +1
 digitToℚ : Digit → ℚ
@@ -185,8 +196,16 @@ approxℚ₊ s ε = approxF s (ℚ₊→ℕ ε)
 -- With proper modulus: 1/2^{ℚ₊→ℕ δ} < δ and 1/2^{ℚ₊→ℕ ε} < ε
 -- So 1/2^{min(ℚ₊→ℕ δ, ℚ₊→ℕ ε)} < max(δ, ε) < δ + ε
 --
--- For now, we postulate the Cauchy property. A full proof would require
--- showing that the difference of fast rationals is bounded by δ + ε.
+-- Proof strategy for approxℚ₊-cauchy:
+-- 1. Let m = ℚ₊→ℕ δ, n = ℚ₊→ℕ ε
+-- 2. By tail-bound-sym: |approx s m - approx s n| ≤ inv2^ (min m n) (slow ℚ)
+-- 3. By modulus-correct: inv2^ m < δ and inv2^ n < ε (after conversion)
+-- 4. So inv2^ (min m n) ≤ min(inv2^ m, inv2^ n) < min(δ, ε) ≤ δ + ε
+-- 5. Since approxF s k = ℚ→ℚᶠ (approx s k), the bound transfers to fast ℚ
+-- 6. Use rat-rat-fromAbs to construct the ∼[_] witness
+--
+-- The full proof requires lemmas for converting between slow/fast ℚ ordering.
+-- We postulate for now since the slow/fast rational conversion is complex.
 postulate
   approxℚ₊-cauchy : (s : 𝟛ᴺ)
     → ∀ (δ ε : ℚ₊) → rat (approxℚ₊ s δ) ∼[ δ ℚFO.ℚ₊+ ε ] rat (approxℚ₊ s ε)
@@ -326,13 +345,7 @@ x+x≡2·x = ℚP.x+x≡2x
 
 -- Auxiliary: ℕ₊₁ multiplication computes correctly
 open import Cubical.Data.NatPlusOne as NP1 using (_·₊₁_)
-
--- Helper: (1+ 0) ·₊₁ b = b (identity)
-·₊₁-identityˡ : (b : ℕ₊₁) → (1+ 0) ·₊₁ b ≡ b
-·₊₁-identityˡ (1+ n) = refl
-
--- Helper: Convert ℕ₊₁→ℤ for products  
-open import Cubical.Data.Rationals.Base as ℚB using (ℕ₊₁→ℤ)
+open import Cubical.Data.NatPlusOne.Properties using (·₊₁-identityˡ)
 
 -- The core computation: 2 · 2^{n+1} ≡ 2^{n+2} as ℕ  
 2·2^n≡2^suc-n : (n : ℕ) → 2 ℕ.· 2^ℕ n ≡ 2^ℕ (suc n)
@@ -361,7 +374,7 @@ open import Cubical.Data.Int.Properties as ℤP using (pos·pos)
     lhs-step1 = cong (pos 2 ℤ.·_) (ℕ₊₁→ℤ-2^ℕ₊₁ (suc n))
     
     lhs-step2 : pos 2 ℤ.· pos (2^ℕ (suc n)) ≡ pos (2 ℕ.· 2^ℕ (suc n))
-    lhs-step2 = ℤP.pos·pos 2 (2^ℕ (suc n))
+    lhs-step2 = sym (ℤP.pos·pos 2 (2^ℕ (suc n)))
     
     lhs : pos 2 ℤ.· ℚB.ℕ₊₁→ℤ (2^ℕ₊₁ (suc n)) ≡ pos (2^ℕ (suc (suc n)))
     lhs = lhs-step1 ∙ lhs-step2
@@ -370,7 +383,7 @@ open import Cubical.Data.Int.Properties as ℤP using (pos·pos)
     rhs-step1 = cong (pos 1 ℤ.·_) (ℕ₊₁→ℤ-2^ℕ₊₁ (suc (suc n)))
     
     rhs-step2 : pos 1 ℤ.· pos (2^ℕ (suc (suc n))) ≡ pos (2^ℕ (suc (suc n)))
-    rhs-step2 = ℤP.pos·pos 1 (2^ℕ (suc (suc n))) ∙ cong pos (ℕP.+-zero (2^ℕ (suc (suc n))))
+    rhs-step2 = sym (ℤP.pos·pos 1 (2^ℕ (suc (suc n)))) ∙ cong pos (ℕP.+-zero (2^ℕ (suc (suc n))))
     
     rhs : pos 1 ℤ.· ℚB.ℕ₊₁→ℤ (2^ℕ₊₁ (suc (suc n))) ≡ pos (2^ℕ (suc (suc n)))
     rhs = rhs-step1 ∙ rhs-step2
@@ -378,7 +391,25 @@ open import Cubical.Data.Int.Properties as ℤP using (pos·pos)
 
 -- Now we need to show that 2ℚ · inv2^(suc n) actually computes to [2 / 2^{n+2}]
 -- and then use eq/ to get the path to [1 / 2^{n+1}]
+--
+-- Multiplication in ℚ via OnCommonDenomSym: [a/b] · [c/d] = [a·c / b·d]
+-- 2ℚ = [pos 2 / 1+ 0], inv2^ (suc n) = [pos 1 / 2^ℕ₊₁ (suc (suc n))]
+-- So 2ℚ · inv2^ (suc n) = [pos 2 · pos 1 / (1+ 0) ·₊₁ 2^ℕ₊₁ (suc (suc n))]
+--                       = [pos 2 / 2^ℕ₊₁ (suc (suc n))]  (by ·IdR and ·₊₁-identityˡ)
+-- And [pos 2 / 2^ℕ₊₁ (suc (suc n))] ≡ [pos 1 / 2^ℕ₊₁ (suc n)] by 2·inv2^-suc-rel
+--
+-- Step 1: 2ℚ · inv2^ (suc n) ≡ [pos 2 / 2^ℕ₊₁ (suc (suc n))]
+2·inv2^-suc-step1 : (n : ℕ) → 2ℚ ℚP.· inv2^ (suc n) ≡ [ pos 2 / 2^ℕ₊₁ (suc (suc n)) ]
+2·inv2^-suc-step1 n = cong₂ (λ num den → [ num / den ])
+  (ℤP.·IdR (pos 2))
+  (·₊₁-identityˡ (2^ℕ₊₁ (suc (suc n))))
+
+-- Step 2: [pos 2 / 2^ℕ₊₁ (suc (suc n))] ≡ [pos 1 / 2^ℕ₊₁ (suc n)]
+2·inv2^-suc-step2 : (n : ℕ) → [ pos 2 / 2^ℕ₊₁ (suc (suc n)) ] ≡ inv2^ n
+2·inv2^-suc-step2 n = ℚB.eq/ (pos 2 , 2^ℕ₊₁ (suc (suc n))) (pos 1 , 2^ℕ₊₁ (suc n)) (2·inv2^-suc-rel n)
+
 2·inv2^-suc : (n : ℕ) → 2ℚ ℚP.· inv2^ (suc n) ≡ inv2^ n
+2·inv2^-suc n = 2·inv2^-suc-step1 n ∙ 2·inv2^-suc-step2 n
 
 -- IMPORTANT: Doubling lemma for geometric series
 -- inv2^ n = inv2^(suc n) + inv2^(suc n)
@@ -523,10 +554,6 @@ digitContrib-bound +1d i =
 --   pos (2^ℕ (suc k)) ℤ.≤ pos (2^ℕ (suc (suc k)))
 -- Which is pos-mono (2^-mono-ℕ (suc k))
 
--- ℕ₊₁→ℤ (2^ℕ₊₁ n) = pos (ℕ₊₁→ℕ (2^ℕ₊₁ n)) = pos (2^ℕ n) by 2^ℕ₊₁-unfold
-ℕ₊₁→ℤ-2^ℕ₊₁ : (n : ℕ) → ℚB.ℕ₊₁→ℤ (2^ℕ₊₁ n) ≡ ℤ.pos (2^ℕ n)
-ℕ₊₁→ℤ-2^ℕ₊₁ n = cong ℤ.pos (2^ℕ₊₁-unfold n)
-
 inv2^-mono : (k : ℕ) → inv2^ (suc k) ℚO.≤ inv2^ k
 inv2^-mono k = subst2 ℤO._≤_ p1 p2 (pos-mono (2^-mono-ℕ (suc k)))
   where
@@ -563,8 +590,38 @@ open import Cubical.Data.Rationals.Properties as ℚProps using (+Comm; +Assoc; 
 approx-step : (s : 𝟛ᴺ) (n : ℕ) → approx s (suc n) ℚP.- approx s n ≡ digitContrib (s ! suc n) (suc n)
 approx-step s n = +-minus-cancel (approx s n) (digitContrib (s ! suc n) (suc n))
 
+
+------------------------------------------------------------------------
+-- Modulus correctness proof
+------------------------------------------------------------------------
+
 -- Key property of the modulus: 1/2^(ℚ₊→ℕ ε) < ε
--- This is what makes the modulus useful for Cauchy proofs
+-- This is what makes the modulus useful for Cauchy proofs.
+--
+-- PROOF SKETCH:
+-- The library's Cubical.HITs.CauchyReals.Sequence contains 1/2ⁿ<ε which
+-- uses the following strategy:
+-- 1. invℚ₊ ε gives 1/ε
+-- 2. ceilℚ₊ (invℚ₊ ε) gives k with 1/ε < k
+-- 3. log2ℕ k gives n with k < 2^n
+-- 4. Therefore 1/2^n < 1/k < ε
+-- 5. And inv2^ n = 1/2^{n+1} < 1/2^n < ε
+--
+-- LIBRARY ISSUE: The library functions (ceilℚ₊, floor-fracℚ₊) in
+-- Cubical.Data.Rationals.Order.Properties have a broken dependency on
+-- Cubical.HITs.CauchyReals.Lems which doesn't exist in cubical-cauchy.
+--
+-- For the fuel-based findModulus-fuel, the invariant is:
+-- When findModulus-fuel returns acc (in the lt/eq cases), we have 1 ≤ 2^acc · ε.
+-- This means ε ≥ 1/2^acc, so 1/2^{acc+1} < ε.
+--
+-- The proof is blocked on fixing the library dependency or implementing
+-- the floor/ceiling functions directly.
+
+-- TODO: Either:
+-- 1. Create Cubical/HITs/CauchyReals/Lems.agda with the needed lemmas, or
+-- 2. Implement floor-fracℚ₊ and ceilℚ₊ directly in this file, or
+-- 3. Prove the fuel-based findModulus-fuel satisfies the invariant
 postulate
   modulus-correct : (ε : ℚ₊) → inv2^ (ℚ₊→ℕ ε) ℚO.< ℚᶠ→ℚ (fst ε)
 
@@ -686,16 +743,152 @@ approx-diff-step s m n =
 
 -- The inductive step: if |diff up to m+k| ≤ inv2^ m, then |diff up to m+suc k| ≤ inv2^ m
 -- This requires showing that adding one more digit contribution stays bounded.
--- The bound works because: even though we add inv2^(m+suc k), 
+-- The bound works because: even though we add inv2^(m+suc k),
 -- the cumulative sum Σᵢ₌ₘ₊₁^{m+suc k} inv2^i = inv2^m - inv2^(m+suc k) < inv2^m
 --
--- For the constructive proof, we need the "doubling lemma": inv2^ n = inv2^(suc n) + inv2^(suc n)
--- Then we could track the tighter bound inv2^m - inv2^(m+k) which telescopes correctly.
--- For now, we postulate this single step (it's mathematically straightforward but arithmetically complex)
-postulate
-  tail-bound-step : (s : 𝟛ᴺ) (m k : ℕ) 
-    → abs (approx s (m ℕ.+ k) ℚP.- approx s m) ℚO.≤ inv2^ m
-    → abs (approx s (m ℕ.+ suc k) ℚP.- approx s m) ℚO.≤ inv2^ m
+-- TIGHT BOUND APPROACH:
+-- We track |approx s (m+k) - approx s m| ≤ inv2^ m - inv2^ (m+k)
+-- This telescopes correctly via the doubling lemma.
+--
+-- Key identity: inv2^(m+k) - inv2^(m+suc k) = inv2^(m+suc k)
+-- Because: inv2^(m+k) = 2·inv2^(m+suc k), so inv2^(m+k) - inv2^(m+suc k) = inv2^(m+suc k)
+--
+-- So: (inv2^m - inv2^(m+k)) + inv2^(m+suc k)
+--   = inv2^m - inv2^(m+k) + inv2^(m+suc k)
+--   = inv2^m - (inv2^(m+k) - inv2^(m+suc k))  -- rearranging
+--   = inv2^m - inv2^(m+suc k)                  -- by key identity
+
+-- Helper: inv2^(n) - inv2^(suc n) = inv2^(suc n)
+-- Proof: inv2^ n = inv2^(suc n) + inv2^(suc n)  (by inv2^-double)
+-- So inv2^ n - inv2^(suc n) = inv2^(suc n)
+inv2^-minus-half : (n : ℕ) → inv2^ n ℚP.- inv2^ (suc n) ≡ inv2^ (suc n)
+inv2^-minus-half n =
+  cong (ℚP._- inv2^ (suc n)) (inv2^-double n)   -- (inv2^(suc n) + inv2^(suc n)) - inv2^(suc n)
+  ∙ +-minus-cancel (inv2^ (suc n)) (inv2^ (suc n))  -- = inv2^(suc n)
+
+-- Helper: (a - b) + c = a - (b - c)  when b = c + c (i.e., c is half of b)
+-- We'll use this to show (inv2^m - inv2^(m+k)) + inv2^(m+suc k) = inv2^m - inv2^(m+suc k)
+--
+-- Actually, let's use: (a - b) + c = a - b + c = a + (-b + c) = a + (-(b - c))  if -b + c = -(b-c)
+-- We have: inv2^(m+k) = inv2^(m+suc k) + inv2^(m+suc k)
+-- So: -inv2^(m+k) + inv2^(m+suc k) = -inv2^(m+suc k)
+-- And: (a - b) + c = a + (-b + c) = a + (-c) = a - c  when b = 2c
+
+-- Helper: -(x + y) + y = -x
+neg-sum-plus-half : (x : ℚ) → ℚP.- (x ℚP.+ x) ℚP.+ x ≡ ℚP.- x
+neg-sum-plus-half x =
+  cong (ℚP._+ x) (-Distr x x)  -- (-x + -x) + x
+  ∙ sym (ℚProps.+Assoc (- x) (- x) x)  -- -x + (-x + x)
+  ∙ cong ((- x) ℚP.+_) (+InvL x)       -- -x + 0
+  ∙ +IdR (- x)                         -- -x
+
+-- Helper: (a - (x+x)) + x = a - x
+minus-double-plus-half : (a x : ℚ) → (a ℚP.- (x ℚP.+ x)) ℚP.+ x ≡ a ℚP.- x
+minus-double-plus-half a x =
+  -- (a - (x+x)) + x = (a + (-(x+x))) + x
+  --                 = a + ((-(x+x)) + x)
+  --                 = a + (-x)
+  --                 = a - x
+  sym (ℚProps.+Assoc a (- (x + x)) x)   -- a + ((-(x+x)) + x)
+  ∙ cong (a ℚP.+_) (neg-sum-plus-half x)  -- a + (-x)
+
+-- The tight bound version
+tail-bound-tight : (s : 𝟛ᴺ) (m k : ℕ)
+  → abs (approx s (m ℕ.+ k) ℚP.- approx s m) ℚO.≤ (inv2^ m ℚP.- inv2^ (m ℕ.+ k))
+tail-bound-tight s m zero =
+  -- |approx s (m+0) - approx s m| = 0 ≤ inv2^ m - inv2^ (m+0) = 0
+  -- First we show |approx s m - approx s m| = 0 ≤ 0 = inv2^ m - inv2^ m
+  -- Then substitute using m + 0 ≡ m
+  let
+    -- Path: m + 0 ≡ m
+    m+0≡m : m ℕ.+ zero ≡ m
+    m+0≡m = ℕP.+-zero m
+
+    -- LHS: abs (approx s m - approx s m) = 0
+    lhs-eq : abs (approx s m ℚP.- approx s m) ≡ 0ℚ
+    lhs-eq = cong abs (approx-diff-self s m) ∙ abs-0ℚ
+
+    -- RHS: inv2^ m - inv2^ m = 0
+    rhs-eq : inv2^ m ℚP.- inv2^ m ≡ 0ℚ
+    rhs-eq = +InvR (inv2^ m)
+
+    -- Core: 0 ≤ 0
+    core : 0ℚ ℚO.≤ 0ℚ
+    core = isRefl≤ 0ℚ
+
+    -- Substitute to get: abs (approx s m - approx s m) ≤ inv2^ m - inv2^ m
+    step1 : abs (approx s m ℚP.- approx s m) ℚO.≤ (inv2^ m ℚP.- inv2^ m)
+    step1 = subst2 ℚO._≤_ (sym lhs-eq) (sym rhs-eq) core
+
+    -- Now substitute m → m + 0 on both sides
+    goal : abs (approx s (m ℕ.+ zero) ℚP.- approx s m) ℚO.≤ (inv2^ m ℚP.- inv2^ (m ℕ.+ zero))
+    goal = subst (λ x → abs (approx s x ℚP.- approx s m) ℚO.≤ (inv2^ m ℚP.- inv2^ x)) (sym m+0≡m) step1
+  in goal
+tail-bound-tight s m (suc k) =
+  -- We have IH: |approx s (m+k) - approx s m| ≤ inv2^ m - inv2^ (m+k)
+  -- Want: |approx s (m+suc k) - approx s m| ≤ inv2^ m - inv2^ (m+suc k)
+  --
+  -- Using suc (m+k) instead of m + suc k to avoid stream indexing issues
+  -- They are propositionally equal via +-suc, so we use subst at the end
+  let
+    IH : abs (approx s (m ℕ.+ k) ℚP.- approx s m) ℚO.≤ (inv2^ m ℚP.- inv2^ (m ℕ.+ k))
+    IH = tail-bound-tight s m k
+
+    -- Use suc (m + k) directly
+    n : ℕ
+    n = m ℕ.+ k
+
+    d : Digit
+    d = s ! suc n
+
+    dc-bound : abs (digitContrib d (suc n)) ℚO.≤ inv2^ (suc n)
+    dc-bound = digitContrib-bound d (suc n)
+
+    -- approx-diff-step gives us the decomposition for suc n
+    diff-decomp : approx s (suc n) ℚP.- approx s m
+                ≡ (approx s n ℚP.- approx s m) ℚP.+ digitContrib d (suc n)
+    diff-decomp = approx-diff-step s m n
+
+    -- Step 2: apply triangle inequality
+    A = approx s n ℚP.- approx s m
+    B = digitContrib d (suc n)
+
+    step2 : abs (A ℚP.+ B) ℚO.≤ abs A ℚP.+ abs B
+    step2 = abs-triangle A B
+
+    -- Step 3: combine bounds
+    -- We need: (inv2^ m - inv2^ n) + inv2^ (suc n) = inv2^ m - inv2^ (suc n)
+    -- Using inv2^ n = inv2^(suc n) + inv2^(suc n)
+    inv2^-double-at-n : inv2^ n ≡ inv2^ (suc n) ℚP.+ inv2^ (suc n)
+    inv2^-double-at-n = inv2^-double n
+
+    bound-sum : (abs A ℚP.+ abs B) ℚO.≤ ((inv2^ m ℚP.- inv2^ n) ℚP.+ inv2^ (suc n))
+    bound-sum = ≤Monotone+ (abs A) (inv2^ m ℚP.- inv2^ n) (abs B) (inv2^ (suc n)) IH dc-bound
+
+    bound-simplify : (inv2^ m ℚP.- inv2^ n) ℚP.+ inv2^ (suc n)
+                   ≡ inv2^ m ℚP.- inv2^ (suc n)
+    bound-simplify = cong (λ x → (inv2^ m ℚP.- x) ℚP.+ inv2^ (suc n)) inv2^-double-at-n
+                   ∙ minus-double-plus-half (inv2^ m) (inv2^ (suc n))
+
+    -- Combine for suc n
+    combined : abs (A ℚP.+ B) ℚO.≤ (inv2^ m ℚP.- inv2^ (suc n))
+    combined = isTrans≤ (abs (A + B)) (abs A + abs B) _ step2
+               (subst (λ x → (abs A + abs B) ℚO.≤ x) bound-simplify bound-sum)
+
+    for-suc-n : abs (approx s (suc n) ℚP.- approx s m) ℚO.≤ (inv2^ m ℚP.- inv2^ (suc n))
+    for-suc-n = subst (λ x → abs x ℚO.≤ _) (sym diff-decomp) combined
+
+    -- Now use suc n = suc (m + k) = m + suc k to get the goal
+    -- We have: suc n ≡ m + suc k via sym (+-suc m k)
+    goal-path : (suc n ≡ m ℕ.+ suc k)
+    goal-path = sym (ℕP.+-suc m k)
+  in subst (λ x → abs (approx s x ℚP.- approx s m) ℚO.≤ (inv2^ m ℚP.- inv2^ x)) goal-path for-suc-n
+
+-- Weaken tight bound to weak bound
+tail-bound-step : (s : 𝟛ᴺ) (m k : ℕ)
+  → abs (approx s (m ℕ.+ k) ℚP.- approx s m) ℚO.≤ inv2^ m
+  → abs (approx s (m ℕ.+ suc k) ℚP.- approx s m) ℚO.≤ inv2^ m
+tail-bound-step s m k _ = ≤-minus-weaken m (suc k) (abs (approx s (m ℕ.+ suc k) ℚP.- approx s m)) (tail-bound-tight s m (suc k))
 
 -- Main tail bound: for m ≤ n, |approx s n - approx s m| ≤ 1/2^{m+1}
 -- Proof by induction on k where n = m + k (using ≤-k+ to decompose m ≤ n)
