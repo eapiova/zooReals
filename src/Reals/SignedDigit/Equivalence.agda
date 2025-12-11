@@ -33,6 +33,38 @@ open import Cubical.Data.Rationals.Fast as ℚ using (ℚ; [_/_]; isSetℚ; eq/;
 open import Cubical.Data.Rationals.Fast.Properties as ℚP using (_·_; _+_; _-_; -_; abs; max; +IdL; +IdR; ·IdL; ·IdR; +Comm; ·Comm)
 open import Cubical.Data.Rationals.Fast.Order as ℚO using (_≤_; _<_; isProp<; isRefl≤; isTrans≤; isTrans<; isTrans<≤; ℚ₊; _ℚ₊+_; ≤Dec)
 
+-- Aliases for fast rational types/modules (for backwards compatibility)
+-- Since we use fast ℚ exclusively, these are identity mappings
+ℚᶠ : Set
+ℚᶠ = ℚ
+
+-- Alias modules for compatibility with code using ℚFO/ℚFOP naming
+open import Cubical.Data.Rationals.Fast.Order as ℚFO using (0<_; <→0<; inj)
+open import Cubical.Data.Rationals.Fast.Order.Properties as ℚFOP using (0<sucN)
+
+-- Fast integer modules for ordering proofs
+-- Note: Cubical.Data.Int.Fast has different _·_ from Cubical.Data.Int
+open import Cubical.Data.Int.Fast as ℤf using () renaming (_·_ to _·ℤf_; _+_ to _+ℤf_)
+open import Cubical.Data.Int.Order as ℤFO using () renaming (_<_ to _<ℤf_; 0<→ℕ₊₁ to 0<→ℕ₊₁ᶠ)
+open import Cubical.Data.Int.Properties as ℤᶠP using () renaming (·IdL to ·IdLᶠ; ·IdR to ·IdRᶠ)
+
+-- Identity conversions (fast ℚ = ℚ)
+ℚ→ℚᶠ : ℚ → ℚᶠ
+ℚ→ℚᶠ q = q
+
+ℚᶠ→ℚ : ℚᶠ → ℚ
+ℚᶠ→ℚ q = q
+
+-- Bridge lemmas: ordering conversions are identity since same type
+ℚ→ℚᶠ-< : (p q : ℚ) → p ℚO.< q → ℚ→ℚᶠ p ℚO.< ℚ→ℚᶠ q
+ℚ→ℚᶠ-< p q pf = pf
+
+ℚᶠ→ℚ-< : (p q : ℚᶠ) → p ℚO.< q → ℚᶠ→ℚ p ℚO.< ℚᶠ→ℚ q  
+ℚᶠ→ℚ-< p q pf = pf
+
+ℚ<ℚᶠ→ℚ : (p q : ℚ) → p ℚO.< q → ℚ→ℚᶠ p ℚO.< q
+ℚ<ℚᶠ→ℚ p q pf = pf
+
 open import Reals.HoTT.Base using (ℝ; rat; lim; _∼[_]_; rat-rat-fromAbs)
 open import Cubical.HITs.CauchyReals.Closeness using (refl∼)
 
@@ -103,8 +135,8 @@ open import Cubical.Data.NatPlusOne as NP1 using (ℕ₊₁→ℕ)
 
 -- ℕ₊₁→ℤ (2^ℕ₊₁ n) = pos (ℕ₊₁→ℕ (2^ℕ₊₁ n)) = pos (2^ℕ n) by 2^ℕ₊₁-unfold
 -- Needed for 2·inv2^-suc-rel and inv2^-mono
-open import Cubical.Data.Rationals.Base as ℚB using (ℕ₊₁→ℤ)
-ℕ₊₁→ℤ-2^ℕ₊₁ : (n : ℕ) → ℚB.ℕ₊₁→ℤ (2^ℕ₊₁ n) ≡ ℤ.pos (2^ℕ n)
+open import Cubical.Data.Rationals.Base as ℚB using ()
+ℕ₊₁→ℤ-2^ℕ₊₁ : (n : ℕ) → ℚ.ℕ₊₁→ℤ (2^ℕ₊₁ n) ≡ ℤ.pos (2^ℕ n)
 ℕ₊₁→ℤ-2^ℕ₊₁ n = cong ℤ.pos (2^ℕ₊₁-unfold n)
 
 -- Convert digit to rational (Fast ℚ): -1 ↦ -1, 0 ↦ 0, +1 ↦ +1
@@ -217,7 +249,7 @@ min-mod δ ε = min (ℚ₊→ℕ δ) (ℚ₊→ℕ ε)
 -- tail-bound-sym and modulus-correct are defined before stream→ℝ.
 postulate
   approxℚ₊-cauchy : (s : 𝟛ᴺ)
-    → ∀ (δ ε : ℚ₊) → rat (approxℚ₊ s δ) ∼[ δ ℚFO.ℚ₊+ ε ] rat (approxℚ₊ s ε)
+    → ∀ (δ ε : ℚ₊) → rat (approxℚ₊ s δ) ∼[ δ ℚO.ℚ₊+ ε ] rat (approxℚ₊ s ε)
 
 -- Interpret a stream as a Cauchy real via the limit of approximations
 stream→ℝ : 𝟛ᴺ → ℝ
@@ -373,28 +405,46 @@ denom-prod-lem n = cong NP1.ℕ₊₁→ℕ (·₊₁-identityˡ (2^ℕ₊₁ (s
 
 open import Cubical.Data.Int.Properties as ℤP using (pos·pos)
 
-2·inv2^-suc-rel : (n : ℕ) → ℚB._∼_ (pos 2 , 2^ℕ₊₁ (suc (suc n))) (pos 1 , 2^ℕ₊₁ (suc n))
+-- Import fast integer module for ·≡·f bridge between standard and fast multiplication
+open import Cubical.Data.Int.Fast.Properties as ℤfP using (·≡·f)
+
+2·inv2^-suc-rel : (n : ℕ) → ℚ._∼_ (pos 2 , 2^ℕ₊₁ (suc (suc n))) (pos 1 , 2^ℕ₊₁ (suc n))
 2·inv2^-suc-rel n = 
-  -- Need: pos 2 · ℕ₊₁→ℤ (2^ℕ₊₁ (suc n)) ≡ pos 1 · ℕ₊₁→ℤ (2^ℕ₊₁ (suc (suc n)))
-  -- LHS = pos 2 · pos (2^ℕ (suc n)) = pos (2 · 2^ℕ (suc n)) = pos (2^ℕ (suc (suc n)))
-  -- RHS = pos 1 · pos (2^ℕ (suc (suc n))) = pos (2^ℕ (suc (suc n)))
+  -- Need: pos 2 ·ℤf ℕ₊₁→ℤ (2^ℕ₊₁ (suc n)) ≡ pos 1 ·ℤf ℕ₊₁→ℤ (2^ℕ₊₁ (suc (suc n)))
+  -- where ·ℤf is Fast integer multiplication from Cubical.Data.Int.Fast
+  -- Fast: pos n ·ℤf pos m = pos (n ℕ.· m)
+  -- So LHS = pos (2 ℕ.· 2^ℕ (suc n)) and RHS = pos (1 ℕ.· 2^ℕ (suc (suc n)))
+  -- Need: 2 ℕ.· 2^ℕ (suc n) ≡ 1 ℕ.· 2^ℕ (suc (suc n))
+  -- LHS = 2^ℕ (suc n) + 2^ℕ (suc n) = 2^ℕ (suc (suc n))  [by 2·x≡x+x and 2^ℕ def]
+  -- RHS = 2^ℕ (suc (suc n)) + 0 = 2^ℕ (suc (suc n))      [by 1·n = n + 0]
   let
-    lhs-step1 : pos 2 ℤ.· ℚB.ℕ₊₁→ℤ (2^ℕ₊₁ (suc n)) ≡ pos 2 ℤ.· pos (2^ℕ (suc n))
-    lhs-step1 = cong (pos 2 ℤ.·_) (ℕ₊₁→ℤ-2^ℕ₊₁ (suc n))
+    -- LHS chain
+    lhs-step1 : (pos 2 ·ℤf ℚ.ℕ₊₁→ℤ (2^ℕ₊₁ (suc n))) ≡ (pos 2 ·ℤf pos (2^ℕ (suc n)))
+    lhs-step1 = cong (pos 2 ·ℤf_) (ℕ₊₁→ℤ-2^ℕ₊₁ (suc n))
     
-    lhs-step2 : pos 2 ℤ.· pos (2^ℕ (suc n)) ≡ pos (2 ℕ.· 2^ℕ (suc n))
-    lhs-step2 = sym (ℤP.pos·pos 2 (2^ℕ (suc n)))
+    -- pos 2 ·ℤf pos m = pos (2 ℕ.· m) definitionally for fast ints
+    -- And 2^ℕ (suc (suc n)) = 2 ℕ.· 2^ℕ (suc n) by definition
+    -- So pos 2 ·ℤf pos (2^ℕ (suc n)) ≡ pos (2^ℕ (suc (suc n))) should be refl
+    -- But Agda normalizes differently, so we need to prove it via 2·x≡x+x
+    lhs-step2-helper : 2 ℕ.· 2^ℕ (suc n) ≡ 2^ℕ (suc (suc n))
+    lhs-step2-helper = refl
     
-    lhs : pos 2 ℤ.· ℚB.ℕ₊₁→ℤ (2^ℕ₊₁ (suc n)) ≡ pos (2^ℕ (suc (suc n)))
+    lhs-step2 : (pos 2 ·ℤf pos (2^ℕ (suc n))) ≡ pos (2^ℕ (suc (suc n)))
+    lhs-step2 = cong pos lhs-step2-helper
+    
+    lhs : (pos 2 ·ℤf ℚ.ℕ₊₁→ℤ (2^ℕ₊₁ (suc n))) ≡ pos (2^ℕ (suc (suc n)))
     lhs = lhs-step1 ∙ lhs-step2
     
-    rhs-step1 : pos 1 ℤ.· ℚB.ℕ₊₁→ℤ (2^ℕ₊₁ (suc (suc n))) ≡ pos 1 ℤ.· pos (2^ℕ (suc (suc n)))
-    rhs-step1 = cong (pos 1 ℤ.·_) (ℕ₊₁→ℤ-2^ℕ₊₁ (suc (suc n)))
+    -- RHS chain  
+    rhs-step1 : (pos 1 ·ℤf ℚ.ℕ₊₁→ℤ (2^ℕ₊₁ (suc (suc n)))) ≡ (pos 1 ·ℤf pos (2^ℕ (suc (suc n))))
+    rhs-step1 = cong (pos 1 ·ℤf_) (ℕ₊₁→ℤ-2^ℕ₊₁ (suc (suc n)))
     
-    rhs-step2 : pos 1 ℤ.· pos (2^ℕ (suc (suc n))) ≡ pos (2^ℕ (suc (suc n)))
-    rhs-step2 = sym (ℤP.pos·pos 1 (2^ℕ (suc (suc n)))) ∙ cong pos (ℕP.+-zero (2^ℕ (suc (suc n))))
+    -- pos 1 ·ℤf pos m = pos (1 ℕ.· m) = pos (m + 0) definitionally
+    -- And m + 0 ≡ m by +-zero
+    rhs-step2 : (pos 1 ·ℤf pos (2^ℕ (suc (suc n)))) ≡ pos (2^ℕ (suc (suc n)))
+    rhs-step2 = cong pos (ℕP.+-zero (2^ℕ (suc (suc n))))
     
-    rhs : pos 1 ℤ.· ℚB.ℕ₊₁→ℤ (2^ℕ₊₁ (suc (suc n))) ≡ pos (2^ℕ (suc (suc n)))
+    rhs : (pos 1 ·ℤf ℚ.ℕ₊₁→ℤ (2^ℕ₊₁ (suc (suc n)))) ≡ pos (2^ℕ (suc (suc n)))
     rhs = rhs-step1 ∙ rhs-step2
   in lhs ∙ sym rhs
 
@@ -415,7 +465,7 @@ open import Cubical.Data.Int.Properties as ℤP using (pos·pos)
 
 -- Step 2: [pos 2 / 2^ℕ₊₁ (suc (suc n))] ≡ [pos 1 / 2^ℕ₊₁ (suc n)]
 2·inv2^-suc-step2 : (n : ℕ) → [ pos 2 / 2^ℕ₊₁ (suc (suc n)) ] ≡ inv2^ n
-2·inv2^-suc-step2 n = ℚB.eq/ (pos 2 , 2^ℕ₊₁ (suc (suc n))) (pos 1 , 2^ℕ₊₁ (suc n)) (2·inv2^-suc-rel n)
+2·inv2^-suc-step2 n = eq/ (pos 2 , 2^ℕ₊₁ (suc (suc n))) (pos 1 , 2^ℕ₊₁ (suc n)) (2·inv2^-suc-rel n)
 
 2·inv2^-suc : (n : ℕ) → 2ℚ ℚP.· inv2^ (suc n) ≡ inv2^ n
 2·inv2^-suc n = 2·inv2^-suc-step1 n ∙ 2·inv2^-suc-step2 n
@@ -438,7 +488,7 @@ abs-neg1 = refl  -- max(-1, 1) computes to 1
 -- abs(0) = max(0, -0) = max(0, 0) = 0
 -- We use maxIdem : max x x ≡ x
 abs-zero : abs 0ℚ ≡ 0ℚ
-abs-zero = maxIdem 0ℚ
+abs-zero = ℚP.maxIdem 0ℚ
 
 -- abs(1) = max(1, -1) = 1
 abs-one : abs 1ℚ ≡ 1ℚ
@@ -461,7 +511,7 @@ digitToℚ-bound +1d = subst (ℚO._≤ 1ℚ) (sym abs-one) (isRefl≤ 1ℚ)   -
 
 -- Helper: 0 · x = 0 (using ·AnnihilL from the library)
 ·ZeroL : (x : ℚ) → 0ℚ · x ≡ 0ℚ
-·ZeroL = ·AnnihilL
+·ZeroL = ℚP.·AnnihilL
 
 -- Helper: 1 · x = x (using ·IdL from the library)
 ·OneL : (x : ℚ) → 1ℚ · x ≡ x
@@ -479,11 +529,11 @@ digitToℚ-bound +1d = subst (ℚO._≤ 1ℚ) (sym abs-one) (isRefl≤ 1ℚ)   -
 
 -- Helper: abs 0 = 0
 abs-0ℚ : abs 0ℚ ≡ 0ℚ
-abs-0ℚ = maxIdem 0ℚ
+abs-0ℚ = ℚP.maxIdem 0ℚ
 
 -- Helper: abs (-x) = abs x
 abs-neg : (x : ℚ) → abs (- x) ≡ abs x
-abs-neg x = cong (max (- x)) (-Invol x) ∙ maxComm (- x) x
+abs-neg x = cong (max (- x)) (ℚP.-Invol x) ∙ ℚP.maxComm (- x) x
 
 -- Helper: for positive x, abs x = x
 -- We need this for inv2^ which is always positive
@@ -498,11 +548,11 @@ abs-neg x = cong (max (- x)) (-Invol x) ∙ maxComm (- x) x
 0≤x→-x≤0' x 0≤x = subst2 ℚO._≤_ p1 p2 step
   where
     step : ((- x) + 0ℚ) ℚO.≤ ((- x) + x)
-    step = ≤-o+ 0ℚ x (- x) 0≤x
+    step = ℚO.≤-o+ 0ℚ x (- x) 0≤x
     p1 : (- x) + 0ℚ ≡ - x
-    p1 = +IdR (- x)
+    p1 = ℚP.+IdR (- x)
     p2 : (- x) + x ≡ 0ℚ
-    p2 = +InvL x
+    p2 = ℚP.+InvL x
 
 -- Helper: 0 ≤ x implies -x ≤ x (by transitivity through 0)
 0≤x→-x≤x : (x : ℚ) → 0ℚ ℚO.≤ x → (- x) ℚO.≤ x
@@ -513,8 +563,8 @@ abs-neg x = cong (max (- x)) (-Invol x) ∙ maxComm (- x) x
 -- Using ≤→max: if -x ≤ x then max (-x) x = x
 abs-pos-inv2^ : (i : ℕ) → abs (inv2^ i) ≡ inv2^ i
 abs-pos-inv2^ i = 
-  maxComm (inv2^ i) (- inv2^ i) ∙ 
-  ≤→max (- inv2^ i) (inv2^ i) (0≤x→-x≤x (inv2^ i) (0≤inv2^ i))
+  ℚP.maxComm (inv2^ i) (- inv2^ i) ∙ 
+  ℚO.≤→max (- inv2^ i) (inv2^ i) (0≤x→-x≤x (inv2^ i) (0≤inv2^ i))
 
 digitContrib-bound : (d : Digit) (i : ℕ) → abs (digitContrib d i) ℚO.≤ inv2^ i
 digitContrib-bound -1d i = 
@@ -621,7 +671,7 @@ approx-step s n = +-minus-cancel (approx s n) (digitContrib (s ! suc n) (suc n))
 -- inv2^ᶠ: Alias for inv2^ typed as ℚᶠ (definitionally equal since both use fast ℚ)
 -- This is used in modulus-correct proof for type compatibility with ℚᶠ operations.
 inv2^ᶠ : ℕ → ℚᶠ
-inv2^ᶠ n = ℚF.[_/_] (pos 1) (2^ℕ₊₁ (suc n))
+inv2^ᶠ n = [ pos 1 / 2^ℕ₊₁ (suc n) ]
 
 -- Since both ℚ and ℚᶠ are fast rationals, ℚ→ℚᶠ is identity
 inv2^-slow→fast : (n : ℕ) → ℚ→ℚᶠ (inv2^ n) ≡ inv2^ᶠ n
@@ -750,13 +800,13 @@ invℚ₊-fromNat-eq n = ℚF.eq/ _ _ rel
     
     -- Bind the 0<→ℕ₊₁ result once to share between d1 and d1-eq
     -- 0<→ℕ₊₁ x p : Σ ℕ₊₁ (λ m → x ≡ pos (ℕ₊₁→ℕ m)) i.e., x ≡ ℕ₊₁→ℤ m
-    d1-result : Σ[ k ∈ ℕ₊₁ ] pos (2^ℕ (suc n)) ≡ ℕ₊₁→ℤ k
+    d1-result : Σ[ k ∈ ℕ₊₁ ] pos (2^ℕ (suc n)) ≡ ℚ.ℕ₊₁→ℤ k
     d1-result = ℤFO.0<→ℕ₊₁ (pos (2^ℕ (suc n))) (0<fromNat-2^ℕ n)
     
     d1 : ℕ₊₁
     d1 = fst d1-result
     
-    d1-eq : ℕ₊₁→ℤ d1 ≡ pos (2^ℕ (suc n))
+    d1-eq : ℚ.ℕ₊₁→ℤ d1 ≡ pos (2^ℕ (suc n))
     d1-eq = sym (snd d1-result)
     
     d2 : ℕ₊₁
@@ -768,16 +818,16 @@ invℚ₊-fromNat-eq n = ℚF.eq/ _ _ rel
     right-pair : ℤ × ℕ₊₁  
     right-pair = (pos 1 , d2)
     
-    d2-eq : ℕ₊₁→ℤ d2 ≡ pos (2^ℕ (suc n))
+    d2-eq : ℚ.ℕ₊₁→ℤ d2 ≡ pos (2^ℕ (suc n))
     d2-eq = ℕ₊₁→ℤ-2^ℕ₊₁ (suc n)
     
-    denom-eq : ℕ₊₁→ℤ d2 ≡ ℕ₊₁→ℤ d1
+    denom-eq : ℚ.ℕ₊₁→ℤ d2 ≡ ℚ.ℕ₊₁→ℤ d1
     denom-eq = d2-eq ∙ sym d1-eq
     
     -- The ∼ relation: pos 1 ·f ℕ₊₁→ℤ d2 ≡ pos 1 ·f ℕ₊₁→ℤ d1
     -- Simplify using ·IdL: 1 ·f x ≡ x
     rel : ℚF._∼_ left-pair right-pair
-    rel = ℤᶠP.·IdL (ℕ₊₁→ℤ d2) ∙ denom-eq ∙ sym (ℤᶠP.·IdL (ℕ₊₁→ℤ d1))
+    rel = ℤᶠP.·IdL (ℚ.ℕ₊₁→ℤ d2) ∙ denom-eq ∙ sym (ℤᶠP.·IdL (ℚ.ℕ₊₁→ℤ d1))
 
 -- Key inequality: inv2^ᶠ (suc n) < inv2^ᶠ n (decreasing)
 -- Direct proof: 2^{n+1} < 2^{n+2} in ℕ, so 1/2^{n+2} < 1/2^{n+1} in ℚ
@@ -799,15 +849,15 @@ inv2^ᶠ-mono n = ℚFO.inj ℤ<-proof
     ℕ<-proof = 2^-mono-strict (suc n)
     
     -- Convert to ℤFO._<_
-    ℤ<-proof : (pos 1 ℤf.· ℕ₊₁→ℤ denom2) ℤFO.< (pos 1 ℤf.· ℕ₊₁→ℤ denom1)
+    ℤ<-proof : (pos 1 ℤf.· ℚ.ℕ₊₁→ℤ denom2) ℤFO.< (pos 1 ℤf.· ℚ.ℕ₊₁→ℤ denom1)
     ℤ<-proof = subst2 ℤFO._<_ eq1 eq2 ℤ<-core
       where
         -- pos 1 · x ≡ x, and ℕ₊₁→ℤ (2^ℕ₊₁ (suc n)) ≡ pos (2^ℕ (suc n))
-        eq1 : ℤ.pos (2^ℕ (suc n)) ≡ pos 1 ℤf.· ℕ₊₁→ℤ denom2
-        eq1 = sym (ℕ₊₁→ℤ-2^ℕ₊₁ (suc n)) ∙ sym (ℤᶠP.·IdL (ℕ₊₁→ℤ denom2))
+        eq1 : ℤ.pos (2^ℕ (suc n)) ≡ pos 1 ℤf.· ℚ.ℕ₊₁→ℤ denom2
+        eq1 = sym (ℕ₊₁→ℤ-2^ℕ₊₁ (suc n)) ∙ sym (ℤᶠP.·IdL (ℚ.ℕ₊₁→ℤ denom2))
         
-        eq2 : ℤ.pos (2^ℕ (suc (suc n))) ≡ pos 1 ℤf.· ℕ₊₁→ℤ denom1
-        eq2 = sym (ℕ₊₁→ℤ-2^ℕ₊₁ (suc (suc n))) ∙ sym (ℤᶠP.·IdL (ℕ₊₁→ℤ denom1))
+        eq2 : ℤ.pos (2^ℕ (suc (suc n))) ≡ pos 1 ℤf.· ℚ.ℕ₊₁→ℤ denom1
+        eq2 = sym (ℕ₊₁→ℤ-2^ℕ₊₁ (suc (suc n))) ∙ sym (ℤᶠP.·IdL (ℚ.ℕ₊₁→ℤ denom1))
         
         -- Core: pos (2^(suc n)) < pos (2^(suc(suc n))) in fast ℤ
         ℤ<-core : ℤ.pos (2^ℕ (suc n)) ℤFO.< ℤ.pos (2^ℕ (suc (suc n)))
@@ -1016,11 +1066,11 @@ modulus-correct ε = ℚᶠ→ℚ-< (inv2^ᶠ (ℚ₊→ℕ ε)) (fst ε)
 
 -- Helper: x ≤ abs x
 x≤abs-x : (x : ℚ) → x ℚO.≤ abs x
-x≤abs-x x = ≤max x (- x)
+x≤abs-x x = ℚO.≤max x (- x)
 
 -- Helper: -x ≤ abs x  
 neg-x≤abs-x : (x : ℚ) → (- x) ℚO.≤ abs x
-neg-x≤abs-x x = subst ((- x) ℚO.≤_) (sym (maxComm x (- x))) (≤max (- x) x)
+neg-x≤abs-x x = subst ((- x) ℚO.≤_) (sym (ℚP.maxComm x (- x))) (ℚO.≤max (- x) x)
 
 -- Helper: max is LUB - if a ≤ z and b ≤ z, then max a b ≤ z
 -- Using totality of ≤ via propositional truncation eliminator
@@ -1030,28 +1080,28 @@ open import Cubical.HITs.PropositionalTruncation as PT using (∥_∥₁; ∣_�
 open import Cubical.Data.Rationals.Order using (isProp≤)
 
 max-LUB : (a b z : ℚ) → a ℚO.≤ z → b ℚO.≤ z → max a b ℚO.≤ z
-max-LUB a b z a≤z b≤z = PT.rec (isProp≤ (max a b) z) handle (isTotal≤ a b)
+max-LUB a b z a≤z b≤z = PT.rec (isProp≤ (max a b) z) handle (ℚO.isTotal≤ a b)
   where
     handle : (a ℚO.≤ b) ⊎ (b ℚO.≤ a) → max a b ℚO.≤ z
-    handle (inl a≤b) = subst (ℚO._≤ z) (sym (≤→max a b a≤b)) b≤z
-    handle (inr b≤a) = subst (ℚO._≤ z) (sym (maxComm a b ∙ ≤→max b a b≤a)) a≤z
+    handle (inl a≤b) = subst (ℚO._≤ z) (sym (ℚO.≤→max a b a≤b)) b≤z
+    handle (inr b≤a) = subst (ℚO._≤ z) (sym (ℚP.maxComm a b ∙ ℚO.≤→max b a b≤a)) a≤z
 
 abs-triangle : (x y : ℚ) → abs (x + y) ℚO.≤ abs x + abs y
 abs-triangle x y = max-LUB (x + y) (- (x + y)) (abs x + abs y) xy≤ neg-xy≤
   where
     -- x + y ≤ abs x + abs y
     xy≤ : (x + y) ℚO.≤ (abs x + abs y)
-    xy≤ = ≤Monotone+ x (abs x) y (abs y) (x≤abs-x x) (x≤abs-x y)
+    xy≤ = ℚO.≤Monotone+ x (abs x) y (abs y) (x≤abs-x x) (x≤abs-x y)
     
     -- -(x + y) = -x + -y ≤ abs x + abs y
     neg-xy≤ : (- (x + y)) ℚO.≤ (abs x + abs y)
-    neg-xy≤ = subst (ℚO._≤ (abs x + abs y)) (sym (-Distr x y))
-              (≤Monotone+ (- x) (abs x) (- y) (abs y) (neg-x≤abs-x x) (neg-x≤abs-x y))
+    neg-xy≤ = subst (ℚO._≤ (abs x + abs y)) (sym (ℚP.-Distr x y))
+              (ℚO.≤Monotone+ (- x) (abs x) (- y) (abs y) (neg-x≤abs-x x) (neg-x≤abs-x y))
 
 -- Helper: x - 0 = x
 -- x - 0 = x + (-0) = x + 0 = x
 minus-zero : (x : ℚ) → x - 0ℚ ≡ x
-minus-zero x = +IdR x  -- -0 computes to 0, so x - 0 = x + 0 = x
+minus-zero x = ℚP.+IdR x  -- -0 computes to 0, so x - 0 = x + 0 = x
 
 -- Helper: if 0 ≤ y then x - y ≤ x
 -- Proof: x - y = x + (-y)
@@ -1066,13 +1116,13 @@ minus-zero x = +IdR x  -- -0 computes to 0, so x - 0 = x + 0 = x
     -y≤0 = 0≤x→-x≤0' y 0≤y
     
     step : (x ℚP.+ (- y)) ℚO.≤ (x ℚP.+ 0ℚ)
-    step = ≤-o+ (- y) 0ℚ x -y≤0
+    step = ℚO.≤-o+ (- y) 0ℚ x -y≤0
     
     p3 : x ℚP.+ (- y) ≡ x ℚP.- y
     p3 = refl
     
     p4 : x ℚP.+ 0ℚ ≡ x
-    p4 = +IdR x
+    p4 = ℚP.+IdR x
 
 -- Helper: weaken tight bound to weak bound
 -- If |diff| ≤ inv2^m - inv2^(m+k) and inv2^(m+k) ≥ 0, then |diff| ≤ inv2^m
@@ -1087,7 +1137,7 @@ minus-zero x = +IdR x  -- -0 computes to 0, so x - 0 = x + 0 = x
 
 -- Helper: for the base case, approx s m - approx s m = 0
 approx-diff-self : (s : 𝟛ᴺ) (m : ℕ) → approx s m ℚP.- approx s m ≡ 0ℚ
-approx-diff-self s m = +InvR (approx s m)
+approx-diff-self s m = ℚP.+InvR (approx s m)
 
 -- Base case: |0| ≤ inv2^ m
 tail-bound-base : (s : 𝟛ᴺ) (m : ℕ) → abs (approx s m ℚP.- approx s m) ℚO.≤ inv2^ m
@@ -1147,10 +1197,10 @@ inv2^-minus-half n =
 -- Helper: -(x + y) + y = -x
 neg-sum-plus-half : (x : ℚ) → ℚP.- (x ℚP.+ x) ℚP.+ x ≡ ℚP.- x
 neg-sum-plus-half x =
-  cong (ℚP._+ x) (-Distr x x)  -- (-x + -x) + x
+  cong (ℚP._+ x) (ℚP.-Distr x x)  -- (-x + -x) + x
   ∙ sym (ℚProps.+Assoc (- x) (- x) x)  -- -x + (-x + x)
-  ∙ cong ((- x) ℚP.+_) (+InvL x)       -- -x + 0
-  ∙ +IdR (- x)                         -- -x
+  ∙ cong ((- x) ℚP.+_) (ℚP.+InvL x)       -- -x + 0
+  ∙ ℚP.+IdR (- x)                         -- -x
 
 -- Helper: (a - (x+x)) + x = a - x
 minus-double-plus-half : (a x : ℚ) → (a ℚP.- (x ℚP.+ x)) ℚP.+ x ≡ a ℚP.- x
@@ -1180,7 +1230,7 @@ tail-bound-tight s m zero =
 
     -- RHS: inv2^ m - inv2^ m = 0
     rhs-eq : inv2^ m ℚP.- inv2^ m ≡ 0ℚ
-    rhs-eq = +InvR (inv2^ m)
+    rhs-eq = ℚP.+InvR (inv2^ m)
 
     -- Core: 0 ≤ 0
     core : 0ℚ ℚO.≤ 0ℚ
@@ -1233,7 +1283,7 @@ tail-bound-tight s m (suc k) =
     inv2^-double-at-n = inv2^-double n
 
     bound-sum : (abs A ℚP.+ abs B) ℚO.≤ ((inv2^ m ℚP.- inv2^ n) ℚP.+ inv2^ (suc n))
-    bound-sum = ≤Monotone+ (abs A) (inv2^ m ℚP.- inv2^ n) (abs B) (inv2^ (suc n)) IH dc-bound
+    bound-sum = ℚO.≤Monotone+ (abs A) (inv2^ m ℚP.- inv2^ n) (abs B) (inv2^ (suc n)) IH dc-bound
 
     bound-simplify : (inv2^ m ℚP.- inv2^ n) ℚP.+ inv2^ (suc n)
                    ≡ inv2^ m ℚP.- inv2^ (suc n)
@@ -1277,7 +1327,7 @@ tail-bound s m n m≤n with ℕO.≤-k+ m≤n  -- gives (k , k + m ≡ n)
 
 -- Helper: symmetry of |x - y|
 abs-minus-sym : (x y : ℚ) → abs (x ℚP.- y) ≡ abs (y ℚP.- x)
-abs-minus-sym x y = sym (abs-neg (x ℚP.- y)) ∙ cong abs (-[x-y]≡y-x x y)
+abs-minus-sym x y = sym (abs-neg (x ℚP.- y)) ∙ cong abs (ℚP.-[x-y]≡y-x x y)
 
 -- Helper: min m n when m ≤ n
 min-eq-left : (m n : ℕ) → m ≤ℕ n → min m n ≡ m
