@@ -170,29 +170,12 @@ approxℚ₊ s ε = approx s (ℚ₊→ℕ ε)
 -- 3. The closeness relation is reflexive when the bound holds
 
 -- First we need some helper lemmas for the proof
--- Convert slow ℚ abs difference to fast ℚ via ℚ→ℚᶠ
--- The key insight: abs(a - b) in slow ℚ maps to abs(a - b) in fast ℚ
+-- Note: Since this file uses fast ℚ (from Cubical.Data.Rationals.Fast) exclusively,
+-- abs and subtraction work directly without conversion.
 
--- Helper: ℚ→ℚᶠ preserves addition (needed for subtraction preservation)
+-- Helper imports for renamed operations (for clarity in proofs)
 open import Cubical.Data.Rationals.Fast.Properties as ℚFP using () renaming (_+_ to _+ᶠ_; _-_ to _-ᶠ_; -_ to ℚF-_; abs to absᶠ; max to maxᶠ)
 
--- ℚ→ℚᶠ preserves negation, subtraction, max, and abs
--- These proofs require understanding the OnCommonDenom machinery which mixes
--- slow and fast ℤ operations in complex ways. The proofs are postulated for now.
---
--- Proof strategy (for future completion):
--- 1. Both slow and fast ℚ operations compute on representatives (ℤ × ℕ₊₁)
--- 2. The difference is in which ℤ operations are used (slow vs fast multiplication/addition)
--- 3. Since ·≡·f and +≡+f show these are propositionally equal, the results should be ∼-related
--- 4. Use SQ.elimProp(2) to work on representatives, then ℚF.eq/ with the ∼ relation
-postulate
-  ℚ→ℚᶠ-neg : (x : ℚ) → ℚ→ℚᶠ (ℚP.- x) ≡ ℚF- (ℚ→ℚᶠ x)
-  ℚ→ℚᶠ-- : (x y : ℚ) → ℚ→ℚᶠ (x ℚP.- y) ≡ (ℚ→ℚᶠ x) -ᶠ (ℚ→ℚᶠ y)
-  ℚ→ℚᶠ-max : (x y : ℚ) → ℚ→ℚᶠ (ℚP.max x y) ≡ maxᶠ (ℚ→ℚᶠ x) (ℚ→ℚᶠ y)
-
--- ℚ→ℚᶠ preserves abs (since abs x = max x (-x))
-ℚ→ℚᶠ-abs : (x : ℚ) → ℚ→ℚᶠ (ℚP.abs x) ≡ absᶠ (ℚ→ℚᶠ x)
-ℚ→ℚᶠ-abs x = ℚ→ℚᶠ-max x (ℚP.- x) ∙ cong (maxᶠ (ℚ→ℚᶠ x)) (ℚ→ℚᶠ-neg x)
 
 
 
@@ -224,22 +207,14 @@ min-mod δ ε = min (ℚ₊→ℕ δ) (ℚ₊→ℕ ε)
 
 -- approxℚ₊-cauchy: The Cauchy property of stream approximations
 -- This is proved constructively at the END of the file (after tail-bound-sym and modulus-correct)
--- See approxℚ₊-cauchy-proof for the actual implementation.
--- 
--- The proof uses:
--- 1. tail-bound-sym: |approx s m - approx s n| ≤ inv2^ (min m n)
--- 2. modulus-correct: inv2^ (ℚ₊→ℕ ε) < ε
--- 3. rat-rat-fromAbs to construct the closeness witness
+-- See approxℚ₊-cauchy-proof at the END of the file for the constructive proof.
 --
--- The proof is at the END of the file after tail-bound-sym and modulus-correct are defined.
--- Since this function is needed by stream→ℝ which is used earlier, we use a postulate here.
--- The full constructive proof requires:
--- 1. tail-bound-sym: |approx s m - approx s n| ≤ inv2^ (min m n)
--- 2. modulus-correct: inv2^ (ℚ₊→ℕ ε) < ε
--- 3. rat-rat-fromAbs: construct closeness from abs bound
--- 4. Case split on min m n = m or min m n = n
+-- NOTE: The postulate is kept here for structural reasons - stream→ℝ needs this
+-- function before tail-bound-sym and modulus-correct are defined. The constructive
+-- proof `approxℚ₊-cauchy-proof` at the end of the file shows this is derivable.
 --
--- TODO: Move this definition after modulus-correct and tail-bound-sym to complete constructively
+-- To eliminate this postulate, the file would need to be restructured so that
+-- tail-bound-sym and modulus-correct are defined before stream→ℝ.
 postulate
   approxℚ₊-cauchy : (s : 𝟛ᴺ)
     → ∀ (δ ε : ℚ₊) → rat (approxℚ₊ s δ) ∼[ δ ℚFO.ℚ₊+ ε ] rat (approxℚ₊ s ε)
@@ -641,15 +616,16 @@ approx-step s n = +-minus-cancel (approx s n) (digitContrib (s ! suc n) (suc n))
 --    k = fst (ceilℚ₊ (invℚ₊ ε)) with proof p₁ : 1/ε < k  (in fast ℚ)
 --    n = fst (log2ℕ (ℕ₊₁→ℕ k)) with proof p₂ : ℕ₊₁→ℕ k < 2^n (in ℕ)
 -- 2. Chain: 1/2^{n+2} < 1/2^n < 1/k < 1/(1/ε) = ε (in fast ℚ)
--- 3. Convert from fast ℚ to slow ℚ using ℚᶠ→ℚ-<
+-- 3. Use ℚᶠ→ℚ to convert result type (identity since both are fast ℚ)
 
--- Fast version of inv2^: 1/2^{n+1} as fast ℚ
+-- inv2^ᶠ: Alias for inv2^ typed as ℚᶠ (definitionally equal since both use fast ℚ)
+-- This is used in modulus-correct proof for type compatibility with ℚᶠ operations.
 inv2^ᶠ : ℕ → ℚᶠ
 inv2^ᶠ n = ℚF.[_/_] (pos 1) (2^ℕ₊₁ (suc n))
 
--- Convert slow inv2^ to fast: ℚ→ℚᶠ (inv2^ n) ≡ inv2^ᶠ n
+-- Since both ℚ and ℚᶠ are fast rationals, ℚ→ℚᶠ is identity
 inv2^-slow→fast : (n : ℕ) → ℚ→ℚᶠ (inv2^ n) ≡ inv2^ᶠ n
-inv2^-slow→fast n = refl  -- Same representation, different quotient
+inv2^-slow→fast n = refl
 
 -- Key monotonicity: 2^n < 2^{suc n} in ℕ
 -- 2^(suc n) = 2 · 2^n = 2^n + 2^n
@@ -1387,7 +1363,6 @@ approxℚ₊-cauchy-proof : (s : 𝟛ᴺ)
   → ∀ (δ ε : ℚ₊) → rat (approxℚ₊ s δ) ∼[ δ ℚFO.ℚ₊+ ε ] rat (approxℚ₊ s ε)
 approxℚ₊-cauchy-proof s δ ε = rat-rat-fromAbs (approxℚ₊ s δ) (approxℚ₊ s ε) (δ ℚFO.ℚ₊+ ε) abs-bound
   where
-    -- Using absᶠ and -ᶠ from ℚFP import (Fast.Properties) for consistency with ℚ→ℚᶠ-abs
     
     m = ℚ₊→ℕ δ
     n = ℚ₊→ℕ ε
@@ -1396,17 +1371,10 @@ approxℚ₊-cauchy-proof s δ ε = rat-rat-fromAbs (approxℚ₊ s δ) (approx�
     tail-bnd : ℚP.abs (approx s m ℚP.- approx s n) ℚO.≤ inv2^ (min m n)
     tail-bnd = tail-bound-sym s m n
     
-    -- Key equality: absᶠ (approxF s m -ᶠ approxF s n) ≡ ℚ→ℚᶠ (abs (approx s m - approx s n))
-    -- This requires proving that ℚ→ℚᶠ commutes with abs and subtraction.
-    -- The proof is postulated because the OnCommonDenom machinery mixes slow/fast ℤ operations
-    -- in complex ways that make direct proofs difficult. See ℚ→ℚᶠ-- and ℚ→ℚᶠ-abs postulates.
-    --
-    -- Proof strategy (for future completion):
-    -- absᶠ (ℚ→ℚᶠ (approx s m) -ᶠ ℚ→ℚᶠ (approx s n))
-    --   ≡ absᶠ (ℚ→ℚᶠ (approx s m - approx s n))   by cong absᶠ (sym (ℚ→ℚᶠ-- ...))
-    --   ≡ ℚ→ℚᶠ (abs (approx s m - approx s n))   by ℚ→ℚᶠ-abs
+    -- Since this file uses fast ℚ exclusively (both ℚ and ℚᶠ are the same type),
+    -- the conversion ℚ→ℚᶠ is identity and abs/subtraction are compatible.
     abs-conv : absᶠ (approxℚ₊ s δ -ᶠ approxℚ₊ s ε) ≡ ℚ→ℚᶠ (ℚP.abs (approx s m ℚP.- approx s n))
-    abs-conv = refl  -- Testing: should be refl if ℚ→ℚᶠ on fast ℚ is identity
+    abs-conv = refl
     
     -- Case split on whether min m n = m or min m n = n
     -- Using splitℕ-≤ : (m n : ℕ) → (m ≤ n) ⊎ (n < m)
