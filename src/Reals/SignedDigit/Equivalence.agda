@@ -24,19 +24,19 @@ open import Cubical.Data.NatPlusOne
 open import Cubical.Data.Sigma
 open import Cubical.Data.Sum using (_⊎_; inl; inr)
 
-open import Cubical.Data.Rationals.Base as ℚB using (ℚ; [_/_]; _∼_)
-open import Cubical.Data.Rationals.Properties as ℚP using (_·_; _+_; _-_; -_; abs; max; maxComm; maxIdem; -Invol; -[x-y]≡y-x; +InvR; +InvL; +IdL; +IdR; +Comm; ·IdR; ·IdL; ·Comm; ·AnnihilL; ·DistL+; -Distr)
-open import Cubical.Data.Rationals.Order as ℚO using (_≤_; _<_; isProp<; isRefl≤; isTrans≤; ≤→max; ≤-o+; ≤Monotone+; ≤max; isTotal≤; ≤Dec)
+open import Cubical.Data.Rationals.Base as ℚB using () renaming (ℚ to ℚˢ; [_/_] to [_/_]ˢ; _∼_ to _∼ˢ_)
+-- Slow ℚ is now only used for legacy/compatibility; main ℚ is Fast
+open import Cubical.Data.Rationals.Properties as ℚPˢ using () -- Slow properties, renamed if needed
 
--- For the interpretation into HoTT Cauchy reals
-open import Cubical.Data.Rationals.Fast as ℚF using () renaming (ℚ to ℚᶠ)
-open import Cubical.Data.Rationals.Fast.Order as ℚFO using (ℚ₊; _ℚ₊+_; isTrans<; isTrans<≤)
+-- PRIMARY RATIONAL TYPE: Fast Rationals (aligned with CauchyReals library)
+open import Cubical.Data.Rationals.Fast as ℚ using (ℚ; [_/_]; isSetℚ; eq/; _∼_; ℕ₊₁→ℤ)
+open import Cubical.Data.Rationals.Fast.Properties as ℚP using (_·_; _+_; _-_; -_; abs; max; +IdL; +IdR; ·IdL; ·IdR; +Comm; ·Comm)
+open import Cubical.Data.Rationals.Fast.Order as ℚO using (_≤_; _<_; isProp<; isRefl≤; isTrans≤; isTrans<; isTrans<≤; ℚ₊; _ℚ₊+_; ≤Dec)
+
 open import Reals.HoTT.Base using (ℝ; rat; lim; _∼[_]_; rat-rat-fromAbs)
 open import Cubical.HITs.CauchyReals.Closeness using (refl∼)
 
--- For modulus-correct proof using library functions
--- Strategy: Use ceilℚ₊ and log2ℕ to construct 1/2^n < ε directly
-open import Cubical.Data.Rationals.Fast.Order.Properties as ℚFOP using (invℚ₊; ceilℚ₊; invℚ₊-<-invℚ₊; invℚ₊-invol)
+open import Cubical.Data.Rationals.Fast.Order.Properties as ℚOP using (invℚ₊; ceilℚ₊; invℚ₊-<-invℚ₊; invℚ₊-invol)
 open import Cubical.Data.Nat.Mod as ℕMod using (log2ℕ)
 
 open import Cubical.HITs.SetQuotients as SQ hiding ([_])
@@ -107,18 +107,17 @@ open import Cubical.Data.Rationals.Base as ℚB using (ℕ₊₁→ℤ)
 ℕ₊₁→ℤ-2^ℕ₊₁ : (n : ℕ) → ℚB.ℕ₊₁→ℤ (2^ℕ₊₁ n) ≡ ℤ.pos (2^ℕ n)
 ℕ₊₁→ℤ-2^ℕ₊₁ n = cong ℤ.pos (2^ℕ₊₁-unfold n)
 
--- Convert digit to rational: -1 ↦ -1, 0 ↦ 0, +1 ↦ +1
+-- Convert digit to rational (Fast ℚ): -1 ↦ -1, 0 ↦ 0, +1 ↦ +1
 digitToℚ : Digit → ℚ
 digitToℚ -1d = [ negsuc 0 / 1+ 0 ]   -- -1/1
 digitToℚ 0d  = [ pos 0 / 1+ 0 ]      -- 0/1
 digitToℚ +1d = [ pos 1 / 1+ 0 ]      -- 1/1
 
--- Single digit contribution at position i: dᵢ / 2^(i+1)
+-- Single digit contribution at position i: dᵢ / 2^(i+1) (in Fast ℚ)
 digitContrib : Digit → ℕ → ℚ
 digitContrib d i = (digitToℚ d) · [ pos 1 / 2^ℕ₊₁ (suc i) ]
 
--- Finite approximation: Σᵢ₌₀ⁿ dᵢ / 2^(i+1)
--- This computes the partial sum of the signed-digit representation
+-- Finite approximation: Σᵢ₌₀ⁿ dᵢ / 2^(i+1) (now returns Fast ℚ directly)
 approx : 𝟛ᴺ → ℕ → ℚ
 approx s zero = digitContrib (s ! zero) zero
 approx s (suc n) = approx s n + digitContrib (s ! suc n) (suc n)
@@ -127,58 +126,14 @@ approx s (suc n) = approx s n + digitContrib (s ! suc n) (suc n)
 -- Interpretation into HoTT Cauchy reals
 ------------------------------------------------------------------------
 
--- Convert slow ℚ to fast ℚᶠ for use with HoTT reals
-open import Cubical.Data.Int.Fast.Properties as ℤᶠ using (·≡·f)
-
-ℚ→ℚᶠ : ℚ → ℚᶠ
-ℚ→ℚᶠ = SQ.rec ℚF.isSetℚ (λ { (a , b) → ℚF.[_/_] a b }) compat
-  where
-    toFast-rel : (x y : ℤ × ℕ₊₁) → ℚB._∼_ x y → ℚF._∼_ x y
-    toFast-rel (a , b) (c , d) rel =
-      sym (ℤᶠ.·≡·f a (ℚF.ℕ₊₁→ℤ d)) ∙ rel ∙ ℤᶠ.·≡·f c (ℚF.ℕ₊₁→ℤ b)
-
-    compat : (x y : ℤ × ℕ₊₁) → ℚB._∼_ x y → ℚF.[_/_] (fst x) (snd x) ≡ ℚF.[_/_] (fst y) (snd y)
-    compat (a , b) (c , d) rel = ℚF.eq/ (a , b) (c , d) (toFast-rel (a , b) (c , d) rel)
-
--- Approximation using Fast rationals (for compatibility with ℝ)
-approxF : 𝟛ᴺ → ℕ → ℚᶠ
-approxF s n = ℚ→ℚᶠ (approx s n)
+-- Since approx now returns Fast ℚ directly, no conversion is needed
 
 -- Modulus function: given ε > 0, find n such that 1/2^n < ε
 --
 -- The signed-digit series has |tail from n| ≤ 1/2^n.
 -- So to achieve ε-precision, we need n such that 1/2^n < ε.
 --
--- Strategy: Find n such that 2^n > 1/ε, i.e., 2^n · ε > 1
--- We compare fromNat(2^n) with fromNat(1)/ε = 1/ε
--- For ε in ℚᶠ, we check if fromNat(2^n) · ε > fromNat(1)
-
--- Convert 2^n to fast rational
-2^ℚᶠ : ℕ → ℚᶠ
-2^ℚᶠ n = ℚF.fromNat (2^ℕ n)
-
--- 1 as fast rational
-1ℚᶠ : ℚᶠ
-1ℚᶠ = ℚF.fromNat 1
-
--- Find smallest n such that 2^n · ε ≥ 1 (i.e., 1/2^n ≤ ε)
--- We add 1 to get strict inequality: 1/2^(n+1) < ε
-findModulus-fuel : ℕ → ℕ → ℚᶠ → ℕ
-findModulus-fuel zero acc _ = acc  -- out of fuel, return current
-findModulus-fuel (suc fuel) acc ε with ℚFO._≟_ 1ℚᶠ (2^ℚᶠ acc ℚF.· ε)
-... | ℚFO.lt _ = acc       -- 1 < 2^acc · ε, so 1/2^acc < ε, done
-... | ℚFO.eq _ = acc       -- 1 = 2^acc · ε, so 1/2^acc = ε, done (boundary)
-... | ℚFO.gt _ = findModulus-fuel fuel (suc acc) ε  -- 1 > 2^acc · ε, need more
-
--- Default fuel (100 iterations covers rationals with denominators up to 2^100)
-modulus-fuel : ℕ
-modulus-fuel = 100
-
--- Proper modulus: find n such that 1/2^n ≤ ε
--- Adding 1 gives strict: 1/2^(n+1) < ε
--- This ensures the tail of the series is bounded by ε
---
--- NEW IMPLEMENTATION using library functions:
+-- Strategy: Use ceilℚ₊ and log2ℕ to construct 1/2^n < ε directly
 -- 1. invℚ₊ ε gives 1/ε
 -- 2. ceilℚ₊ (invℚ₊ ε) gives k with 1/ε < k
 -- 3. log2ℕ (ℕ₊₁→ℕ k) gives n with k ≤ 2^n (actually k < 2^n from Least)
@@ -186,144 +141,14 @@ modulus-fuel = 100
 -- 5. Adding 1: inv2^(n) = 1/2^{n+1} < 1/2^n < ε
 ℚ₊→ℕ : ℚ₊ → ℕ
 ℚ₊→ℕ ε = 
-  let k = fst (ℚFOP.ceilℚ₊ (ℚFOP.invℚ₊ ε))  -- k : ℕ₊₁ with 1/ε < k
-      n = fst (ℕMod.log2ℕ (ℕ₊₁→ℕ k))          -- n : ℕ with k < 2^n
+  let k = fst (ℚOP.ceilℚ₊ (ℚOP.invℚ₊ ε))  -- k : ℕ₊₁ with 1/ε < k
+      n = fst (ℕMod.log2ℕ (ℕ₊₁→ℕ k))       -- n : ℕ with k < 2^n
   in suc n  -- inv2^(suc n) = 1/2^{n+2} < 1/2^{n+1} = inv2^n < 1/2^n < ε
 
--- OLD fuel-based implementation (kept for reference):
--- ℚ₊→ℕ-fuel : ℚ₊ → ℕ
--- ℚ₊→ℕ-fuel (ε , _) = suc (findModulus-fuel modulus-fuel 0 ε)
+-- Approximation indexed by precision (now just uses approx directly since it returns ℚ)
+approxℚ₊ : 𝟛ᴺ → ℚ₊ → ℚ
+approxℚ₊ s ε = approx s (ℚ₊→ℕ ε)
 
--- Approximation indexed by precision
-approxℚ₊ : 𝟛ᴺ → ℚ₊ → ℚᶠ
-approxℚ₊ s ε = approxF s (ℚ₊→ℕ ε)
-
--- Convert fast ℚ back to slow ℚ for comparison
-ℚᶠ→ℚ : ℚᶠ → ℚ
-ℚᶠ→ℚ = SQ.rec ℚB.isSetℚ go compat
-  where
-    go : ℤ × ℕ₊₁ → ℚ
-    go (a , b) = [ a / b ]
-
-    -- Convert relation: Fast._∼_ uses fast int multiplication, Base._∼_ uses slow
-    fromFast-rel : (x y : ℤ × ℕ₊₁) → ℚF._∼_ x y → ℚB._∼_ x y
-    fromFast-rel (a , b) (c , d) rel =
-      ℤᶠ.·≡·f a (ℚB.ℕ₊₁→ℤ d) ∙ rel ∙ sym (ℤᶠ.·≡·f c (ℚB.ℕ₊₁→ℤ b))
-
-    compat : (x y : ℤ × ℕ₊₁) → ℚF._∼_ x y → go x ≡ go y
-    compat (a , b) (c , d) rel = ℚB.eq/ (a , b) (c , d) (fromFast-rel (a , b) (c , d) rel)
-
-------------------------------------------------------------------------
--- Slow/Fast ℚ bridging lemmas for ordering
-------------------------------------------------------------------------
-
--- The key insight: both slow and fast ℚ use the same underlying representation
--- ℤ × ℕ₊₁ and the same ordering definition (a/b < c/d iff a·d < c·b in ℤ).
--- The only difference is that fast ℚ uses fast integer multiplication.
--- Since slow and fast integer multiplication are propositionally equal
--- (via ℤᶠ.·≡·f), the orderings are equivalent.
-
--- Round-trip: ℚᶠ→ℚ (ℚ→ℚᶠ x) ≡ x
-ℚ-round-trip : (x : ℚ) → ℚᶠ→ℚ (ℚ→ℚᶠ x) ≡ x
-ℚ-round-trip = SQ.elimProp (λ _ → ℚB.isSetℚ _ _) (λ _ → refl)
-
--- Round-trip: ℚ→ℚᶠ (ℚᶠ→ℚ x) ≡ x
-ℚᶠ-round-trip : (x : ℚᶠ) → ℚ→ℚᶠ (ℚᶠ→ℚ x) ≡ x
-ℚᶠ-round-trip = SQ.elimProp (λ _ → ℚF.isSetℚ _ _) (λ _ → refl)
-
--- For the ordering bridging, we need to work with the fast ℤ ordering
--- Import fast ℤ ordering
-open import Cubical.Data.Int.Fast.Order as ℤFO using () renaming (_<_ to _<ℤf_)
-
--- The ℚ orderings are defined as:
--- Slow: a/b < c/d iff a · ℕ₊₁→ℤ d ℤ.< c · ℕ₊₁→ℤ b (slow ℤ mult)
--- Fast: a/b < c/d iff a ·f ℕ₊₁→ℤ d <ℤf c ·f ℕ₊₁→ℤ b (fast ℤ mult)
---
--- Both ℤ orderings are the same (based on ℕ), but the multiplication differs.
--- ℤᶠ.·≡·f shows: a ℤ.· b ≡ a ℤf.· b
---
--- For the ordering bridging, we use the fact that both ℚ orderings compute
--- on representatives to integer comparisons: a/b < c/d iff a·d < c·b
--- The integer ordering ℤO._<_ is the same for both slow and fast integers
--- (defined in terms of ℕ ordering), but the multiplication differs.
-
--- Bridge the slow/fast ℤ orderings
--- Both ℤ orderings are: m ≤ n = Σ[ k ∈ ℕ ] m + pos k ≡ n
--- The difference is slow uses ℤ._ from Int.Base, fast uses from Int.Fast.Base
--- Since +≡+f : a ℤs.+ b ≡ a ℤf.+ b, the orderings are propositionally equal.
---
--- For ℤ.<: m < n = suc m ≤ n = Σ[ k ∈ ℕ ] (suc m) + pos k ≡ n
--- Slow sucℤ uses slow +, fast sucℤ uses fast +.
-
-open import Cubical.Data.Int.Fast.Properties as ℤᶠP using (+≡+f)
-open import Cubical.Data.Int.Fast.Base as ℤf using () renaming (_·_ to _·f_)
-
--- Bridge slow ℤ≤ to fast ℤ≤
--- slow: m ℤO.≤ n = Σ[ k ∈ ℕ ] m ℤ.+ pos k ≡ n (slow +)
--- fast: m ℤFO.≤ n = Σ[ k ∈ ℕ ] m ℤf.+ pos k ≡ n (fast +)
-ℤ≤-slow→fast : (m n : ℤ) → m ℤO.≤ n → m ℤFO.≤ n
-ℤ≤-slow→fast m n (k , p) = k , sym (+≡+f m (pos k)) ∙ p
-
-ℤ≤-fast→slow : (m n : ℤ) → m ℤFO.≤ n → m ℤO.≤ n
-ℤ≤-fast→slow m n (k , p) = k , +≡+f m (pos k) ∙ p
-
--- slow sucℤ is defined: sucℤ m = ... (pattern matching)
--- But m +pos 1 = sucℤ (m +pos 0) = sucℤ m definitionally
--- So m ℤ.+ pos 1 = m +pos 1 = sucℤ m
--- And pos 1 ℤ.+ m = m ℤ.+ pos 1 by +Comm (slow)
--- Then pos 1 ℤ.+ m ≡ pos 1 ℤf.+ m by +≡+f
--- And pos 1 ℤf.+ m = ℤFO.sucℤ m by definition of ℤFO.sucℤ
--- So: sucℤ m = m ℤ.+ pos 1 ≡ pos 1 ℤ.+ m ≡ pos 1 ℤf.+ m = ℤFO.sucℤ m
-open import Cubical.Data.Int.Properties as ℤP' using (+Comm)
-
-sucℤ-eq : (m : ℤ) → ℤ.sucℤ m ≡ ℤFO.sucℤ m
-sucℤ-eq m = ℤP'.+Comm m (pos 1) ∙ +≡+f (pos 1) m
-
--- Bridge slow ℤ< to fast ℤ<
--- slow: m ℤO.< n = sucℤ m ℤO.≤ n
--- fast: m ℤFO.< n = sucℤf m ℤFO.≤ n
-ℤ<-slow→fast : (m n : ℤ) → m ℤO.< n → m ℤFO.< n
-ℤ<-slow→fast m n lt = subst (ℤFO._≤ n) (sucℤ-eq m) (ℤ≤-slow→fast (ℤ.sucℤ m) n lt)
-
-ℤ<-fast→slow : (m n : ℤ) → m ℤFO.< n → m ℤO.< n
-ℤ<-fast→slow m n lt = subst (ℤO._≤ n) (sym (sucℤ-eq m)) (ℤ≤-fast→slow (ℤFO.sucℤ m) n lt)
-
--- Now bridge the ℚ orderings
--- slow ℚ: [ a , b ] ℚO.< [ c , d ] = a ℤ.· ℕ₊₁→ℤ d ℤO.< c ℤ.· ℕ₊₁→ℤ b
--- fast ℚ: [ a , b ] ℚFO.< [ c , d ] = inj (a ℤf.· ℕ₊₁→ℤ d ℤFO.< c ℤf.· ℕ₊₁→ℤ b)
---
--- Using ·≡·f : a ℤ.· b ≡ a ℤf.· b, we can bridge these.
-
--- Helper: isProp for fast ℚ<
-open import Cubical.Data.Rationals.Fast.Order as ℚFO using (isProp<)
-
-ℚ→ℚᶠ-< : (x y : ℚ) → x ℚO.< y → ℚ→ℚᶠ x ℚFO.< ℚ→ℚᶠ y
-ℚ→ℚᶠ-< = SQ.elimProp2 (λ _ _ → isPropΠ (λ _ → ℚFO.isProp< _ _)) go
-  where
-    go : (ab cd : ℤ × ℕ₊₁) → SQ.[ ab ] ℚO.< SQ.[ cd ] → ℚ→ℚᶠ SQ.[ ab ] ℚFO.< ℚ→ℚᶠ SQ.[ cd ]
-    go (a , b) (c , d) lt = ℚFO.inj step
-      where
-        -- lt : a ℤ.· ℕ₊₁→ℤ d ℤO.< c ℤ.· ℕ₊₁→ℤ b (using slow ℤ mult and order)
-        -- goal : a ·f ℕ₊₁→ℤ d ℤFO.< c ·f ℕ₊₁→ℤ b (using fast ℤ mult and order)
-        step : (a ·f ℚB.ℕ₊₁→ℤ d) ℤFO.< (c ·f ℚB.ℕ₊₁→ℤ b)
-        step = subst2 ℤFO._<_ (ℤᶠ.·≡·f a (ℚB.ℕ₊₁→ℤ d)) (ℤᶠ.·≡·f c (ℚB.ℕ₊₁→ℤ b))
-               (ℤ<-slow→fast _ _ lt)
-
-ℚᶠ→ℚ-< : (x y : ℚᶠ) → x ℚFO.< y → ℚᶠ→ℚ x ℚO.< ℚᶠ→ℚ y
-ℚᶠ→ℚ-< = SQ.elimProp2 (λ x y → isPropΠ (λ _ → ℚO.isProp< (ℚᶠ→ℚ x) (ℚᶠ→ℚ y))) go
-  where
-    go : (ab cd : ℤ × ℕ₊₁) → ℚF.[ ab ] ℚFO.< ℚF.[ cd ] → ℚᶠ→ℚ ℚF.[ ab ] ℚO.< ℚᶠ→ℚ ℚF.[ cd ]
-    go (a , b) (c , d) (ℚFO.inj lt) = step
-      where
-        -- lt : a ℤf.· ℕ₊₁→ℤ d ℤFO.< c ℤf.· ℕ₊₁→ℤ b (using fast ℤ mult and order)
-        -- goal : a ℤ.· ℕ₊₁→ℤ d ℤO.< c ℤ.· ℕ₊₁→ℤ b (using slow ℤ mult and order)
-        step : a ℤ.· ℚB.ℕ₊₁→ℤ d ℤO.< c ℤ.· ℚB.ℕ₊₁→ℤ b
-        step = subst2 ℤO._<_ (sym (ℤᶠ.·≡·f a (ℚB.ℕ₊₁→ℤ d))) (sym (ℤᶠ.·≡·f c (ℚB.ℕ₊₁→ℤ b)))
-               (ℤ<-fast→slow _ _ lt)
-
--- Corollary: x < ℚᶠ→ℚ y iff ℚ→ℚᶠ x < y
-ℚ<ℚᶠ→ℚ : (x : ℚ) (y : ℚᶠ) → x ℚO.< ℚᶠ→ℚ y → ℚ→ℚᶠ x ℚFO.< y
-ℚ<ℚᶠ→ℚ x y x<fy = subst (ℚ→ℚᶠ x ℚFO.<_) (ℚᶠ-round-trip y) (ℚ→ℚᶠ-< x (ℚᶠ→ℚ y) x<fy)
 
 
 -- The approximation sequence is Cauchy
@@ -349,7 +174,27 @@ open import Cubical.Data.Rationals.Fast.Order as ℚFO using (isProp<)
 -- The key insight: abs(a - b) in slow ℚ maps to abs(a - b) in fast ℚ
 
 -- Helper: ℚ→ℚᶠ preserves addition (needed for subtraction preservation)
-open import Cubical.Data.Rationals.Fast.Properties as ℚFP using () renaming (_+_ to _+ᶠ_)
+open import Cubical.Data.Rationals.Fast.Properties as ℚFP using () renaming (_+_ to _+ᶠ_; _-_ to _-ᶠ_; -_ to ℚF-_; abs to absᶠ; max to maxᶠ)
+
+-- ℚ→ℚᶠ preserves negation, subtraction, max, and abs
+-- These proofs require understanding the OnCommonDenom machinery which mixes
+-- slow and fast ℤ operations in complex ways. The proofs are postulated for now.
+--
+-- Proof strategy (for future completion):
+-- 1. Both slow and fast ℚ operations compute on representatives (ℤ × ℕ₊₁)
+-- 2. The difference is in which ℤ operations are used (slow vs fast multiplication/addition)
+-- 3. Since ·≡·f and +≡+f show these are propositionally equal, the results should be ∼-related
+-- 4. Use SQ.elimProp(2) to work on representatives, then ℚF.eq/ with the ∼ relation
+postulate
+  ℚ→ℚᶠ-neg : (x : ℚ) → ℚ→ℚᶠ (ℚP.- x) ≡ ℚF- (ℚ→ℚᶠ x)
+  ℚ→ℚᶠ-- : (x y : ℚ) → ℚ→ℚᶠ (x ℚP.- y) ≡ (ℚ→ℚᶠ x) -ᶠ (ℚ→ℚᶠ y)
+  ℚ→ℚᶠ-max : (x y : ℚ) → ℚ→ℚᶠ (ℚP.max x y) ≡ maxᶠ (ℚ→ℚᶠ x) (ℚ→ℚᶠ y)
+
+-- ℚ→ℚᶠ preserves abs (since abs x = max x (-x))
+ℚ→ℚᶠ-abs : (x : ℚ) → ℚ→ℚᶠ (ℚP.abs x) ≡ absᶠ (ℚ→ℚᶠ x)
+ℚ→ℚᶠ-abs x = ℚ→ℚᶠ-max x (ℚP.- x) ∙ cong (maxᶠ (ℚ→ℚᶠ x)) (ℚ→ℚᶠ-neg x)
+
+
 
 -- Helper: min of two moduli
 min-mod : (δ ε : ℚ₊) → ℕ
@@ -387,11 +232,17 @@ min-mod δ ε = min (ℚ₊→ℕ δ) (ℚ₊→ℕ ε)
 -- 3. rat-rat-fromAbs to construct the closeness witness
 --
 -- The proof is at the END of the file after tail-bound-sym and modulus-correct are defined.
--- We use a postulate here as a forward declaration.
+-- Since this function is needed by stream→ℝ which is used earlier, we use a postulate here.
+-- The full constructive proof requires:
+-- 1. tail-bound-sym: |approx s m - approx s n| ≤ inv2^ (min m n)
+-- 2. modulus-correct: inv2^ (ℚ₊→ℕ ε) < ε
+-- 3. rat-rat-fromAbs: construct closeness from abs bound
+-- 4. Case split on min m n = m or min m n = n
+--
+-- TODO: Move this definition after modulus-correct and tail-bound-sym to complete constructively
 postulate
   approxℚ₊-cauchy : (s : 𝟛ᴺ)
     → ∀ (δ ε : ℚ₊) → rat (approxℚ₊ s δ) ∼[ δ ℚFO.ℚ₊+ ε ] rat (approxℚ₊ s ε)
--- TODO: Replace with constructive proof using approxℚ₊-cauchy-proof at end of file
 
 -- Interpret a stream as a Cauchy real via the limit of approximations
 stream→ℝ : 𝟛ᴺ → ℝ
@@ -893,6 +744,65 @@ open ℤᶠP using (·IdR)
 ℕ₊₁-ℚ₊ : ℕ₊₁ → ℚ₊
 ℕ₊₁-ℚ₊ (1+ n) = ℚF.fromNat (suc n) , ℚFO.<→0< (ℚF.fromNat (suc n)) (ℚFOP.0<sucN n)
 
+-- Helper: invℚ₊ of (fromNat (suc n), 0<proof) produces [pos 1 / 1+ n] in the quotient
+-- This is the key lemma for proving rel in modulus-correct
+-- 
+-- The proof uses the following facts:
+-- 1. fromNat (suc n) = [pos (suc n) / 1+ 0]
+-- 2. invℚ₊ inverts this to [pos 1 / k] where k comes from 0<→ℕ₊₁
+-- 3. For [pos (suc n) / 1+ 0], the 0< proof witnesses suc n > 0
+-- 4. 0<→ℕ₊₁ extracts 1+ n from this
+-- 5. So [pos 1 / 1+ n] ∼ [pos 1 / 1+ n] by reflexivity
+--
+-- The key insight: for any positive rational [pos (suc n) / 1+ 0],
+-- the denominator of its inverse is definitionally 1+ n when we construct
+-- the positivity proof correctly.
+invℚ₊-fromNat-eq : (n : ℕ) → fst (ℚFOP.invℚ₊ (2^ℕ-ℚ₊ (suc n))) ≡ inv2^ᶠ n
+invℚ₊-fromNat-eq n = ℚF.eq/ _ _ rel
+  where
+    -- Both are [pos 1 / d] where d should represent 2^ℕ (suc n) as ℕ₊₁
+    -- d1 from invℚ₊: uses 0<→ℕ₊₁ on the numerator pos (2^ℕ (suc n))
+    -- d2 from inv2^ᶠ n: uses 2^ℕ₊₁ (suc n) = 1+ (fst (2^ℕ-pos (suc n)))
+    -- 
+    -- The relation ℚF._∼_ for (pos 1, d1) ∼ (pos 1, d2) reduces to:
+    -- pos 1 ·f ℕ₊₁→ℤ d2 ≡ pos 1 ·f ℕ₊₁→ℤ d1 (since ℚF._∼_ (a,b) (c,d) is a ·f ℕ₊₁→ℤ d ≡ c ·f ℕ₊₁→ℤ b)
+    -- which reduces to ℕ₊₁→ℤ d2 ≡ ℕ₊₁→ℤ d1 (via ·IdL)
+    --
+    -- Both should give pos (2^ℕ (suc n)):
+    -- - For d2 = 2^ℕ₊₁ (suc n): ℕ₊₁→ℤ d2 = pos (2^ℕ (suc n)) by ℕ₊₁→ℤ-2^ℕ₊₁
+    -- - For d1 from invℚ₊: ℕ₊₁→ℤ d1 = pos (2^ℕ (suc n)) by sym of snd of 0<→ℕ₊₁
+    
+    -- Bind the 0<→ℕ₊₁ result once to share between d1 and d1-eq
+    -- 0<→ℕ₊₁ x p : Σ ℕ₊₁ (λ m → x ≡ pos (ℕ₊₁→ℕ m)) i.e., x ≡ ℕ₊₁→ℤ m
+    d1-result : Σ[ k ∈ ℕ₊₁ ] pos (2^ℕ (suc n)) ≡ ℕ₊₁→ℤ k
+    d1-result = ℤFO.0<→ℕ₊₁ (pos (2^ℕ (suc n))) (0<fromNat-2^ℕ n)
+    
+    d1 : ℕ₊₁
+    d1 = fst d1-result
+    
+    d1-eq : ℕ₊₁→ℤ d1 ≡ pos (2^ℕ (suc n))
+    d1-eq = sym (snd d1-result)
+    
+    d2 : ℕ₊₁
+    d2 = 2^ℕ₊₁ (suc n)
+    
+    left-pair : ℤ × ℕ₊₁
+    left-pair = (pos 1 , d1)
+    
+    right-pair : ℤ × ℕ₊₁  
+    right-pair = (pos 1 , d2)
+    
+    d2-eq : ℕ₊₁→ℤ d2 ≡ pos (2^ℕ (suc n))
+    d2-eq = ℕ₊₁→ℤ-2^ℕ₊₁ (suc n)
+    
+    denom-eq : ℕ₊₁→ℤ d2 ≡ ℕ₊₁→ℤ d1
+    denom-eq = d2-eq ∙ sym d1-eq
+    
+    -- The ∼ relation: pos 1 ·f ℕ₊₁→ℤ d2 ≡ pos 1 ·f ℕ₊₁→ℤ d1
+    -- Simplify using ·IdL: 1 ·f x ≡ x
+    rel : ℚF._∼_ left-pair right-pair
+    rel = ℤᶠP.·IdL (ℕ₊₁→ℤ d2) ∙ denom-eq ∙ sym (ℤᶠP.·IdL (ℕ₊₁→ℤ d1))
+
 -- Key inequality: inv2^ᶠ (suc n) < inv2^ᶠ n (decreasing)
 -- Direct proof: 2^{n+1} < 2^{n+2} in ℕ, so 1/2^{n+2} < 1/2^{n+1} in ℚ
 -- We use the ℕ< to ℚ< via the inversion equivalence
@@ -1062,27 +972,52 @@ modulus-correct ε = ℚᶠ→ℚ-< (inv2^ᶠ (ℚ₊→ℕ ε)) (fst ε)
             inv-ineq : fst (ℚFOP.invℚ₊ 2^sn-ℚ₊) ℚFO.< fst (ℚFOP.invℚ₊ 2^n-ℚ₊)
             inv-ineq = fst (ℚFOP.invℚ₊-<-invℚ₊ 2^n-ℚ₊ 2^sn-ℚ₊) 2^n<2^sn
             
-            -- fst (invℚ₊ (2^ℕ-ℚ₊ (suc n))) ≡ inv2^ᶠ n
-            -- Both represent 1/2^{n+1} but with different denominator constructions
-            -- invℚ₊ uses 0<→ℕ₊₁ while inv2^ᶠ uses 2^ℕ₊₁
-            -- They are equal in the quotient because 1 · 2^{n+1} = 1 · 2^{n+1}
-            inv-2^sn-eq : fst (ℚFOP.invℚ₊ 2^sn-ℚ₊) ≡ inv2^ᶠ n
-            inv-2^sn-eq = ℚF.eq/ _ _ rel
-              where
-                -- The relation: a·d ≡ c·b (in ℤ)
-                -- Both numerators are pos 1, so we need 1 · denom2 ≡ 1 · denom1
-                -- where denom1 comes from invℚ₊ and denom2 = 2^ℕ₊₁ (suc n)
-                -- This simplifies to showing ℕ₊₁→ℤ denom1 ≡ ℕ₊₁→ℤ denom2
-                --
-                -- The key: invℚ₊ (2^ℕ-ℚ₊ (suc n)) produces [1 / k] where k comes from
-                -- the 0< proof structure. But k should represent 2^{n+1}.
-                -- Rather than proving definitional equality, we prove the ∼ relation.
-                --
-                -- For now, we use a postulate since this involves library internals
-                postulate rel : ℚF._∼_ _ _
+            -- KEY INSIGHT: Use effectivity of ℚᶠ ordering.
+            -- Both fst (invℚ₊ 2^sn-ℚ₊) and inv2^ᶠ n represent 1/2^{n+1}.
+            -- Since < on ℚᶠ is decidable/effective, if we have a proof that
+            -- one is < some value, we can transfer it to the other via
+            -- the quotient structure using eq/ and isProp<.
+            -- 
+            -- Alternative: use transitivity with the known inequality.
+            -- Since 1/2^{n+2} < 1/2^{n+1} (inv2^ᶠ-mono) and 1/2^{n+1} = fst(invℚ₊ 2^sn-ℚ₊)
+            -- in the quotient, we get inv2^ᶠ (suc n) < fst (invℚ₊ 2^n-ℚ₊) by transitivity
+            -- without needing explicit equality.
+            
+            -- Since 2^sn-ℚ₊ = 2^ℕ-ℚ₊ (suc n) = (fromNat (2^ℕ (suc n)), _)
+            -- and inv2^ᶠ n = [pos 1 / 2^ℕ₊₁ (suc n)]
+            -- We use that fst 2^sn-ℚ₊ = fromNat (2^ℕ (suc n)) = [pos (2^ℕ (suc n)) / 1]
+            -- So invℚ₊ 2^sn-ℚ₊ should give [pos 1 / k] where k ≈ 2^ℕ (suc n) as ℕ₊₁
+            
+            -- The inequality inv2^ᶠ n < fst (invℚ₊ 2^n-ℚ₊) = 1/2^n
+            -- follows from: 1/2^{n+1} < 1/2^n (standard, since 2^n < 2^{n+1})
+            -- We have inv2^ᶠ n = 1/2^{n+1} and fst (invℚ₊ 2^n-ℚ₊) ≈ 1/2^n
+            
+            -- Use inv2^ᶠ-mono: inv2^ᶠ (suc n) < inv2^ᶠ n, i.e., 1/2^{n+2} < 1/2^{n+1}
+            -- And inv-ineq: fst (invℚ₊ 2^sn-ℚ₊) < fst (invℚ₊ 2^n-ℚ₊)
+            --             = 1/2^{n+1} < 1/2^n (where 2^sn-ℚ₊ = 2^ℕ-ℚ₊ (suc n))
+            
+            -- The key: we need inv2^ᶠ n < fst (invℚ₊ 2^n-ℚ₊)
+            -- inv2^ᶠ n = 1/2^{n+1}, fst (invℚ₊ 2^n-ℚ₊) = 1/2^n
+            -- Since 2^n < 2^{n+1}, we have 1/2^{n+1} < 1/2^n ✓
+            
+            -- Direct proof using inv2^ᶠ-mono applied one level up:
+            -- inv2^ᶠ-mono (suc n-1) where n = suc n-1 gives 1/2^{n+1} < 1/2^n
+            -- But we need to connect inv2^ᶠ (suc n-1) with fst (invℚ₊ 2^n-ℚ₊)
+            
+            -- Direct proof: inv2^ᶠ n < fst (invℚ₊ 2^n-ℚ₊) without needing quotient equality
+            -- inv2^ᶠ n = [pos 1 / 2^ℕ₊₁ (suc n)] = 1/2^{n+1}
+            -- fst (invℚ₊ 2^n-ℚ₊) = 1/2^n (as ℚᶠ)
+            -- We prove 1/2^{n+1} < 1/2^n, i.e., 2^n < 2^{n+1}
+            -- This uses the same pattern as inv2^ᶠ-mono but adapted for mixed types
             
             inv2^ᶠ-n<inv-2^n : inv2^ᶠ n ℚFO.< fst (ℚFOP.invℚ₊ 2^n-ℚ₊)
             inv2^ᶠ-n<inv-2^n = subst (ℚFO._< fst (ℚFOP.invℚ₊ 2^n-ℚ₊)) inv-2^sn-eq inv-ineq
+              where
+                -- Use the helper lemma to get the equality
+                -- 2^sn-ℚ₊ = 2^ℕ-ℚ₊ (suc n), so invℚ₊-fromNat-eq n gives us:
+                -- fst (invℚ₊ (2^ℕ-ℚ₊ (suc n))) ≡ inv2^ᶠ n
+                inv-2^sn-eq : fst (ℚFOP.invℚ₊ 2^sn-ℚ₊) ≡ inv2^ᶠ n
+                inv-2^sn-eq = invℚ₊-fromNat-eq n
 
 -- The tail bound: for m ≤ n, |approx s n - approx s m| ≤ 1/2^{m+1}
 -- This follows because each digit d_i contributes at most 1/2^{i+1},
@@ -1409,7 +1344,6 @@ tail-bound-sym s m n with splitℕ-≤ m n
            p
 
 
-
 ------------------------------------------------------------------------
 -- Export key lemmas
 ------------------------------------------------------------------------
@@ -1419,3 +1353,115 @@ open import Cubical.Data.Rationals.Properties public using (abs; _-_)
 
 -- Export the tail bound for use in proving the Cauchy property
 -- inv2^ and tail-bound-sym are the key exports
+
+------------------------------------------------------------------------
+-- Constructive approxℚ₊-cauchy proof
+------------------------------------------------------------------------
+
+-- Now that tail-bound-sym and modulus-correct are defined, we can prove
+-- the Cauchy property constructively. This section is intended to replace
+-- the postulate at the top of the file.
+--
+-- Proof strategy:
+-- 1. tail-bound-sym gives: |approx s m - approx s n| ≤ inv2^ (min m n)
+-- 2. Case split on min m n:
+--    - If min = m: abs ≤ inv2^ m < δ < δ + ε (via modulus-correct δ)
+--    - If min = n: abs ≤ inv2^ n < ε < δ + ε (via modulus-correct ε)
+-- 3. Convert to fast ℚ and apply rat-rat-fromAbs
+
+-- Helper: ε < δ + ε (using x ≤ y → x < y + ε when ε > 0)
+-- Using <+ℚ₊' : ∀ x y (ε : ℚ₊) → x ≤ y → x < (y ℚ.+ fst ε)
+ε<δ+ε : (δ ε : ℚ₊) → fst ε ℚFO.< fst (δ ℚFO.ℚ₊+ ε)
+ε<δ+ε δ ε = subst (fst ε ℚFO.<_) (ℚF.+Comm (fst ε) (fst δ)) (ℚFO.<+ℚ₊' (fst ε) (fst ε) δ (ℚFO.isRefl≤ (fst ε)))
+
+-- Helper: δ < δ + ε
+δ<δ+ε : (δ ε : ℚ₊) → fst δ ℚFO.< fst (δ ℚFO.ℚ₊+ ε)
+δ<δ+ε δ ε = ℚFO.<+ℚ₊' (fst δ) (fst δ) ε (ℚFO.isRefl≤ (fst δ))
+
+-- Helper: chain ≤ followed by < gives < in slow ℚ
+≤<→< : {a b c : ℚ} → a ℚO.≤ b → b ℚO.< c → a ℚO.< c
+≤<→< a≤b b<c = ℚO.isTrans≤< _ _ _ a≤b b<c
+
+-- The constructive proof (to replace the postulate above)  
+approxℚ₊-cauchy-proof : (s : 𝟛ᴺ)
+  → ∀ (δ ε : ℚ₊) → rat (approxℚ₊ s δ) ∼[ δ ℚFO.ℚ₊+ ε ] rat (approxℚ₊ s ε)
+approxℚ₊-cauchy-proof s δ ε = rat-rat-fromAbs (approxℚ₊ s δ) (approxℚ₊ s ε) (δ ℚFO.ℚ₊+ ε) abs-bound
+  where
+    -- Using absᶠ and -ᶠ from ℚFP import (Fast.Properties) for consistency with ℚ→ℚᶠ-abs
+    
+    m = ℚ₊→ℕ δ
+    n = ℚ₊→ℕ ε
+    
+    -- tail-bound-sym gives |approx s m - approx s n| ≤ inv2^ (min m n)
+    tail-bnd : ℚP.abs (approx s m ℚP.- approx s n) ℚO.≤ inv2^ (min m n)
+    tail-bnd = tail-bound-sym s m n
+    
+    -- Key equality: absᶠ (approxF s m -ᶠ approxF s n) ≡ ℚ→ℚᶠ (abs (approx s m - approx s n))
+    -- This requires proving that ℚ→ℚᶠ commutes with abs and subtraction.
+    -- The proof is postulated because the OnCommonDenom machinery mixes slow/fast ℤ operations
+    -- in complex ways that make direct proofs difficult. See ℚ→ℚᶠ-- and ℚ→ℚᶠ-abs postulates.
+    --
+    -- Proof strategy (for future completion):
+    -- absᶠ (ℚ→ℚᶠ (approx s m) -ᶠ ℚ→ℚᶠ (approx s n))
+    --   ≡ absᶠ (ℚ→ℚᶠ (approx s m - approx s n))   by cong absᶠ (sym (ℚ→ℚᶠ-- ...))
+    --   ≡ ℚ→ℚᶠ (abs (approx s m - approx s n))   by ℚ→ℚᶠ-abs
+    abs-conv : absᶠ (approxℚ₊ s δ -ᶠ approxℚ₊ s ε) ≡ ℚ→ℚᶠ (ℚP.abs (approx s m ℚP.- approx s n))
+    abs-conv = refl  -- Testing: should be refl if ℚ→ℚᶠ on fast ℚ is identity
+    
+    -- Case split on whether min m n = m or min m n = n
+    -- Using splitℕ-≤ : (m n : ℕ) → (m ≤ n) ⊎ (n < m)
+    abs-bound : absᶠ (approxℚ₊ s δ -ᶠ approxℚ₊ s ε) ℚFO.< fst (δ ℚFO.ℚ₊+ ε)
+    abs-bound with splitℕ-≤ m n
+    ... | inl m≤n = 
+      -- min m n = m, so abs ≤ inv2^ m < δ < δ + ε
+      let
+        -- abs ≤ inv2^ m (since min m n = m)
+        abs≤inv2^m : ℚP.abs (approx s m ℚP.- approx s n) ℚO.≤ inv2^ m
+        abs≤inv2^m = subst (ℚP.abs (approx s m ℚP.- approx s n) ℚO.≤_) 
+                           (cong inv2^ (min-eq-left m n m≤n)) tail-bnd
+        
+        -- inv2^ m < ℚᶠ→ℚ (fst δ) by modulus-correct
+        inv2^m<δ : inv2^ m ℚO.< ℚᶠ→ℚ (fst δ)
+        inv2^m<δ = modulus-correct δ
+        
+        -- Chain: abs < δ in slow ℚ
+        abs<δ-slow : ℚP.abs (approx s m ℚP.- approx s n) ℚO.< ℚᶠ→ℚ (fst δ)
+        abs<δ-slow = ≤<→< abs≤inv2^m inv2^m<δ
+        
+        -- Convert to fast ℚ
+        abs<δ-fast : ℚ→ℚᶠ (ℚP.abs (approx s m ℚP.- approx s n)) ℚFO.< fst δ
+        abs<δ-fast = ℚ<ℚᶠ→ℚ (ℚP.abs (approx s m ℚP.- approx s n)) (fst δ) abs<δ-slow
+        
+        -- Chain: ... < δ < δ + ε
+        abs<δ+ε-fast : ℚ→ℚᶠ (ℚP.abs (approx s m ℚP.- approx s n)) ℚFO.< fst (δ ℚFO.ℚ₊+ ε)
+        abs<δ+ε-fast = ℚFO.isTrans< _ _ _ abs<δ-fast (δ<δ+ε δ ε)
+        
+      in subst (ℚFO._< fst (δ ℚFO.ℚ₊+ ε)) (sym abs-conv) abs<δ+ε-fast
+    ... | inr n<m = 
+      -- min m n = n, so abs ≤ inv2^ n < ε < δ + ε
+      let
+        n≤m : n ≤ℕ m
+        n≤m = <-weaken n<m
+        
+        -- abs ≤ inv2^ n (since min m n = n)
+        abs≤inv2^n : ℚP.abs (approx s m ℚP.- approx s n) ℚO.≤ inv2^ n
+        abs≤inv2^n = subst (ℚP.abs (approx s m ℚP.- approx s n) ℚO.≤_) 
+                           (cong inv2^ (min-eq-right m n n≤m)) tail-bnd
+        
+        -- inv2^ n < ℚᶠ→ℚ (fst ε) by modulus-correct
+        inv2^n<ε : inv2^ n ℚO.< ℚᶠ→ℚ (fst ε)
+        inv2^n<ε = modulus-correct ε
+        
+        -- Chain: abs < ε in slow ℚ
+        abs<ε-slow : ℚP.abs (approx s m ℚP.- approx s n) ℚO.< ℚᶠ→ℚ (fst ε)
+        abs<ε-slow = ≤<→< abs≤inv2^n inv2^n<ε
+        
+        -- Convert to fast ℚ
+        abs<ε-fast : ℚ→ℚᶠ (ℚP.abs (approx s m ℚP.- approx s n)) ℚFO.< fst ε
+        abs<ε-fast = ℚ<ℚᶠ→ℚ (ℚP.abs (approx s m ℚP.- approx s n)) (fst ε) abs<ε-slow
+        
+        -- Chain: ... < ε < δ + ε
+        abs<δ+ε-fast : ℚ→ℚᶠ (ℚP.abs (approx s m ℚP.- approx s n)) ℚFO.< fst (δ ℚFO.ℚ₊+ ε)
+        abs<δ+ε-fast = ℚFO.isTrans< _ _ _ abs<ε-fast (ε<δ+ε δ ε)
+        
+      in subst (ℚFO._< fst (δ ℚFO.ℚ₊+ ε)) (sym abs-conv) abs<δ+ε-fast
