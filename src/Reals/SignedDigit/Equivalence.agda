@@ -1,6 +1,5 @@
-{-# OPTIONS --cubical --guardedness #-}
--- NOTE: --safe is not used here because tail-bound lemmas are currently postulated.
--- TODO: Fill in tail-bound proofs and restore --safe.
+{-# OPTIONS --cubical --guardedness --safe #-}
+
 
 -- Equivalence relation on signed-digit sequences and the quotient type ℝsd
 -- Based on TWA Thesis Chapter 5 (TypeTopology), ported to Cubical Agda
@@ -19,7 +18,8 @@ open import Cubical.Foundations.Function
 open import Cubical.Data.Nat as ℕ using (ℕ; zero; suc; min; minComm)
 open import Cubical.Data.Nat.Order as ℕO using (splitℕ-≤; splitℕ-<; ≤-split; min-≤-left; minGLB; ≤-refl; ≤-antisym; <-weaken; ≤-k+) renaming (_≤_ to _≤ℕ_)
 open import Cubical.Data.Int as ℤ using (ℤ; pos; negsuc)
-open import Cubical.Data.Int.Order as ℤO using (zero-≤pos)
+open import Cubical.Data.Int.Order as ℤO using (_≤_)
+open import Cubical.Data.Int.Fast.Order as ℤFastO using (zero-≤pos; 0<→ℕ₊₁; _<_; _≤_)
 open import Cubical.Data.NatPlusOne
 open import Cubical.Data.Sigma
 open import Cubical.Data.Sum using (_⊎_; inl; inr)
@@ -30,8 +30,8 @@ open import Cubical.Data.Rationals.Properties as ℚPˢ using () -- Slow propert
 
 -- PRIMARY RATIONAL TYPE: Fast Rationals (aligned with CauchyReals library)
 open import Cubical.Data.Rationals.Fast as ℚ using (ℚ; [_/_]; isSetℚ; eq/; _∼_; ℕ₊₁→ℤ)
-open import Cubical.Data.Rationals.Fast.Properties as ℚP using (_·_; _+_; _-_; -_; abs; max; +IdL; +IdR; ·IdL; ·IdR; +Comm; ·Comm)
-open import Cubical.Data.Rationals.Fast.Order as ℚO using (_≤_; _<_; isProp<; isRefl≤; isTrans≤; isTrans<; isTrans<≤; ℚ₊; _ℚ₊+_; ≤Dec)
+open import Cubical.Data.Rationals.Fast.Properties as ℚP using (_·_; _+_; _-_; -_; abs; max; +IdL; +IdR; ·IdL; ·IdR; +Comm; ·Comm; +Assoc)
+open import Cubical.Data.Rationals.Fast.Order as ℚO using (_≤_; _<_; isProp<; isProp≤; isRefl≤; isTrans≤; isTrans<; isTrans<≤; ℚ₊; _ℚ₊+_; ≤Dec)
 
 -- Aliases for fast rational types/modules (for backwards compatibility)
 -- Since we use fast ℚ exclusively, these are identity mappings
@@ -45,8 +45,8 @@ open import Cubical.Data.Rationals.Fast.Order.Properties as ℚFOP using (0<sucN
 -- Fast integer modules for ordering proofs
 -- Note: Cubical.Data.Int.Fast has different _·_ from Cubical.Data.Int
 open import Cubical.Data.Int.Fast as ℤf using () renaming (_·_ to _·ℤf_; _+_ to _+ℤf_)
-open import Cubical.Data.Int.Order as ℤFO using () renaming (_<_ to _<ℤf_; 0<→ℕ₊₁ to 0<→ℕ₊₁ᶠ)
-open import Cubical.Data.Int.Properties as ℤᶠP using () renaming (·IdL to ·IdLᶠ; ·IdR to ·IdRᶠ)
+open import Cubical.Data.Int.Fast.Properties as ℤfP using () renaming (·IdL to ℤf·IdL; ·IdR to ℤf·IdR)
+open import Cubical.Data.Int.Properties as ℤᶠP using () -- Slow int properties, for compatibility
 
 -- Identity conversions (fast ℚ = ℚ)
 ℚ→ℚᶠ : ℚ → ℚᶠ
@@ -119,9 +119,15 @@ open import Cubical.Data.Int.Properties as ℤP using (pos+)
 2^-mono-ℕ : (n : ℕ) → 2^ℕ n ≤ℕ 2^ℕ (suc n)
 2^-mono-ℕ n = 2^ℕ n , sym (2·x≡x+x (2^ℕ n))
 
--- Convert ℕ≤ to ℤ≤ for pos (needed for rational ordering)
+-- Convert ℕ≤ to ℤ≤ for pos (slow integers - needed for rational ordering)
 pos-mono : {m n : ℕ} → m ≤ℕ n → ℤ.pos m ℤO.≤ ℤ.pos n
 pos-mono {m} {n} (k , k+m≡n) = k , sym (ℤP.pos+ m k) ∙ cong ℤ.pos (ℕP.+-comm m k ∙ k+m≡n)
+
+-- Convert ℕ≤ to Fast ℤ≤ for pos (needed for Fast ℚ ordering)
+-- Fast ℤ `_≤_` is: m ≤ n = Σ k. m +ℤf pos k ≡ n
+-- For pos m and pos n with fast +: pos m +ℤf pos k = pos (m + k) by fast int addition
+pos-monoFast : {m n : ℕ} → m ≤ℕ n → ℤ.pos m ℤFastO.≤ ℤ.pos n
+pos-monoFast {m} {n} (k , k+m≡n) = k , cong ℤ.pos (ℕP.+-comm m k ∙ k+m≡n)
 
 -- NEW 2^ℕ₊₁ definition using 2^ℕ-pos (avoids stuck with-terms)
 2^ℕ₊₁ : ℕ → ℕ₊₁
@@ -237,67 +243,14 @@ min-mod δ ε = min (ℚ₊→ℕ δ) (ℚ₊→ℕ ε)
 -- rat q ∼[ ε ] rat r = absᶠ (q -ᶠ r) <ᶠ ε
 -- where absᶠ and -ᶠ are fast ℚ operations
 
--- approxℚ₊-cauchy: The Cauchy property of stream approximations
--- This is proved constructively at the END of the file (after tail-bound-sym and modulus-correct)
--- See approxℚ₊-cauchy-proof at the END of the file for the constructive proof.
---
--- NOTE: The postulate is kept here for structural reasons - stream→ℝ needs this
--- function before tail-bound-sym and modulus-correct are defined. The constructive
--- proof `approxℚ₊-cauchy-proof` at the end of the file shows this is derivable.
---
--- To eliminate this postulate, the file would need to be restructured so that
--- tail-bound-sym and modulus-correct are defined before stream→ℝ.
-postulate
-  approxℚ₊-cauchy : (s : 𝟛ᴺ)
-    → ∀ (δ ε : ℚ₊) → rat (approxℚ₊ s δ) ∼[ δ ℚO.ℚ₊+ ε ] rat (approxℚ₊ s ε)
-
--- Interpret a stream as a Cauchy real via the limit of approximations
-stream→ℝ : 𝟛ᴺ → ℝ
-stream→ℝ s = lim (λ ε → rat (approxℚ₊ s ε)) (approxℚ₊-cauchy s)
-
-------------------------------------------------------------------------
--- Equivalence relation
-------------------------------------------------------------------------
-
--- Two signed-digit sequences are equivalent if they represent the same
--- real number. This is the natural equivalence for signed-digit representation
--- where different digit sequences can represent the same value.
---
--- OLD (too strong): x ≈sd y = (n : ℕ) → approx x n ≡ approx y n
--- This required pointwise equality of all partial sums, which fails
--- for equivalent representations like 0.111... vs 1.000...
---
--- NEW: x ≈sd y = stream→ℝ x ≡ stream→ℝ y
--- Two streams are equivalent iff they have the same limit in ℝ.
-
-_≈sd_ : 𝟛ᴺ → 𝟛ᴺ → Type₀
-x ≈sd y = stream→ℝ x ≡ stream→ℝ y
+-- NOTE: stream→ℝ, _≈sd_, ℝsd and related definitions are at the END of the file
+-- after approxℚ₊-cauchy is proved constructively.
 
 -- The old strong version is kept for backwards compatibility
 _≈sd-strong_ : 𝟛ᴺ → 𝟛ᴺ → Type₀
 x ≈sd-strong y = (n : ℕ) → approx x n ≡ approx y n
 
-------------------------------------------------------------------------
--- Signed-digit reals as a quotient type
-------------------------------------------------------------------------
-
--- The type of signed-digit real numbers in [-1, 1]
--- Quotienting by ≈sd identifies streams with the same limit
-ℝsd : Type₀
-ℝsd = 𝟛ᴺ / _≈sd_
-
--- Embedding raw sequences into ℝsd
-[_]sd : 𝟛ᴺ → ℝsd
-[ s ]sd = SQ.[ s ]
-
--- The quotient is a set
-isSetℝsd : isSet ℝsd
-isSetℝsd = squash/
-
-------------------------------------------------------------------------
--- Basic elements
-------------------------------------------------------------------------
-
+-- Constant streams
 -- The constant zero stream: 0, 0, 0, ...
 -- Represents: Σᵢ 0/2^(i+1) = 0
 zeroStream : 𝟛ᴺ
@@ -313,15 +266,6 @@ oneStream = repeat +1d
 negOneStream : 𝟛ᴺ
 negOneStream = repeat -1d
 
--- Zero, one, and negative one as signed-digit reals
-0sd : ℝsd
-0sd = [ zeroStream ]sd
-
-1sd : ℝsd
-1sd = [ oneStream ]sd
-
--1sd : ℝsd
--1sd = [ negOneStream ]sd
 
 ------------------------------------------------------------------------
 -- Tail bound lemmas
@@ -497,8 +441,9 @@ abs-one = refl  -- max(1, -1) computes to 1
 -- 0 ≤ 1 in ℚ
 -- For a/b ≤ c/d we need a·d ℤ.≤ c·b
 -- Here: 0·1 = 0 ℤ.≤ 1·1 = 1, which follows from zero-≤pos
+-- The Fast ℚ ordering uses a record, so we wrap with inj constructor
 0≤1ℚ : 0ℚ ℚO.≤ 1ℚ
-0≤1ℚ = ℤO.zero-≤pos
+0≤1ℚ = ℚO.inj ℤFastO.zero-≤pos
 
 digitToℚ-bound : (d : Digit) → abs (digitToℚ d) ℚO.≤ 1ℚ
 digitToℚ-bound -1d = subst (ℚO._≤ 1ℚ) (sym abs-neg1) (isRefl≤ 1ℚ)  -- abs(-1) = 1 ≤ 1
@@ -519,13 +464,14 @@ digitToℚ-bound +1d = subst (ℚO._≤ 1ℚ) (sym abs-one) (isRefl≤ 1ℚ)   -
 
 -- Helper: (-1) · x = -x (proof by computation on representatives)
 ·NegOneL : (x : ℚ) → -1ℚ · x ≡ - x
-·NegOneL = SQ.elimProp (λ _ → ℚB.isSetℚ _ _) (λ _ → refl)
+·NegOneL = SQ.elimProp (λ _ → ℚ.isSetℚ _ _) (λ _ → refl)
 
 -- Helper: 0 ≤ inv2^ i (positivity of 1/2^n)
 -- For 0/1 ≤ 1/2^(i+1), need 0·2^(i+1) ℤ.≤ 1·1
 -- Since 0·k = 0 for any k, this is 0 ℤ.≤ 1, i.e., zero-≤pos
+-- The Fast ℚ ordering uses a record, so we wrap with inj constructor
 0≤inv2^ : (i : ℕ) → 0ℚ ℚO.≤ inv2^ i
-0≤inv2^ i = ℤO.zero-≤pos
+0≤inv2^ i = ℚO.inj ℤFastO.zero-≤pos
 
 -- Helper: abs 0 = 0
 abs-0ℚ : abs 0ℚ ≡ 0ℚ
@@ -607,32 +553,35 @@ digitContrib-bound +1d i =
   in subst (ℚO._≤ inv2^ i) (sym path) (isRefl≤ (inv2^ i))
 
 -- Helper: inv2^ (suc k) ≤ inv2^ k (the sequence is decreasing)
--- The inequality [1 / 2^{k+2}] ≤ [1 / 2^{k+1}] unfolds to:
---   1 · ℕ₊₁→ℤ (2^ℕ₊₁ (suc k)) ℤ.≤ 1 · ℕ₊₁→ℤ (2^ℕ₊₁ (suc (suc k)))
+-- The inequality [1 / 2^{k+2}] ≤ [1 / 2^{k+1}] unfolds to (in Fast ℚ ordering):
+--   pos 1 ·ℤf ℕ₊₁→ℤ (2^ℕ₊₁ (suc k)) ℤFastO.≤ pos 1 ·ℤf ℕ₊₁→ℤ (2^ℕ₊₁ (suc (suc k)))
+-- Using ·IdL: pos 1 ·ℤf x ≡ x, this is:
+--   ℕ₊₁→ℤ (2^ℕ₊₁ (suc k)) ℤFastO.≤ ℕ₊₁→ℤ (2^ℕ₊₁ (suc (suc k)))
 -- Using ℕ₊₁→ℤ (2^ℕ₊₁ n) = pos (2^ℕ n), this is:
---   pos (2^ℕ (suc k)) ℤ.≤ pos (2^ℕ (suc (suc k)))
--- Which is pos-mono (2^-mono-ℕ (suc k))
+--   pos (2^ℕ (suc k)) ℤFastO.≤ pos (2^ℕ (suc (suc k)))
+-- Which is pos-monoFast (2^-mono-ℕ (suc k))
 
 inv2^-mono : (k : ℕ) → inv2^ (suc k) ℚO.≤ inv2^ k
-inv2^-mono k = subst2 ℤO._≤_ p1 p2 (pos-mono (2^-mono-ℕ (suc k)))
+inv2^-mono k = ℚO.inj (subst2 ℤFastO._≤_ p1 p2 (pos-monoFast (2^-mono-ℕ (suc k))))
   where
     -- inv2^ (suc k) = [ pos 1 / 2^ℕ₊₁ (suc (suc k)) ]
     -- inv2^ k = [ pos 1 / 2^ℕ₊₁ (suc k) ]
-    -- The ℚ ordering for [1/b] ≤ [1/d] is: 1·d ℤ.≤ 1·b, i.e., d ℤ.≤ b
-    -- Wait, that's backwards! For 1/b ≤ 1/d, we need b ≥ d.
-    -- But inv2^ (suc k) = 1/2^{k+2} ≤ 1/2^{k+1} = inv2^ k is correct
-    -- because 2^{k+2} ≥ 2^{k+1}.
-    -- The ℚ ordering unfolds to: pos 1 · ℕ₊₁→ℤ (denom_invk) ℤ.≤ pos 1 · ℕ₊₁→ℤ (denom_invsuck)
-    -- i.e., ℕ₊₁→ℤ (2^ℕ₊₁ (suc k)) ℤ.≤ ℕ₊₁→ℤ (2^ℕ₊₁ (suc (suc k)))
+    -- The Fast ℚ ordering for [1/b] ≤ [1/d] via inj needs:
+    --   pos 1 ·ℤf ℕ₊₁→ℤ d ℤFastO.≤ pos 1 ·ℤf ℕ₊₁→ℤ b
+    -- We use ·IdL to simplify pos 1 ·ℤf x ≡ x
     
-    p1 : ℤ.pos (2^ℕ (suc k)) ≡ ℚB.ℕ₊₁→ℤ (2^ℕ₊₁ (suc k))
-    p1 = sym (ℕ₊₁→ℤ-2^ℕ₊₁ (suc k))
+    -- LHS: pos (2^ℕ (suc k)) ≡ pos 1 ·ℤf ℕ₊₁→ℤ (2^ℕ₊₁ (suc k))
+    p1 : ℤ.pos (2^ℕ (suc k)) ≡ pos 1 ·ℤf ℚ.ℕ₊₁→ℤ (2^ℕ₊₁ (suc k))
+    p1 = sym (ℕ₊₁→ℤ-2^ℕ₊₁ (suc k)) ∙ sym (ℤf·IdL (ℚ.ℕ₊₁→ℤ (2^ℕ₊₁ (suc k))))
 
-    p2 : ℤ.pos (2^ℕ (suc (suc k))) ≡ ℚB.ℕ₊₁→ℤ (2^ℕ₊₁ (suc (suc k)))
-    p2 = sym (ℕ₊₁→ℤ-2^ℕ₊₁ (suc (suc k)))
+    -- RHS: pos (2^ℕ (suc (suc k))) ≡ pos 1 ·ℤf ℕ₊₁→ℤ (2^ℕ₊₁ (suc (suc k)))
+    p2 : ℤ.pos (2^ℕ (suc (suc k))) ≡ pos 1 ·ℤf ℚ.ℕ₊₁→ℤ (2^ℕ₊₁ (suc (suc k)))
+    p2 = sym (ℕ₊₁→ℤ-2^ℕ₊₁ (suc (suc k))) ∙ sym (ℤf·IdL (ℚ.ℕ₊₁→ℤ (2^ℕ₊₁ (suc (suc k)))))
+
+
 
 -- Helper: (a + b) - a ≡ b
-open import Cubical.Data.Rationals.Properties as ℚProps using (+Comm; +Assoc; +IdR; +IdL)
+-- Note: Using Fast ℚ properties from ℚP
 
 +-minus-cancel : (a b : ℚ) → (a ℚP.+ b) ℚP.- a ≡ b
 +-minus-cancel a b =
@@ -640,10 +589,10 @@ open import Cubical.Data.Rationals.Properties as ℚProps using (+Comm; +Assoc; 
   -- Use +Comm on inner: = (b + a) + (-a)
   -- Use +Assoc⁻¹: = b + (a + (-a))
   -- = b + 0 = b
-  cong (ℚP._+ (ℚP.- a)) (ℚProps.+Comm a b)   -- (b + a) + (-a)
-  ∙ sym (ℚProps.+Assoc b a (ℚP.- a))          -- b + (a + (-a))
-  ∙ cong (b ℚP.+_) (ℚP.+InvR a)               -- b + 0
-  ∙ ℚProps.+IdR b                              -- b
+  cong (ℚP._+ (ℚP.- a)) (ℚP.+Comm a b)   -- (b + a) + (-a)
+  ∙ sym (ℚP.+Assoc b a (ℚP.- a))          -- b + (a + (-a))
+  ∙ cong (b ℚP.+_) (ℚP.+InvR a)           -- b + 0
+  ∙ ℚP.+IdR b                              -- b
 
 -- Difference of consecutive approximations
 approx-step : (s : 𝟛ᴺ) (n : ℕ) → approx s (suc n) ℚP.- approx s n ≡ digitContrib (s ! suc n) (suc n)
@@ -715,17 +664,17 @@ inv2^-slow→fast n = refl
 open import Cubical.Data.Rationals.Fast as ℚF using (fromNat)
 
 ℕ<→ℚᶠ< : (m n : ℕ) → m ℕO.< n → ℚF.fromNat m ℚFO.< ℚF.fromNat n
-ℕ<→ℚᶠ< m n (k , p) = ℚFO.inj (subst2 ℤFO._<_ eq1 eq2 ℤ-ineq)
+ℕ<→ℚᶠ< m n (k , p) = ℚFO.inj (subst2 ℤFastO._<_ eq1 eq2 ℤ-ineq)
   where
     -- fromNat m = [ pos m / 1 ], fromNat n = [ pos n / 1 ]
     -- Need: pos m · 1 <ᶠ pos n · 1, i.e., pos m <ᶠ pos n
-    -- ℤFO._<_ is: m <ᶠ n = Σ k', (1ᶠ + m) +ᶠ pos k' ≡ n
+    -- ℤFastO._<_ is: m <ᶠ n = Σ k', (1ᶠ + m) +ᶠ pos k' ≡ n
     -- For pos m <ᶠ pos n: (1ᶠ + pos m) +ᶠ pos k' ≡ pos n
     -- 1ᶠ + pos m = pos (suc m) via fast ℤ addition
     -- So we need: pos (suc m) +ᶠ pos k' ≡ pos n, i.e., pos (suc m + k') ≡ pos n
     -- From p : k + suc m ≡ n, we get suc m + k ≡ n by +-comm
     
-    -- ℤFO._<_ for pos m < pos n is: Σ k', (pos 1 ℤf.+ pos m) ℤf.+ pos k' ≡ pos n
+    -- ℤFastO._<_ for pos m < pos n is: Σ k', (pos 1 ℤf.+ pos m) ℤf.+ pos k' ≡ pos n
     -- pos 1 ℤf.+ pos m = pos (1 + m) = pos (suc m) (fast ℤ adds naturals directly)
     -- pos (suc m) ℤf.+ pos k = pos (suc m + k)
     
@@ -734,14 +683,14 @@ open import Cubical.Data.Rationals.Fast as ℚF using (fromNat)
     p' : suc m ℕ.+ k ≡ n
     p' = ℕP.+-comm (suc m) k ∙ p
     
-    ℤ-ineq : pos m ℤFO.< pos n
+    ℤ-ineq : pos m ℤFastO.< pos n
     ℤ-ineq = k , cong pos p'
     
     eq1 : pos m ≡ pos m ℤf.· pos 1
-    eq1 = sym (ℤᶠP.·IdR (pos m))
+    eq1 = sym (ℤf·IdR (pos m))
     
     eq2 : pos n ≡ pos n ℤf.· pos 1
-    eq2 = sym (ℤᶠP.·IdR (pos n))
+    eq2 = sym (ℤf·IdR (pos n))
 
 open ℤᶠP using (·IdR)
 
@@ -801,7 +750,7 @@ invℚ₊-fromNat-eq n = ℚF.eq/ _ _ rel
     -- Bind the 0<→ℕ₊₁ result once to share between d1 and d1-eq
     -- 0<→ℕ₊₁ x p : Σ ℕ₊₁ (λ m → x ≡ pos (ℕ₊₁→ℕ m)) i.e., x ≡ ℕ₊₁→ℤ m
     d1-result : Σ[ k ∈ ℕ₊₁ ] pos (2^ℕ (suc n)) ≡ ℚ.ℕ₊₁→ℤ k
-    d1-result = ℤFO.0<→ℕ₊₁ (pos (2^ℕ (suc n))) (0<fromNat-2^ℕ n)
+    d1-result = ℤFastO.0<→ℕ₊₁ (pos (2^ℕ (suc n))) (0<fromNat-2^ℕ n)
     
     d1 : ℕ₊₁
     d1 = fst d1-result
@@ -827,7 +776,7 @@ invℚ₊-fromNat-eq n = ℚF.eq/ _ _ rel
     -- The ∼ relation: pos 1 ·f ℕ₊₁→ℤ d2 ≡ pos 1 ·f ℕ₊₁→ℤ d1
     -- Simplify using ·IdL: 1 ·f x ≡ x
     rel : ℚF._∼_ left-pair right-pair
-    rel = ℤᶠP.·IdL (ℚ.ℕ₊₁→ℤ d2) ∙ denom-eq ∙ sym (ℤᶠP.·IdL (ℚ.ℕ₊₁→ℤ d1))
+    rel = ℤf·IdL (ℚ.ℕ₊₁→ℤ d2) ∙ denom-eq ∙ sym (ℤf·IdL (ℚ.ℕ₊₁→ℤ d1))
 
 -- Key inequality: inv2^ᶠ (suc n) < inv2^ᶠ n (decreasing)
 -- Direct proof: 2^{n+1} < 2^{n+2} in ℕ, so 1/2^{n+2} < 1/2^{n+1} in ℚ
@@ -848,19 +797,19 @@ inv2^ᶠ-mono n = ℚFO.inj ℤ<-proof
     ℕ<-proof : 2^ℕ (suc n) ℕO.< 2^ℕ (suc (suc n))
     ℕ<-proof = 2^-mono-strict (suc n)
     
-    -- Convert to ℤFO._<_
-    ℤ<-proof : (pos 1 ℤf.· ℚ.ℕ₊₁→ℤ denom2) ℤFO.< (pos 1 ℤf.· ℚ.ℕ₊₁→ℤ denom1)
-    ℤ<-proof = subst2 ℤFO._<_ eq1 eq2 ℤ<-core
+    -- Convert to ℤFastO._<_
+    ℤ<-proof : (pos 1 ℤf.· ℚ.ℕ₊₁→ℤ denom2) ℤFastO.< (pos 1 ℤf.· ℚ.ℕ₊₁→ℤ denom1)
+    ℤ<-proof = subst2 ℤFastO._<_ eq1 eq2 ℤ<-core
       where
         -- pos 1 · x ≡ x, and ℕ₊₁→ℤ (2^ℕ₊₁ (suc n)) ≡ pos (2^ℕ (suc n))
         eq1 : ℤ.pos (2^ℕ (suc n)) ≡ pos 1 ℤf.· ℚ.ℕ₊₁→ℤ denom2
-        eq1 = sym (ℕ₊₁→ℤ-2^ℕ₊₁ (suc n)) ∙ sym (ℤᶠP.·IdL (ℚ.ℕ₊₁→ℤ denom2))
+        eq1 = sym (ℕ₊₁→ℤ-2^ℕ₊₁ (suc n)) ∙ sym (ℤf·IdL (ℚ.ℕ₊₁→ℤ denom2))
         
         eq2 : ℤ.pos (2^ℕ (suc (suc n))) ≡ pos 1 ℤf.· ℚ.ℕ₊₁→ℤ denom1
-        eq2 = sym (ℕ₊₁→ℤ-2^ℕ₊₁ (suc (suc n))) ∙ sym (ℤᶠP.·IdL (ℚ.ℕ₊₁→ℤ denom1))
+        eq2 = sym (ℕ₊₁→ℤ-2^ℕ₊₁ (suc (suc n))) ∙ sym (ℤf·IdL (ℚ.ℕ₊₁→ℤ denom1))
         
         -- Core: pos (2^(suc n)) < pos (2^(suc(suc n))) in fast ℤ
-        ℤ<-core : ℤ.pos (2^ℕ (suc n)) ℤFO.< ℤ.pos (2^ℕ (suc (suc n)))
+        ℤ<-core : ℤ.pos (2^ℕ (suc n)) ℤFastO.< ℤ.pos (2^ℕ (suc (suc n)))
         ℤ<-core with ℕ<-proof
         ... | (k , p) = k , cong pos (ℕP.+-comm (suc (2^ℕ (suc n))) k ∙ p)
 
@@ -1077,10 +1026,10 @@ neg-x≤abs-x x = subst ((- x) ℚO.≤_) (sym (ℚP.maxComm x (- x))) (ℚO.≤
 open import Cubical.HITs.PropositionalTruncation as PT using (∥_∥₁; ∣_∣₁)
 
 -- Helper lemma to show ≤ is a proposition (needed for PT.rec)
-open import Cubical.Data.Rationals.Order using (isProp≤)
+-- Note: isProp≤ comes from Fast ℚ Order Properties module
 
 max-LUB : (a b z : ℚ) → a ℚO.≤ z → b ℚO.≤ z → max a b ℚO.≤ z
-max-LUB a b z a≤z b≤z = PT.rec (isProp≤ (max a b) z) handle (ℚO.isTotal≤ a b)
+max-LUB a b z a≤z b≤z = PT.rec (ℚO.isProp≤ (max a b) z) handle (ℚO.isTotal≤ a b)
   where
     handle : (a ℚO.≤ b) ⊎ (b ℚO.≤ a) → max a b ℚO.≤ z
     handle (inl a≤b) = subst (ℚO._≤ z) (sym (ℚO.≤→max a b a≤b)) b≤z
@@ -1154,11 +1103,11 @@ approx-diff-step s m n =
       step1 : (an + dc) - am ≡ (an + dc) + (- am)
       step1 = refl
       step2 : (an + dc) + (- am) ≡ an + (dc + (- am))
-      step2 = sym (ℚProps.+Assoc an dc (- am))
+      step2 = sym (ℚP.+Assoc an dc (- am))
       step3 : an + (dc + (- am)) ≡ an + ((- am) + dc)
-      step3 = cong (an +_) (ℚProps.+Comm dc (- am))
+      step3 = cong (an +_) (ℚP.+Comm dc (- am))
       step4 : an + ((- am) + dc) ≡ (an + (- am)) + dc
-      step4 = ℚProps.+Assoc an (- am) dc
+      step4 = ℚP.+Assoc an (- am) dc
   in step1 ∙ step2 ∙ step3 ∙ step4
 
 -- The inductive step: if |diff up to m+k| ≤ inv2^ m, then |diff up to m+suc k| ≤ inv2^ m
@@ -1198,7 +1147,7 @@ inv2^-minus-half n =
 neg-sum-plus-half : (x : ℚ) → ℚP.- (x ℚP.+ x) ℚP.+ x ≡ ℚP.- x
 neg-sum-plus-half x =
   cong (ℚP._+ x) (ℚP.-Distr x x)  -- (-x + -x) + x
-  ∙ sym (ℚProps.+Assoc (- x) (- x) x)  -- -x + (-x + x)
+  ∙ sym (ℚP.+Assoc (- x) (- x) x)  -- -x + (-x + x)
   ∙ cong ((- x) ℚP.+_) (ℚP.+InvL x)       -- -x + 0
   ∙ ℚP.+IdR (- x)                         -- -x
 
@@ -1209,7 +1158,7 @@ minus-double-plus-half a x =
   --                 = a + ((-(x+x)) + x)
   --                 = a + (-x)
   --                 = a - x
-  sym (ℚProps.+Assoc a (- (x + x)) x)   -- a + ((-(x+x)) + x)
+  sym (ℚP.+Assoc a (- (x + x)) x)   -- a + ((-(x+x)) + x)
   ∙ cong (a ℚP.+_) (neg-sum-plus-half x)  -- a + (-x)
 
 -- The tight bound version
@@ -1384,9 +1333,8 @@ open import Cubical.Data.Rationals.Properties public using (abs; _-_)
 -- Constructive approxℚ₊-cauchy proof
 ------------------------------------------------------------------------
 
--- Now that tail-bound-sym and modulus-correct are defined, we can prove
--- the Cauchy property constructively. This section is intended to replace
--- the postulate at the top of the file.
+-- The Cauchy property proof is now fully constructive.
+-- This is the key lemma used by stream→ℝ below.
 --
 -- Proof strategy:
 -- 1. tail-bound-sym gives: |approx s m - approx s n| ≤ inv2^ (min m n)
@@ -1408,10 +1356,10 @@ open import Cubical.Data.Rationals.Properties public using (abs; _-_)
 ≤<→< : {a b c : ℚ} → a ℚO.≤ b → b ℚO.< c → a ℚO.< c
 ≤<→< a≤b b<c = ℚO.isTrans≤< _ _ _ a≤b b<c
 
--- The constructive proof (to replace the postulate above)  
-approxℚ₊-cauchy-proof : (s : 𝟛ᴺ)
+-- The Cauchy property of stream approximations (fully constructive)
+approxℚ₊-cauchy : (s : 𝟛ᴺ)
   → ∀ (δ ε : ℚ₊) → rat (approxℚ₊ s δ) ∼[ δ ℚFO.ℚ₊+ ε ] rat (approxℚ₊ s ε)
-approxℚ₊-cauchy-proof s δ ε = rat-rat-fromAbs (approxℚ₊ s δ) (approxℚ₊ s ε) (δ ℚFO.ℚ₊+ ε) abs-bound
+approxℚ₊-cauchy s δ ε = rat-rat-fromAbs (approxℚ₊ s δ) (approxℚ₊ s ε) (δ ℚFO.ℚ₊+ ε) abs-bound
   where
     
     m = ℚ₊→ℕ δ
@@ -1483,3 +1431,54 @@ approxℚ₊-cauchy-proof s δ ε = rat-rat-fromAbs (approxℚ₊ s δ) (approx�
         abs<δ+ε-fast = ℚFO.isTrans< _ _ _ abs<ε-fast (ε<δ+ε δ ε)
         
       in subst (ℚFO._< fst (δ ℚFO.ℚ₊+ ε)) (sym abs-conv) abs<δ+ε-fast
+
+------------------------------------------------------------------------
+-- Interpretation into Cauchy reals (moved after approxℚ₊-cauchy proof)
+------------------------------------------------------------------------
+
+-- Interpret a stream as a Cauchy real via the limit of approximations
+stream→ℝ : 𝟛ᴺ → ℝ
+stream→ℝ s = lim (λ ε → rat (approxℚ₊ s ε)) (approxℚ₊-cauchy s)
+
+------------------------------------------------------------------------
+-- Equivalence relation
+------------------------------------------------------------------------
+
+-- Two signed-digit sequences are equivalent if they represent the same
+-- real number. This is the natural equivalence for signed-digit representation
+-- where different digit sequences can represent the same value.
+
+_≈sd_ : 𝟛ᴺ → 𝟛ᴺ → Type₀
+x ≈sd y = stream→ℝ x ≡ stream→ℝ y
+
+------------------------------------------------------------------------
+-- Signed-digit reals as a quotient type
+------------------------------------------------------------------------
+
+-- The type of signed-digit real numbers in [-1, 1]
+-- Quotienting by ≈sd identifies streams with the same limit
+ℝsd : Type₀
+ℝsd = 𝟛ᴺ / _≈sd_
+
+-- Embedding raw sequences into ℝsd
+[_]sd : 𝟛ᴺ → ℝsd
+[ s ]sd = SQ.[ s ]
+
+-- The quotient is a set
+isSetℝsd : isSet ℝsd
+isSetℝsd = squash/
+
+------------------------------------------------------------------------
+-- Basic elements as signed-digit reals
+------------------------------------------------------------------------
+
+-- Zero, one, and negative one as signed-digit reals
+0sd : ℝsd
+0sd = [ zeroStream ]sd
+
+1sd : ℝsd
+1sd = [ oneStream ]sd
+
+-1sd : ℝsd
+-1sd = [ negOneStream ]sd
+
