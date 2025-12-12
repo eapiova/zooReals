@@ -1,6 +1,4 @@
-{-# OPTIONS --cubical --guardedness #-}
--- NOTE: --safe is not used here because we postulate the Cauchy property for now.
--- TODO: Fill in proofs and restore --safe.
+{-# OPTIONS --cubical --guardedness --safe #-}
 
 -- Embedding of Signed-Digit Reals into HoTT Cauchy Reals
 -- 
@@ -29,7 +27,7 @@ open import Cubical.Data.Rationals.Fast.Order as ℚO using (ℚ₊; _ℚ₊+_; 
 open import Cubical.HITs.SetQuotients as SQ hiding ([_])
 
 open import Reals.SignedDigit.Base
-open import Reals.SignedDigit.Equivalence using (ℝsd; _≈sd_; isSetℝsd; 0sd; 1sd; -1sd; approx; inv2^; tail-bound-sym; 2^ℕ₊₁; stream→ℝ; approxℚ₊; approxℚ₊-cauchy; ℚ→ℚᶠ)
+open import Reals.SignedDigit.Equivalence using (ℝsd; _≈sd_; isSetℝsd; 0sd; 1sd; -1sd; approx; inv2^; tail-bound-sym; 2^ℕ₊₁; stream→ℝ; approxℚ₊; approxℚ₊-cauchy)
 open import Reals.HoTT.Base using (ℝ; rat; lim; _∼[_]_; rat-rat-fromAbs)
 open import Cubical.HITs.CauchyReals.Closeness using (isSetℝ; refl∼)
 
@@ -68,14 +66,10 @@ default-fuel = 1000
 -- Convert our approximations to Fast rationals
 -- --------------------------------------------------------------------------
 
--- The approx function from Equivalence uses the regular ℚ.
--- We need to convert to Fast ℚ for the HoTT reals.
--- ℚ→ℚᶠ is imported from Equivalence.agda
-ℚˢ→ℚ : ℚˢ → ℚ.ℚ
-ℚˢ→ℚ = ℚ→ℚᶠ
-
-approxF : 𝟛ᴺ → ℕ → ℚ.ℚ  -- Approximation using Fast rationals
-approxF s n = ℚˢ→ℚ (approx s n)
+-- Since approx in Equivalence.agda now returns Fast ℚ directly,
+-- approxF is just an alias for approx
+approxF : 𝟛ᴺ → ℕ → ℚ.ℚ
+approxF = approx
 
 -- approxℚ₊ and ℚ₊→ℕ are imported from Equivalence.agda
 
