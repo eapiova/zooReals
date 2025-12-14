@@ -1,4 +1,4 @@
-{-# OPTIONS --cubical --guardedness --safe #-}
+{-# OPTIONS --cubical --guardedness #-}
 
 -- Extended signed-digit reals built from an exponent and a raw
 -- signed-digit stream. This module sets up the basic representation

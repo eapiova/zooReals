@@ -35,33 +35,6 @@ open import Cubical.HITs.CauchyReals.Closeness using (isSetℝ; refl∼)
 abs0 : ℚ.abs 0 ≡ 0
 abs0 = ℚ.maxIdem 0
 
-------------------------------------------------------------------------
--- Modulus computation: finding n such that 1/2^{n+1} < ε
-------------------------------------------------------------------------
-
--- 2 as a Fast rational
-2ℚ : ℚ.ℚ
-2ℚ = ℚ.[ pos 2 / 1+ 0 ]
-
--- 1 as a Fast rational
-1ℚ : ℚ.ℚ
-1ℚ = ℚ.[ pos 1 / 1+ 0 ]
-
--- Helper: find smallest n such that q · 2^n ≥ 1
--- We multiply q by 2 repeatedly until it reaches or exceeds 1
--- The fuel parameter ensures termination
-find-n-fuel : ℕ → ℚ.ℚ → ℕ
-find-n-fuel zero _ = 0  -- fallback if we run out of fuel
-find-n-fuel (suc fuel) q with 1ℚ ℚO.≟ q
-... | lt _ = 0           -- q ≥ 1, we're done (need 0 more doublings)
-... | eq _ = 0           -- q = 1, we're done
-... | gt _ = suc (find-n-fuel fuel (2ℚ ℚ.· q))  -- q < 1, double and continue
-
--- Initial fuel: we use 1000 which is more than enough for any reasonable ε
--- (For ε = 2^{-n}, we need n iterations, and 2^1000 is astronomically large)
-default-fuel : ℕ
-default-fuel = 1000
-
 -- --------------------------------------------------------------------------
 -- Convert our approximations to Fast rationals
 -- --------------------------------------------------------------------------

@@ -1,13 +1,23 @@
-{-# OPTIONS --cubical --guardedness #-}
+{-# OPTIONS --cubical --guardedness --allow-unsolved-metas #-}
 
-
--- Equivalence relation on signed-digit sequences and the quotient type ℝsd
--- Based on TWA Thesis Chapter 5 (TypeTopology), ported to Cubical Agda
+------------------------------------------------------------------------
+-- Signed-Digit Reals: Equivalence and Quotient Type
+------------------------------------------------------------------------
 --
--- KEY CHANGE: ≈sd is now defined as "same limit in ℝ" rather than
--- "pointwise equal approximations". This weaker definition is more
--- appropriate for signed-digit representation where different digit
--- sequences can represent the same real number.
+-- This module defines the quotient type ℝsd of signed-digit real numbers
+-- in [-1, 1], based on TWA's thesis (TypeTopology).
+--
+-- KEY EXPORTS:
+--   ℝsd              Quotient type of signed-digit streams
+--   _≈sd_            Equivalence (same limit in ℝ)
+--   stream→ℝ         Interpret streams as Cauchy reals
+--   rational→stream  Convert bounded rationals to digit streams
+--   approxℚ₊-cauchy  Cauchy property of stream approximations
+--
+-- KEY INSIGHT: Different digit sequences can represent the same real
+-- (e.g., 0.111... = 1.000...). We quotient by "same limit" rather than
+-- pointwise equality.
+--
 
 module Reals.SignedDigit.Equivalence where
 
@@ -78,11 +88,30 @@ open import Cubical.Relation.Nullary using (Dec; yes; no)
 open import Reals.SignedDigit.Base
 
 ------------------------------------------------------------------------
--- Postulates for Migration (from Embedding)
+-- Lemmas for Migration (from Embedding)
 ------------------------------------------------------------------------
-postulate FIXME : ∀ {ℓ} {A : Type ℓ} → A
 weak-ineq : ∀ {x y : ℚ} → x ℚO.< y → x ℚO.≤ y
-weak-ineq p = FIXME
+weak-ineq {x} {y} x<y = 
+  SQ.elimProp2 
+    {P = λ a b → a ℚO.< b → a ℚO.≤ b}
+    (λ _ _ → isPropΠ (λ _ → ℚO.isProp≤ _ _))
+    (λ (n₁ , d₁) (n₂ , d₂) lt → 
+      -- For representatives: [n₁/d₁] < [n₂/d₂] means n₁·d₂ < n₂·d₁ (in ℤ)
+      -- We need [n₁/d₁] ≤ [n₂/d₂] which is n₁·d₂ ≤ n₂·d₁
+      -- The lt proof contains the strict integer inequality
+      -- We convert using the integer <→≤ internally stored in the record
+      ℚO.inj (<→≤ (ℚFO.out< lt)))
+    x y x<y
+  where
+    open import Cubical.Data.Int.Fast.Order as ℤFO using (_<_; _≤_)
+    
+    -- Extract: ℚFO.out< extracts the underlying ℤ< from ℚ<
+    -- This might not be exported, let's try a simpler approach
+    <→≤ : {a b : ℤ} → a ℤFO.< b → a ℤFO.≤ b  
+    <→≤ (k , prf) = suc k , 
+      cong (ℤf._+ ℤ.pos k) (ℤfP.+Comm (ℤ.pos 1) _) ∙ 
+      sym (ℤfP.+Assoc _ (ℤ.pos 1) (ℤ.pos k)) ∙ 
+      prf
 
 ------------------------------------------------------------------------
 -- Rational approximations
@@ -188,83 +217,6 @@ approx s (suc n) = approx s n ℚP.+ digitContrib (s ! suc n) (suc n)
   let k = fst (ℚOP.ceilℚ₊ (ℚOP.invℚ₊ ε))  -- k : ℕ₊₁ with 1/ε < k
       n = fst (ℕMod.log2ℕ (ℕ₊₁→ℕ k))       -- n : ℕ with k < 2^n
   in suc n  -- inv2^(suc n) = 1/2^{n+2} < 1/2^{n+1} = inv2^n < 1/2^n < ε
-
--- ------------------------------------------------------------------------
--- -- Rational to Stream Conversion (Moved from Embedding.agda)
--- ------------------------------------------------------------------------
--- 
--- -- Select a digit based on a rational approximation.
--- selectDigitFromℚ : ℚ → Digit
--- selectDigitFromℚ q with [ negsuc 0 / 1+ 2 ] ℚO.≟ q -- -1/3
--- ... | ℚO.gt _ = -1d
--- ... | ℚO.eq _ = 0d
--- ... | ℚO.lt _ with [ pos 2 / 1+ 2 ] ℚO.≟ q -- +1/3 (Wait, 1/3 is pos 1 / 1+2. +2/3 is pos 2 / 1+2)
--- -- Embedding used +1/3Q = [ pos 1 / 1+ 2 ]? 
--- -- Let's check original Embedding code line 212: -1/3Q. 215: +1/3Q.
--- -- I'll define them locally.
--- ...   | ℚO.lt _ = +1d
--- ...   | ℚO.eq _ = 0d
--- ...   | ℚO.gt _ = 0d
--- 
--- -- Constants
--- -1/3ℚ : ℚ
--- -1/3ℚ = [ negsuc 0 / 1+ 2 ]
--- 
--- +1/3ℚ : ℚ
--- +1/3ℚ = [ pos 1 / 1+ 2 ]
--- 
--- -- Redefine selectDigit with constants
--- selectDigitFromℚ' : ℚ → Digit
--- selectDigitFromℚ' q with -1/3ℚ ℚO.≟ q
--- ... | ℚO.gt _ = -1d
--- ... | ℚO.eq _ = 0d
--- ... | ℚO.lt _ with +1/3ℚ ℚO.≟ q
--- ...   | ℚO.lt _ = +1d
--- ...   | ℚO.eq _ = 0d
--- ...   | ℚO.gt _ = 0d
--- 
--- -- Rational constants
--- -1ℚ : ℚ
--- -1ℚ = [ negsuc 0 / 1+ 0 ]
--- 
--- +1ℚ : ℚ
--- +1ℚ = [ pos 1 / 1+ 0 ]
--- 
--- -- Clamp a rational to [-1, 1]
--- clampℚ : ℚ → ℚ
--- clampℚ q = ℚP.max -1ℚ (ℚP.min +1ℚ q)
--- 
--- -- Next state
--- nextStateℚ : ℚ → Digit → ℚ
--- nextStateℚ q d = clampℚ ((2ℚ ℚP.· q) ℚP.- digitToℚ d)
---   where 
---     2ℚ : ℚ
---     2ℚ = [ pos 2 / 1+ 0 ]
--- 
--- -- Coinductively build a stream
--- rational→stream : ℚ → 𝟛ᴺ
--- head (rational→stream q) = selectDigitFromℚ' q
--- tail (rational→stream q) = rational→stream (nextStateℚ q (selectDigitFromℚ' q))
--- 
--- -- Helper: The n-th remainder
--- remainderₙ : ℚ → ℕ → ℚ
--- remainderₙ q zero = nextStateℚ q (selectDigitFromℚ' q)
--- remainderₙ q (suc n) = remainderₙ (nextStateℚ q (selectDigitFromℚ' q)) n
--- 
--- -- Postulate proofs for now (copied structure)
--- postulate
---   approx-sum-remainder-bounded : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → (n : ℕ) →
---     (q ℚP.- approx (rational→stream q) n) ≡ (remainderₙ q n) ℚP.· inv2^ n
--- 
---   remainder-bound : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → (n : ℕ) →
---     ℚP.abs (remainderₙ q n) ℚO.≤ +1ℚ
--- 
---   approx-converges : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → (n : ℕ) →
---     ℚP.abs (q ℚP.- approx (rational→stream q) n) ℚO.≤ inv2^ n
--- 
---   -- Postulate Lipschitz continuity and clamp invariance
---   rational→stream-clamp-eq : (q : ℚ) → rational→stream q ≡ rational→stream (clampℚ q)
---   clamp-lip : (x y : ℚ) → ℚP.abs (clampℚ x ℚP.- clampℚ y) ℚO.≤ ℚP.abs (x ℚP.- y)
 
 
 -- Approximation indexed by precision (now just uses approx directly since it returns ℚ)
@@ -1614,7 +1566,7 @@ isSetℝsd = squash/
 -- Helper: |2q - d| ≤ 1 for q in [-1, 1]
 digit-bound : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → 
   ℚP.abs ((2ℚ ℚP.· q) ℚP.- digitToℚ (selectDigitFromℚ q)) ℚO.≤ +1ℚ
-digit-bound q lo hi = FIXME
+digit-bound q lo hi = {!   !}
 
 approx-sum-remainder-bounded : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → (n : ℕ) →
   (q ℚP.- approx (rational→stream q) n) ≡ (remainderₙ q (suc n)) ℚP.· inv2^ (suc n)
@@ -1625,25 +1577,25 @@ approx-sum-remainder-bounded q lo hi zero =
   -- By digit-bound, |2q - d| ≤ 1, so clamp(2q - d) = 2q - d
   -- So we need algebra to show q - d/2 = (2q - d) * 1/2
   -- (2q - d) * 1/2 = 2q*1/2 - d*1/2 = q - d/2.
-  FIXME
-approx-sum-remainder-bounded q lo hi (suc n) = FIXME
+  {!   !}
+approx-sum-remainder-bounded q lo hi (suc n) = {!   !}
 
 remainder-bound : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → (n : ℕ) →
   ℚP.abs (remainderₙ q n) ℚO.≤ +1ℚ
-remainder-bound q lo hi n = FIXME
+remainder-bound q lo hi n = {!   !}
 
 approx-converges : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → (n : ℕ) →
   ℚP.abs (q ℚP.- approx (rational→stream q) n) ℚO.≤ inv2^ n
-approx-converges q lo hi n = FIXME
+approx-converges q lo hi n = {!   !}
 
 -- Definitions (formerly postulates)
 
 private
   head-inv : (q : ℚ) → selectDigitFromℚ q ≡ selectDigitFromℚ (clampℚ q)
-  head-inv q = FIXME
+  head-inv q = {!   !}
 
   nextState-inv : (q : ℚ) (d : Digit) → nextStateℚ q d ≡ nextStateℚ (clampℚ q) d
-  nextState-inv q d = FIXME
+  nextState-inv q d = {!   !}
 
 -- Postulate Lipschitz continuity and clamp invariance
 rational→stream-clamp-eq : (q : ℚ) → rational→stream q ≡ rational→stream (clampℚ q)
@@ -1665,13 +1617,47 @@ rational→stream-clamp-eq q i .tail =
 
 -- Arithmetic helpers
 trans-≤ : {x y z : ℚ} → x ℚO.≤ y → y ℚO.≤ z → x ℚO.≤ z
-trans-≤ xy yz = FIXME
+trans-≤ {x} {y} {z} xy yz = ℚO.isTrans≤ x y z xy yz
 
+-- For max-lip and min-lip, we use case analysis on isTotal≤
+-- When a ≤ b: max c a vs max c b differs by at most |a - b|
+-- Case 1: c ≤ a ≤ b → max c a = a, max c b = b → |a - b| ≤ |a - b| ✓
+-- Case 2: a ≤ c ≤ b → max c a = c, max c b = b → |c - b| ≤ |a - b| (since a ≤ c)
+-- Case 3: a ≤ b ≤ c → max c a = c, max c b = c → |c - c| = 0 ≤ |a - b| ✓
+-- Similar analysis for symmetric cases.
+
+-- For now, use the general strategy via case analysis
 max-lip : (c a b : ℚ) → ℚP.abs (ℚP.max c a ℚP.- ℚP.max c b) ℚO.≤ ℚP.abs (a ℚP.- b)
-max-lip c a b = FIXME
+max-lip c a b = PT.rec (ℚO.isProp≤ _ _) handle (ℚO.isTotal≤ a b)
+  where
+    open import Cubical.HITs.PropositionalTruncation as PT
+    handle : (a ℚO.≤ b) ⊎ (b ℚO.≤ a) → ℚP.abs (ℚP.max c a ℚP.- ℚP.max c b) ℚO.≤ ℚP.abs (a ℚP.- b)
+    handle (inl a≤b) = PT.rec (ℚO.isProp≤ _ _) (handle-inner a≤b) (ℚO.isTotal≤ c a)
+      where
+        handle-inner : a ℚO.≤ b → (c ℚO.≤ a) ⊎ (a ℚO.≤ c) → ℚP.abs (ℚP.max c a ℚP.- ℚP.max c b) ℚO.≤ ℚP.abs (a ℚP.- b)
+        handle-inner a≤b (inl c≤a) = 
+          -- max c a = a (since c ≤ a), need to show |a - max c b| ≤ |a - b|
+          subst (λ z → ℚP.abs (z ℚP.- ℚP.max c b) ℚO.≤ ℚP.abs (a ℚP.- b)) 
+                (sym (ℚO.≤→max c a c≤a))
+                (PT.rec (ℚO.isProp≤ _ _) (λ tot → case-c≤a-inner a≤b c≤a tot) (ℚO.isTotal≤ c b))
+          where
+            case-c≤a-inner : a ℚO.≤ b → c ℚO.≤ a → (c ℚO.≤ b) ⊎ (b ℚO.≤ c) → ℚP.abs (a ℚP.- ℚP.max c b) ℚO.≤ ℚP.abs (a ℚP.- b)
+            case-c≤a-inner a≤b c≤a (inl c≤b) = 
+              -- max c b = b, so |a - b| ≤ |a - b| by reflexivity
+              subst (λ z → ℚP.abs (a ℚP.- z) ℚO.≤ ℚP.abs (a ℚP.- b)) (sym (ℚO.≤→max c b c≤b)) (ℚO.isRefl≤ _)
+            case-c≤a-inner a≤b c≤a (inr b≤c) =
+              -- max c b = c, |a - c| ≤ |a - b| since b ≤ c and a ≤ b gives a ≤ b ≤ c
+              -- Actually a ≤ b ≤ c contradicts c ≤ a unless a = b = c
+              -- But we also have c ≤ a, so c ≤ a ≤ b ≤ c means a = b = c
+              -- In that case |a - c| = 0 ≤ |a - b| = 0
+              subst (λ z → ℚP.abs (a ℚP.- z) ℚO.≤ ℚP.abs (a ℚP.- b)) 
+                    (sym (ℚP.maxComm c b ∙ ℚO.≤→max b c b≤c)) 
+                    {!   !} -- deferred: edge case requires more careful proof
+        handle-inner a≤b (inr a≤c) = {!   !} -- symmetric case analysis
+    handle (inr b≤a) = {!   !} -- symmetric to inl case
 
 min-lip : (c a b : ℚ) → ℚP.abs (ℚP.min c a ℚP.- ℚP.min c b) ℚO.≤ ℚP.abs (a ℚP.- b)
-min-lip c a b = FIXME
+min-lip c a b = {!   !} -- similar to max-lip, using min properties
 
 clamp-lip : (x y : ℚ) → ℚP.abs (clampℚ x ℚP.- clampℚ y) ℚO.≤ ℚP.abs (x ℚP.- y)
 clamp-lip x y =

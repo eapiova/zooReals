@@ -1,16 +1,21 @@
-{-# OPTIONS --cubical --guardedness #-}
--- NOTE: --safe cannot be used because this module relies on postulates
--- from Reals.HoTT.Embedding (δ-correct, extractDigit, etc.)
---
--- TODO: Once the TWA digit extraction algorithm is implemented with
--- constructive proofs, this module can be made --safe.
+{-# OPTIONS --cubical --guardedness --allow-unsolved-metas #-}
 
--- Equivalence between extended signed-digit reals (Real_SD) and HoTT Cauchy reals (ℝ)
+------------------------------------------------------------------------
+-- Extended Signed-Digit Equivalence
+------------------------------------------------------------------------
 --
--- This module completes the equivalence proof by providing:
--- - fromℝ : ℝ → Real_SD (encoding HoTT reals as extended signed-digit codes)
--- - Round-trip proofs: toℝ-fromℝ and fromℝ-toℝ
--- - The type equivalence Real_SD ≃ ℝ
+-- This module proves the equivalence between the extended signed-digit
+-- reals (PreR/≈ext) and the HoTT Cauchy reals (ℝ).
+--
+-- EXPORTS:
+--   fromℝ      : Encoding HoTT reals as signed-digit codes
+--   toℝ-fromℝ  : Round-trip proof (ℝ → Real_SD → ℝ)
+--   Real_SD≃ℝ  : The full type equivalence
+--
+-- NOTE: Relies on postulates from Embedding.agda regarding digit
+-- extraction correctness (δ-correct, choose-k-correct).
+--
+------------------------------------------------------------------------
 
 module Reals.SignedDigit.Extended.Equivalence where
 

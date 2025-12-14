@@ -1,5 +1,17 @@
 {-# OPTIONS --cubical --guardedness #-}
 
+------------------------------------------------------------------------
+-- Limit Operation for Signed-Digit Streams
+------------------------------------------------------------------------
+--
+-- This module implements the `lim` operation for signed-digit streams,
+-- which allows defining a stream by a sequence of approximations that
+-- converge effectively.
+--
+-- STATUS: Experimental/WIP using FIXMEs for arithmetic details.
+--
+------------------------------------------------------------------------
+
 module Reals.SignedDigit.Limit where
 
 open import Cubical.Foundations.Prelude
@@ -22,7 +34,7 @@ open import Reals.HoTT.Base
 -- Local addition for Q+
 infixl 6 _+₊_
 _+₊_ : ℚ₊ → ℚ₊ → ℚ₊
-(q , qp) +₊ (r , rp) = (q ℚP.+ r) , FIXME
+(q , qp) +₊ (r , rp) = (q ℚP.+ r) , ?
 
 -- Constants
 2n : ℕ
@@ -56,17 +68,17 @@ _+₊_ : ℚ₊ → ℚ₊ → ℚ₊
 
 -- Coherence helper: |2x - 2y| = 2|x - y|
 postulate-abs-mult : (a b : ℚ.ℚ) → ℚP.abs (a ℚP.· b) ≡ ℚP.abs a ℚP.· ℚP.abs b
-postulate-abs-mult a b = FIXME
+postulate-abs-mult a b = ?
 
 abs-dist-scale : (x y : ℚ.ℚ) → ℚP.abs ((2Q ℚP.· x) ℚP.- (2Q ℚP.· y)) ≡ 2Q ℚP.· ℚP.abs (x ℚP.- y)
-abs-dist-scale x y = FIXME
+abs-dist-scale x y = ?
 
 {-# TERMINATING #-}
 limA : (f : ℚ₊ → 𝟛ᴺ) → (∀ δ ε → stream→ℝ (f δ) ∼[ δ +₊ ε ] stream→ℝ (f ε)) → 𝟛ᴺ
 limA streams coh = record { head = d ; tail = limA nextStreams nextCoh }
   where
     -- Step 1: Pick fixed epsilon ε = 1/16
-    ε = 1/16ℚ , FIXME -- Need Pos check
+    ε = 1/16ℚ , ? -- Need Pos check
 
     -- Step 2: Get approx
     s : 𝟛ᴺ
@@ -99,4 +111,4 @@ limA streams coh = record { head = d ; tail = limA nextStreams nextCoh }
         q_δ = approx (streams delta4) 100n -- FIXME precision
 
     nextCoh : ∀ δ γ → stream→ℝ (nextStreams δ) ∼[ δ +₊ γ ] stream→ℝ (nextStreams γ)
-    nextCoh δ γ = FIXME -- Use rat-rat-fromAbs logic
+    nextCoh δ γ = ? -- Use rat-rat-fromAbs logic
