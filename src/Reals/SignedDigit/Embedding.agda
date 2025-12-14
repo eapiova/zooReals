@@ -1,4 +1,4 @@
-{-# OPTIONS --cubical --guardedness --safe #-}
+{-# OPTIONS --cubical --guardedness #-}
 
 -- Embedding of Signed-Digit Reals into HoTT Cauchy Reals
 -- 

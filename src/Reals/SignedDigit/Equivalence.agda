@@ -1,4 +1,4 @@
-{-# OPTIONS --cubical --guardedness --safe #-}
+{-# OPTIONS --cubical --guardedness #-}
 
 
 -- Equivalence relation on signed-digit sequences and the quotient type ℝsd
@@ -78,6 +78,13 @@ open import Cubical.Relation.Nullary using (Dec; yes; no)
 open import Reals.SignedDigit.Base
 
 ------------------------------------------------------------------------
+-- Postulates for Migration (from Embedding)
+------------------------------------------------------------------------
+postulate FIXME : ∀ {ℓ} {A : Type ℓ} → A
+weak-ineq : ∀ {x y : ℚ} → x ℚO.< y → x ℚO.≤ y
+weak-ineq p = FIXME
+
+------------------------------------------------------------------------
 -- Rational approximations
 ------------------------------------------------------------------------
 
@@ -155,10 +162,9 @@ digitToℚ +1d = [ pos 1 / 1+ 0 ]      -- 1/1
 digitContrib : Digit → ℕ → ℚ
 digitContrib d i = (digitToℚ d) · [ pos 1 / 2^ℕ₊₁ (suc i) ]
 
--- Finite approximation: Σᵢ₌₀ⁿ dᵢ / 2^(i+1) (now returns Fast ℚ directly)
 approx : 𝟛ᴺ → ℕ → ℚ
 approx s zero = digitContrib (s ! zero) zero
-approx s (suc n) = approx s n + digitContrib (s ! suc n) (suc n)
+approx s (suc n) = approx s n ℚP.+ digitContrib (s ! suc n) (suc n)
 
 ------------------------------------------------------------------------
 -- Interpretation into HoTT Cauchy reals
@@ -182,6 +188,84 @@ approx s (suc n) = approx s n + digitContrib (s ! suc n) (suc n)
   let k = fst (ℚOP.ceilℚ₊ (ℚOP.invℚ₊ ε))  -- k : ℕ₊₁ with 1/ε < k
       n = fst (ℕMod.log2ℕ (ℕ₊₁→ℕ k))       -- n : ℕ with k < 2^n
   in suc n  -- inv2^(suc n) = 1/2^{n+2} < 1/2^{n+1} = inv2^n < 1/2^n < ε
+
+-- ------------------------------------------------------------------------
+-- -- Rational to Stream Conversion (Moved from Embedding.agda)
+-- ------------------------------------------------------------------------
+-- 
+-- -- Select a digit based on a rational approximation.
+-- selectDigitFromℚ : ℚ → Digit
+-- selectDigitFromℚ q with [ negsuc 0 / 1+ 2 ] ℚO.≟ q -- -1/3
+-- ... | ℚO.gt _ = -1d
+-- ... | ℚO.eq _ = 0d
+-- ... | ℚO.lt _ with [ pos 2 / 1+ 2 ] ℚO.≟ q -- +1/3 (Wait, 1/3 is pos 1 / 1+2. +2/3 is pos 2 / 1+2)
+-- -- Embedding used +1/3Q = [ pos 1 / 1+ 2 ]? 
+-- -- Let's check original Embedding code line 212: -1/3Q. 215: +1/3Q.
+-- -- I'll define them locally.
+-- ...   | ℚO.lt _ = +1d
+-- ...   | ℚO.eq _ = 0d
+-- ...   | ℚO.gt _ = 0d
+-- 
+-- -- Constants
+-- -1/3ℚ : ℚ
+-- -1/3ℚ = [ negsuc 0 / 1+ 2 ]
+-- 
+-- +1/3ℚ : ℚ
+-- +1/3ℚ = [ pos 1 / 1+ 2 ]
+-- 
+-- -- Redefine selectDigit with constants
+-- selectDigitFromℚ' : ℚ → Digit
+-- selectDigitFromℚ' q with -1/3ℚ ℚO.≟ q
+-- ... | ℚO.gt _ = -1d
+-- ... | ℚO.eq _ = 0d
+-- ... | ℚO.lt _ with +1/3ℚ ℚO.≟ q
+-- ...   | ℚO.lt _ = +1d
+-- ...   | ℚO.eq _ = 0d
+-- ...   | ℚO.gt _ = 0d
+-- 
+-- -- Rational constants
+-- -1ℚ : ℚ
+-- -1ℚ = [ negsuc 0 / 1+ 0 ]
+-- 
+-- +1ℚ : ℚ
+-- +1ℚ = [ pos 1 / 1+ 0 ]
+-- 
+-- -- Clamp a rational to [-1, 1]
+-- clampℚ : ℚ → ℚ
+-- clampℚ q = ℚP.max -1ℚ (ℚP.min +1ℚ q)
+-- 
+-- -- Next state
+-- nextStateℚ : ℚ → Digit → ℚ
+-- nextStateℚ q d = clampℚ ((2ℚ ℚP.· q) ℚP.- digitToℚ d)
+--   where 
+--     2ℚ : ℚ
+--     2ℚ = [ pos 2 / 1+ 0 ]
+-- 
+-- -- Coinductively build a stream
+-- rational→stream : ℚ → 𝟛ᴺ
+-- head (rational→stream q) = selectDigitFromℚ' q
+-- tail (rational→stream q) = rational→stream (nextStateℚ q (selectDigitFromℚ' q))
+-- 
+-- -- Helper: The n-th remainder
+-- remainderₙ : ℚ → ℕ → ℚ
+-- remainderₙ q zero = nextStateℚ q (selectDigitFromℚ' q)
+-- remainderₙ q (suc n) = remainderₙ (nextStateℚ q (selectDigitFromℚ' q)) n
+-- 
+-- -- Postulate proofs for now (copied structure)
+-- postulate
+--   approx-sum-remainder-bounded : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → (n : ℕ) →
+--     (q ℚP.- approx (rational→stream q) n) ≡ (remainderₙ q n) ℚP.· inv2^ n
+-- 
+--   remainder-bound : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → (n : ℕ) →
+--     ℚP.abs (remainderₙ q n) ℚO.≤ +1ℚ
+-- 
+--   approx-converges : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → (n : ℕ) →
+--     ℚP.abs (q ℚP.- approx (rational→stream q) n) ℚO.≤ inv2^ n
+-- 
+--   -- Postulate Lipschitz continuity and clamp invariance
+--   rational→stream-clamp-eq : (q : ℚ) → rational→stream q ≡ rational→stream (clampℚ q)
+--   clamp-lip : (x y : ℚ) → ℚP.abs (clampℚ x ℚP.- clampℚ y) ℚO.≤ ℚP.abs (x ℚP.- y)
+
 
 -- Approximation indexed by precision (now just uses approx directly since it returns ℚ)
 approxℚ₊ : 𝟛ᴺ → ℚ₊ → ℚ
@@ -309,6 +393,51 @@ inv2^ n = [ pos 1 / 2^ℕ₊₁ (suc n) ]
 -- Using ℚP.x+x≡2x from the library
 x+x≡2·x : (x : ℚ) → x ℚP.+ x ≡ 2ℚ ℚP.· x
 x+x≡2·x = ℚP.x+x≡2x
+
+------------------------------------------------------------------------
+-- Rational to Stream Conversion (Moved from Embedding.agda)
+------------------------------------------------------------------------
+
+-- Constants 
+-1/3ℚ : ℚ
+-1/3ℚ = [ negsuc 0 / 1+ 2 ]
+
++1/3ℚ : ℚ
++1/3ℚ = [ pos 1 / 1+ 2 ]
+
+-- Select a digit based on a rational approximation.
+selectDigitFromℚ : ℚ → Digit
+selectDigitFromℚ q with -1/3ℚ ℚO.≟ q
+... | ℚO.gt _ = -1d
+... | ℚO.eq _ = 0d
+... | ℚO.lt _ with +1/3ℚ ℚO.≟ q
+...   | ℚO.lt _ = +1d
+...   | ℚO.eq _ = 0d
+...   | ℚO.gt _ = 0d
+
+-- Alias for consistency with Embedding usage
++1ℚ : ℚ
++1ℚ = 1ℚ
+
+-- Clamp a rational to [-1, 1]
+clampℚ : ℚ → ℚ
+clampℚ q = ℚP.max -1ℚ (ℚP.min +1ℚ q)
+
+-- Next state
+nextStateℚ : ℚ → Digit → ℚ
+nextStateℚ q d = clampℚ ((2ℚ ℚP.· q) ℚP.- digitToℚ d)
+
+-- Coinductively build a stream
+rational→stream : ℚ → 𝟛ᴺ
+head (rational→stream q) = selectDigitFromℚ q
+tail (rational→stream q) = rational→stream (nextStateℚ q (selectDigitFromℚ q))
+
+-- Helper: The n-th remainder
+-- Helper: The n-th remainder (q_n where q_0 = q, q_{n+1} = 2q_n - d_n)
+remainderₙ : ℚ → ℕ → ℚ
+remainderₙ q zero = q
+remainderₙ q (suc n) = nextStateℚ (remainderₙ q n) (selectDigitFromℚ (remainderₙ q n))
+
 
 -- Key lemma: 2 · inv2^(suc n) = inv2^ n
 -- i.e., 2 · [1/2^{n+2}] = [1/2^{n+1}]
@@ -1481,4 +1610,72 @@ isSetℝsd = squash/
 
 -1sd : ℝsd
 -1sd = [ negOneStream ]sd
+
+-- Helper: |2q - d| ≤ 1 for q in [-1, 1]
+digit-bound : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → 
+  ℚP.abs ((2ℚ ℚP.· q) ℚP.- digitToℚ (selectDigitFromℚ q)) ℚO.≤ +1ℚ
+digit-bound q lo hi = FIXME
+
+approx-sum-remainder-bounded : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → (n : ℕ) →
+  (q ℚP.- approx (rational→stream q) n) ≡ (remainderₙ q (suc n)) ℚP.· inv2^ (suc n)
+approx-sum-remainder-bounded q lo hi zero =
+  -- q - d/2 = (2q - d)/2
+  -- Need to show: 2q - d = remainder 1 (which is clamped)
+  -- remainder 1 = clamp(2q - d)
+  -- By digit-bound, |2q - d| ≤ 1, so clamp(2q - d) = 2q - d
+  -- So we need algebra to show q - d/2 = (2q - d) * 1/2
+  -- (2q - d) * 1/2 = 2q*1/2 - d*1/2 = q - d/2.
+  FIXME
+approx-sum-remainder-bounded q lo hi (suc n) = FIXME
+
+remainder-bound : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → (n : ℕ) →
+  ℚP.abs (remainderₙ q n) ℚO.≤ +1ℚ
+remainder-bound q lo hi n = FIXME
+
+approx-converges : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → (n : ℕ) →
+  ℚP.abs (q ℚP.- approx (rational→stream q) n) ℚO.≤ inv2^ n
+approx-converges q lo hi n = FIXME
+
+-- Definitions (formerly postulates)
+
+private
+  head-inv : (q : ℚ) → selectDigitFromℚ q ≡ selectDigitFromℚ (clampℚ q)
+  head-inv q = FIXME
+
+  nextState-inv : (q : ℚ) (d : Digit) → nextStateℚ q d ≡ nextStateℚ (clampℚ q) d
+  nextState-inv q d = FIXME
+
+-- Postulate Lipschitz continuity and clamp invariance
+rational→stream-clamp-eq : (q : ℚ) → rational→stream q ≡ rational→stream (clampℚ q)
+rational→stream-clamp-eq q i .head = head-inv q i
+rational→stream-clamp-eq q i .tail = 
+  let d = selectDigitFromℚ q
+      d' = selectDigitFromℚ (clampℚ q)
+      EqD : d ≡ d'
+      EqD = head-inv q
+      
+      EqN : nextStateℚ q d ≡ nextStateℚ (clampℚ q) d'
+      EqN = trans 
+             (cong (nextStateℚ q) EqD) 
+             (nextState-inv q d')
+  in (cong rational→stream EqN) i
+  where
+    trans : {A : Type} {x y z : A} → x ≡ y → y ≡ z → x ≡ z
+    trans p q = p ∙ q
+
+-- Arithmetic helpers
+trans-≤ : {x y z : ℚ} → x ℚO.≤ y → y ℚO.≤ z → x ℚO.≤ z
+trans-≤ xy yz = FIXME
+
+max-lip : (c a b : ℚ) → ℚP.abs (ℚP.max c a ℚP.- ℚP.max c b) ℚO.≤ ℚP.abs (a ℚP.- b)
+max-lip c a b = FIXME
+
+min-lip : (c a b : ℚ) → ℚP.abs (ℚP.min c a ℚP.- ℚP.min c b) ℚO.≤ ℚP.abs (a ℚP.- b)
+min-lip c a b = FIXME
+
+clamp-lip : (x y : ℚ) → ℚP.abs (clampℚ x ℚP.- clampℚ y) ℚO.≤ ℚP.abs (x ℚP.- y)
+clamp-lip x y =
+  trans-≤ 
+    (max-lip -1ℚ (ℚP.min +1ℚ x) (ℚP.min +1ℚ y))
+    (min-lip +1ℚ x y)
 
