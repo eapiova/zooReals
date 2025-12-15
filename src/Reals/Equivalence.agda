@@ -3,7 +3,7 @@
 -- Equivalence between Signed-Digit Reals and HoTT Cauchy Reals
 -- 
 -- This module proves that ι and ι⁻¹ form an equivalence between
--- ℝsd (signed-digit quotient) and ℝ (HoTT Cauchy reals).
+-- 𝕀sd (signed-digit quotient) and ℝ (HoTT Cauchy reals).
 
 module Reals.Equivalence where
 
@@ -22,13 +22,13 @@ open import Cubical.Data.Rationals.Fast as ℚ using (ℚ)
 open import Cubical.HITs.SetQuotients as SQ hiding ([_])
 
 -- Import both representations
-open import Reals.SignedDigit.Base
-open import Reals.SignedDigit.Equivalence using (ℝsd; _≈sd_; isSetℝsd; 0sd; 1sd; -1sd; stream→ℝ)
-open import Reals.HoTT.Base using (ℝ; rat; lim; eqℝ; _∼[_]_)
+open import Reals.SignedDigit.Core
+open import Reals.SignedDigit.Bounded using (𝕀sd; _≈sd_; isSet𝕀sd; 0sd; 1sd; -1sd; stream→ℝ)
+open import Cubical.HITs.CauchyReals.Base using (ℝ; rat; lim; eqℝ; _∼[_]_)
 
 -- Import both embeddings
-open import Reals.SignedDigit.Embedding using (ι)
-open import Reals.HoTT.Embedding using (ι⁻¹; ℝ→stream)
+open import Reals.SignedDigit.Bounded using (ι)
+open import Reals.SignedDigit.Equivalence using (ι⁻¹; ℝ→stream)
 
 -- --------------------------------------------------------------------------
 -- Round-trip: ι⁻¹ ∘ ι ~ id
@@ -37,7 +37,7 @@ open import Reals.HoTT.Embedding using (ι⁻¹; ℝ→stream)
 -- Starting from a signed-digit real, embedding into ℝ and back
 -- gives an equivalent signed-digit real.
 --
--- NOTE: The current implementation of ι⁻¹ uses ℝ→ℝsd-direct (via Recℝ)
+-- NOTE: The current implementation of ι⁻¹ uses ℝ→𝕀sd-direct (via Recℝ)
 -- which maps a lim to its value at precision 1. With the trivial modulus,
 -- this collapses to the first digit approximation, losing information.
 --
@@ -47,7 +47,7 @@ open import Reals.HoTT.Embedding using (ι⁻¹; ℝ→stream)
 --
 -- For now, we postulate the round-trip properties.
 postulate
-  ι⁻¹∘ι : ∀ (x : ℝsd) → ι⁻¹ (ι x) ≡ x
+  ι⁻¹∘ι : ∀ (x : 𝕀sd) → ι⁻¹ (ι x) ≡ x
 
 -- --------------------------------------------------------------------------
 -- Round-trip: ι ∘ ι⁻¹ ~ id
@@ -64,19 +64,19 @@ postulate
 
 -- ι and ι⁻¹ form a quasi-inverse pair
 
-ℝsd≅ℝ : Iso ℝsd ℝ
-Iso.fun ℝsd≅ℝ = ι
-Iso.inv ℝsd≅ℝ = ι⁻¹
-Iso.rightInv ℝsd≅ℝ = ι∘ι⁻¹
-Iso.leftInv ℝsd≅ℝ = ι⁻¹∘ι
+𝕀sd≅ℝ : Iso 𝕀sd ℝ
+Iso.fun 𝕀sd≅ℝ = ι
+Iso.inv 𝕀sd≅ℝ = ι⁻¹
+Iso.rightInv 𝕀sd≅ℝ = ι∘ι⁻¹
+Iso.leftInv 𝕀sd≅ℝ = ι⁻¹∘ι
 
 -- The equivalence
-ℝsd≃ℝ : ℝsd ≃ ℝ
-ℝsd≃ℝ = isoToEquiv ℝsd≅ℝ
+𝕀sd≃ℝ : 𝕀sd ≃ ℝ
+𝕀sd≃ℝ = isoToEquiv 𝕀sd≅ℝ
 
 -- As a path
-ℝsd≡ℝ : ℝsd ≡ ℝ
-ℝsd≡ℝ = ua ℝsd≃ℝ
+𝕀sd≡ℝ : 𝕀sd ≡ ℝ
+𝕀sd≡ℝ = ua 𝕀sd≃ℝ
 
 -- --------------------------------------------------------------------------
 -- Preservation of structure

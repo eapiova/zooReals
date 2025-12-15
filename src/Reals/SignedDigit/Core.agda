@@ -11,7 +11,7 @@
 -- Based on TWA Thesis Chapter 5 (TypeTopology).
 ------------------------------------------------------------------------
 
-module Reals.SignedDigit.Base where
+module Reals.SignedDigit.Core where
 
 open import Cubical.Foundations.Prelude
 open import Cubical.Foundations.HLevels

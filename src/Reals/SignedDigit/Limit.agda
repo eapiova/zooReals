@@ -8,8 +8,7 @@
 -- which allows defining a stream by a sequence of approximations that
 -- converge effectively.
 --
--- STATUS: Experimental/WIP using FIXMEs for arithmetic details.
---
+-- Status: Experimental/WIP.
 ------------------------------------------------------------------------
 
 module Reals.SignedDigit.Limit where
@@ -26,10 +25,10 @@ open import Cubical.Relation.Nullary
 
 open import Cubical.Codata.Stream
 
-open import Reals.SignedDigit.Base
-open import Reals.SignedDigit.Equivalence
-open import Reals.SignedDigit.Embedding using (ι)
-open import Reals.HoTT.Base
+open import Reals.SignedDigit.Core
+open import Reals.SignedDigit.Bounded
+open import Reals.SignedDigit.Bounded using (ι)
+open import Cubical.HITs.CauchyReals.Base
 
 -- Local addition for Q+
 infixl 6 _+₊_
