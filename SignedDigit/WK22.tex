@@ -1,0 +1,1235 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{booktabs}
+
+% Geometry settings
+\geometry{left=3cm,right=3cm,top=3cm,bottom=3cm}
+
+% Theorem Environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+
+% Custom Commands for Notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\coI}{{}^{\text{co}}\mathbf{I}}
+\newcommand{\Sd}{\mathbf{Sd}}
+\newcommand{\Str}{\mathbf{Str}}
+\newcommand{\T}{\mathbf{T}}
+\newcommand{\Mon}{\mathbf{Mon}}
+\newcommand{\Conv}{\mathbf{Conv}}
+\newcommand{\Cauchy}{\mathbf{Cauchy}}
+\newcommand{\Sum}{\mathbf{Sum}}
+
+% Listing settings for Haskell
+\lstset{
+  language=Haskell,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  stringstyle=\color{red},
+  commentstyle=\color{green!60!black},
+  numbers=none,
+  frame=single,
+  breaklines=true,
+  showstringspaces=false,
+  mathescape=true
+}
+
+\title{LIMITS OF REAL NUMBERS IN THE BINARY SIGNED DIGIT REPRESENTATION}
+\author{FRANZISKUS WIESNET$^a$ AND NILS KÖPP$^b$ \\
+  \small $^a$ University of Trento, Via Sommarive 14, 38123 Povo \\
+  \small and Ludwig-Maximilians Universität, Theresienstr. 39, 80333 München \\
+  \small and TU Wien, Favoritenstraße 9-11, 1040 Wien \\
+  \small \texttt{franziskus.wiesnet@tuwien.ac.at} \\
+  \small $^b$ Ludwig-Maximilians Universität, Theresienstr. 39, 80333 München \\
+  \small \texttt{koepp@math.lmu.de}
+}
+\date{Published Aug. 19, 2022 \\ \small (Submitted Mar. 30, 2021)}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  We extract verified algorithms for exact real number computation from constructive proofs. To this end we use a coinductive representation of reals as streams of binary signed digits. The main objective of this paper is the formalisation of a constructive proof that real numbers are closed with respect to limits. All the proofs of the main theorem and the first application are implemented in the Minlog proof system and the extracted terms are further translated into Haskell. We compare two approaches. The first approach is a direct proof. In the second approach we make use of the representation of reals by a Cauchy-sequence of rationals. Utilizing translations between the two representation and using the completeness of the Cauchy-reals, the proof is very short.
+
+  In both cases we use Minlog's program extraction mechanism to automatically extract a formally verified program that transforms a converging sequence of reals, i.e. a sequence of streams of binary signed digits together with a modulus of convergence, into the binary signed digit representation of its limit. The correctness of the extracted terms follows directly from the soundness theorem of program extraction.
+
+  As a first application we use the extracted algorithms together with Heron's method to construct an algorithm that computes square roots with respect to the binary signed digit representation. In a second application we use the convergence theorem to show that the signed digit representation of real numbers is closed under multiplication.
+\end{abstract}
+
+\textbf{Key words and phrases:} signed digit code, exact real number computation, coinduction, corecursion, program extraction, realizability, Minlog, Haskell.
+
+\section{Introduction and motivation}
+
+\subsection{Real numbers}
+Real numbers can be represented in several ways. One of the best-known representations is as Cauchy sequences of rational numbers together with a Cauchy modulus. Namely a \textit{Cauchy real} is a pair $((a_n)_n, M)$ consisting of a sequence $(a_n)_n$ of real numbers and a modulus $M : \Z^+ \to \N$ such that $\forall_p \forall_{n,m > M(p)} |a_n - a_m| \leq 2^{-p}$, i.e. $(a_n)_n$ is a Cauchy sequence with modulus $M$.
+
+However, in this paper the representation of real numbers as Cauchy reals will be just a tool. The main theorems of this paper are concerned with the signed digit representation of real numbers.
+
+\subsection{Binary representation vs. signed digit representation}
+The binary representation of a real number $x$ in $[-1, 1]$ is given by
+\[
+  x = s \sum_{i=1}^{\infty} a_i 2^{-i},
+\]
+where $s \in \{-1, 1\}$ and $a_i \in \{0, 1\}$ for every $i$. Here and further on, by equality $=$ between two reals we mean an equivalence relation that is compatible with the usual operations and relations on the reals. In reality the specific of the real equality depends on the representation of real numbers. The binary representation of some concrete real number corresponds to a sequence of nested intervals. Reading the digits one after the other the interval is halved in each step. Hence from the binary code we can approximate a real number to arbitrary precision. Now consider the other direction, i.e. given a real number, compute the binary representation. This is not always possible, since the $\leq$-relation is not decidable. Further it is not possible to e.g. compute the binary representation of $\frac{x+y}{2}$ given representation of $x$ and $y$. Here ``compute'' means that there is an algorithm which takes as input the binary streams of $x$ and $y$ and generates the binary stream representing $\frac{x+y}{2}$. In particular, the algorithm can only use finitely many binary digits of $x$ and $y$ in order to generate finitely many binary digits of $\frac{x+y}{2}$. For example, it is not possible to compute even the first digit (i.e. + or -) of the average of $+0??? \cdots$ and $-0??? \cdots$, where $0$ is a list with entries $0$ of arbitrary length and ? stands for an unknown digit. This is not possible due to the ``gaps'' in the binary representation. They are illustrated in Figure 1 at $0, \frac{1}{2}, -\frac{1}{2}, \frac{1}{4}$ and so on. From the first digit of a representation of a real $x$, we can decide $0 \leq x$ or $x \leq 0$, which in general can not be done if reasoning constructively about reals. The signed digit code fills these gaps. For a real number $x \in [-1, 1]$ it is defined by
+\[
+  x = \sum_{i=1}^{\infty} d_i 2^{-i},
+\]
+where $d_i \in \{\bar{1}, 0, 1\}$ for every $i$. As the illustration in Figure 2 makes clear, to compute the first signed digit of a real number $x \in [-1, 1]$ we have to decide which of the cases $x \leq 0$, $-\frac{1}{2} \leq x \leq \frac{1}{2}$ or $0 \leq x$ holds. Now this is possible by application of the comparability theorem
+\[
+  \forall_{x,y,z} (x < y \to z \leq y \lor x \leq z).
+\]
+Figure 2 also shows that the SD code of a real number (except $-1$ and $1$) is not unique, whereas the binary code is ``almost'' everywhere unique.
+A stream of signed digits is an infinite list $d_1 d_2 d_3 \dots$ of elements in
+\[
+  \Sd := \{\bar{1}, 0, 1\}.
+\]
+We will not use the signed digit streams directly, rather we use a coinductively defined predicate $\coI$, which is given in the next section. For a real number $x$ a realiser of $x \in \coI$ is a signed digit stream representing $x$. The desired algorithms are given by the extracted terms of the proofs. The soundness theorem of program extraction gives correctness of these algorithms.
+
+\subsection{Historical background}
+One of the first papers where signed digits are used to represent real numbers, was published by Edwin Wiedmer in 1980 [Wie80]. The idea to use coinductive algorithms to describe the operators on the reals goes back to Alberto Ciaffaglione and Pietro Di Gianantonio [CG06] and was revised by Ulrich Beger and Tie Hou [BH08, Ber11]. The idea to use coinductively defined predicates together with the soundness theorem in this context is due to Ulrich Berger and Monika Seisenberger [BS12]. The notation and definitions in this paper are taken from [MS15] written by Kenji Miyamoto and Helmut Schwichtenberg. For the implementation of the translations between signed-digit and Cauchy-representation in Minlog see [Köp18].
+
+\subsection{Implementation in Minlog}
+For computing the extracted terms and verifying the correctness of the proofs, the proof assistant Minlog [Miy17] is used. An introduction to Minlog can be found in [Wie18] or \texttt{doc/tutor.pdf} in the Minlog directory. The implementation of the proofs can be found in the file \texttt{examples/analysis/sdlim.scm} in the directory of Minlog. After each proof we state its computational content not in the notation of Minlog but in the notation of Haskell, since the runtime of the programs in Haskell is shorter, and the terms can be defined in a more readable way. So after each proof we give the extracted term of the proof which was translated to Haskell using the command \texttt{terms-to-haskell-program}.
+
+\section{Formalisation}
+
+\subsection{The theory of computational functionals (TCF)}
+We use the formal theory TCF to formalize statements like ``$x$ is represented by some signed digit stream''. In this section we give a short overview of TCF. For a complete and formal introduction we refer to [SW12, Wie17].
+
+In TCF all terms are typed. Types in TCF are either type variables, function types or algebras. Algebras can be seen as fixpoints of their constructors. For examples, the type $\N$ of natural numbers is the algebra with the constructors $0 : \N$ and $S : \N \to \N$. In short notation we express this as $\N := \mu_\xi(\xi, \xi \to \xi)$, where $\mu$ is interpreted as least-fixed-point operator. Since each variable comes with a type, we will use the following naming conventions to suppress type declarations.
+
+\textbf{Notation 2.1.} The following table shows which variables have which type.
+\begin{center}
+  \begin{tabular}{lll}
+    $m, n : \N$ & $a, b : \Q$ & $M, N : \Z^+ \to \N$ \\
+    $d, e, k : \Z$ & $x, y : \R$ & $as, bs : \N \to \Q$ \\
+    $p, q : \Z^+$ & $v, u : \mathbb{S}$ & $xs, ys : \N \to \R$
+  \end{tabular}
+\end{center}
+If other variables are used, their type is either not relevant or we declare it individually.
+
+Here, $\Z^+$ is defined as the positive (binary) numbers, $\Z$ as the integers, $\Q$ as the rational numbers and $\R$ as real numbers. How these algebras are defined in detail however is not important for our purpose. In particular, in Minlog the type of real numbers $\R$ is explicitly defined as the type $(\N \to \Q) \times (\Z^+ \to \N)$. Since in the following proofs the concrete representation of real numbers is not important, we view $\R$ as an abstract datatype and assume that we have abstract axiomatized reals with the usual operations including addition, multiplication, less-than and an equivalence-relation such that the other operations are compatible with it. We will refer to explicit representations by using predicates e.g. $x \in \mathbf{R}$ and the computational content of a proof of this statement is a witness that $x$ has an $\mathbf{R}$-representation.
+
+In TCF predicates are defined (co-)inductively. Each inductively defined predicate comes with introduction axioms, also called clauses, and an elimination axiom. A coinductively defined predicate will be given by a closure axiom and a coinduction axiom. An example of an inductively defined predicate is the totality predicate $\T$ which we discuss below or the predicate $\mathbf{R}$ defined in Section 2.5. In Section 2.3 we introduce a coinductively defined predicate regarding the signed digit representation. This coinductively defined predicate is the main reason why TCF is the most suitable as underlying theory for our purpose. For an unary predicate $A$, we write $t \in A$ for $At$ and $\forall_{t \in A} B$, $\exists_{t \in A} B$ are short for $\forall_t (At \to B)$ and $\exists_t (At \land B)$, respectively. Examples for these abbreviations that we later use include $x \in \coI$, $x \in \mathbf{R}$, $d \in \Sd$.
+
+Note that in TCF the existence quantifier as well as the conjunction and the distinction are formally inductively defined predicates. For examples, $A \land B$ is defined by the clause $A \to B \to A \land B$, in short notation $A \land B := \mu_X(A \to B \to X)$. As this notation suggest, $A \land B$ is the least predicate $X$ which fulfills $A \to B \to X$. Furthermore, we have $A \lor B := \mu_X(A \to X, B \to X)$ and $\exists_t A := \mu_X(\forall_t(A \to X))$.
+
+Another important property of TCF is that a term with a certain algebra as type does not have to consist of finitely many constructors of this type. For example, a natural number $n : \N$ does not have to be in the form $S \dots S0$. This means that terms in TCF are partial in general. E.g. we can also consider an infinite natural number which behaves like $SSS \dots$. However, we can not longer prove statements of the form $\forall_t A(t)$ by induction on $t$ as we do not know how $t$ is constructed and hence we can ad hoc not use something like induction on natural numbers. In order to use induction after all, we will use the totality predicate $\T$ of TCF. Informally speaking, $t \in \T$ for some term $t : \tau$ means that $t$ is a finite constructor expression if $\tau$ is an algebra, or $t$ maps total object to total objects, if $\tau$ is a function type. E.g. for a sequence of natural numbers $ns : \N \to \N$ we have $ns \in \T := \forall_{n \in \T} (ns \ n) \in \T$ where $n \in \T$ is the inductive predicate given by the clauses $0 \in \T$ and $n \in \T \to (n + 1) \in \T$. The elimination axiom of $n \in \T$ is induction over natural numbers. Formally, the totality predicate is defined by recursion over the type. In particular, for each type we have an individual totality predicate. However, we do not mention this explicitly in the notation. For example, we just write $n \in \T$ instead of $n \in \T_{\N}$, as the type is clear from the context. We furthermore assume that predicates like $\leq$ on natural numbers or (positive) integers are defined for total objects only. In particular, if we write something like $\forall_{n \geq M(p)} A$, we mean $\forall_n(n \in \T \land n \geq M(p) \to A)$.
+
+\subsection{Program extraction from proofs}
+In this section we give an overview on the process of program extraction from proofs in TCF. For formal definitions we refer to [Wie17, SW12, Sch21, Köp18]. In this short section we do not give formal definition as they are quite complex and we will use the proof assistant Minlog in any case to carry out the program extraction.
+
+The computational content arises from the (co-)inductively defined predicates. When defining an (co-)inductively defined predicate or a predicate variable, it must also be determined whether it is computationally relevant (cr) or non computational (nc). For example, the totality predicate $\T$ is defined as computationally relevant. The same goes for the predicates $\coI$, $\mathbf{R}$ and $\Sd$, which we introduce later. The equality and inequality on real numbers are non computational. A formula is computational relevant (cr), if its last conclusion is $At$ where $A$ is a computational relevant predicate. Note that the universal and existence quantifier by themselves will not carry computational content, in particular the type of the formulas $A$ and $\forall_x A$ are the same. But we will use the abbreviations $\forall_{t \in A}$ and $\exists_{t \in A}$, where $t \in A$ is computationally relevant (as long as $A$ is). In the last section we said that we use abstract axiomatized real numbers. Here, we require that the axioms are non computational. This is the case for a usual axiomatisation as the axioms are about equations and inequalities.
+
+In a first step, from a cr formula $A$ the type \textit{type} $\tau(A)$ and \textit{realizer predicate} $A^r$ are defined. Formally, this is done by recursion on the structure of the formula. The realiser predicate is a predicate which takes a term of the type of the formula and states that a term is a realizer of the formula, i.e. it adheres to the computational requirements stated in the formula.
+
+In a second step, the \textit{extracted term} $et(M)$ of the formalized proof $M$ of $A$ is computed. The extracted term is a $\lambda$-term with the type of the formula and is defined by recursion over proofs. It represents the extracted algorithm from the formal proof. In our case we will state this term after each proof which was formalized in Minlog, translated to the notation of Haskell.
+
+In the last step of program extraction we generate a proof that the extracted term is indeed a realizer of the realizer predicate, i.e. $A^r et(M)$. This is the so-called soundness proof. Note that this proof can be generated automatically in Minlog.
+
+In a nutshell, the result of formal program extraction is an algorithm in the form of a $\lambda$-term and the proof of its correctness. However, as it is hardly possible to describe a formal proof on paper, we use the proof assistant Minlog. In Minlog the last three steps above can be done automatically, so the laborious part is to find the right formulation of the theorem and the implementation of the constructive proof in Minlog. For the right formulation, we use the predicate $\coI$ which is given in the next section.
+
+\subsection{Coinductive definition of the signed digit representation}
+
+\begin{definition}[sd-code representation]
+  We define $\coI$ as the greatest fixed point of the operator
+  \[
+    \Phi(X) := \left\{ x \mathrel{\bigg|} \exists_{d \in \Sd, x'} \left( Xx' \land |x'| \leq 1 \land x = \frac{d + x'}{2} \right) \right\}.
+  \]
+\end{definition}
+
+A realiser of $\coI x$ has the type
+\[
+  \tau(\coI) = \mu_{\tau(X)} (\tau(\Phi(X)) \to \tau(X)) = \mu_\xi (\Sd \to \xi \to \xi).
+\]
+Here we have identified $\tau(\Sd) = \mu_\xi(\xi, \xi, \xi)$ with $\Sd$ itself. We define $\Str := \tau(\coI)$ and by \texttt{C} we denote the only constructor of $\Str$. In Haskell notation $\Sd$ and $\Str$ are given by
+\begin{lstlisting}
+data Sd = SdR | SdM | SdL
+data Str = C Sd Str
+\end{lstlisting}
+In this notation we see that an element $Cdv$ is a $\Sd$-stream with first digit $d$ and tail $v$. Sometimes we abbreviate $Cdv$ by just writing $dv$. We will also use this notation for reals: If we write something like $dx$ for a real number $x$ and a signed digit $d$, we mean $\frac{d+x}{2}$.
+
+The definition of $\coI$ as greatest fixpoint of $\Phi$ can be expressed by the two axioms
+\[
+  \coI^- : \coI \subseteq \Phi(\coI)
+\]
+\[
+  \coI^+ : X \subseteq \Phi(\coI \cup X) \to X \subseteq \coI,
+\]
+where $X$ is an unary predicate variable on real numbers. It is called \textit{competitor predicate}. The first axiom $\coI^-$ says that $\coI$ is a fixpoint of $\Phi$. Expressed in elementary formulas it is given by
+\[
+  \forall_{x \in \coI} \exists_{d \in \Sd, x'} \left( x' \in \coI \land |x'| \leq 1 \land x = \frac{d + x'}{2} \right).
+\]
+The type of this axiom is $\tau(\coI^-) = \Str \to \Sd \times \Str$ and a realiser is the destructor $\mathcal{D}$ given by the computation rule
+\[
+  \mathcal{D}(Cdv) := \langle d, v \rangle.
+\]
+The destructor takes a stream and returns a pair consisting of its first digit and its tail. Using the projectors $\pi_0$ and $\pi_1$ one gets the first digit and the tail, respectively. E.g. consider a cr formula of the form $x \in \coI \to A$ of type $\Str \to \tau(A)$. Now assume that in its proof, $\coI^-$ is used with $x \in \coI$ at some point. On the computational level this corresponds to reading the head of the input stream and storing its tail.
+
+The second axiom $\coI^+$ expresses that $\coI$ is the greatest fixpoint in a strong sense. It is explicitly given by:
+\[
+  \forall_x \left( Xx \to \forall_x \left( Xx \to \exists_{d \in \Sd, x'} \left( x' \in (\coI \cup X) \land |x'| \leq 1 \land x = \frac{d+x'}{2} \right) \right) \to x \in \coI \right) \quad (\star)
+\]
+The type depends on the type of the predicate variable $X$, namely
+\[
+  \tau(\coI^+) = \tau(X) \to (\tau(X) \to \Sd \times (\Str + \tau(X))) \to \Str.
+\]
+A realiser of $\coI^+$ is the corecursion operator ${}^{\text{co}}\mathcal{R}$ which is given by the computation rule
+\[
+  {}^{\text{co}}\mathcal{R}tf :=
+  \begin{cases}
+    C(\pi_0(ft))v & \text{if } \pi_1(ft) = \text{in}_0(v) \\
+    C(\pi_0(ft)){}^{\text{co}}\mathcal{R}t'f & \text{if } \pi_1(ft) = \text{in}_1(t').
+  \end{cases}
+\]
+Here $\text{in}_0$ and $\text{in}_1$ are the two constructors of the type sum $\Str + \tau(X)$. If $\pi_1(ft)$ has the form $\text{in}_0v$, the corecursion stops and we have $C(\pi_0(ft))v$ as signed digit representation. If it has the form $\text{in}_1t'$, the corecursion continues with the new argument $t'$. In both cases we have obtained at least the first digit $\pi_0(ft)$ of the stream. By iterating the corecursion we can generate each digit one by one. In Haskell we have
+\begin{lstlisting}
+strDestr :: (Str -> (Sd, Str))
+strDestr (C s u) = (s , u)
+
+strCoRec :: (alpha -> ((alpha -> (Sd, (Either Str alpha))) -> Str))
+strCoRec g h = (C (fst (h g))
+    (case (snd (h g)) of
+    { Left u0 -> u0 ;
+      Right g1 -> (strCoRec g1 h) })).
+\end{lstlisting}
+Moreover we sometimes use the following functions.
+\begin{lstlisting}
+hd :: (Str -> Sd)
+hd u = fst(strDestr u)
+
+tl :: (Str -> Str)
+tl u = snd(strDestr u)
+
+sdtoint :: Sd -> Integer
+sdtoint SdR = 1
+sdtoint SdM = 0
+sdtoint SdL = -1
+
+id :: Pos -> Nat
+id p = p
+\end{lstlisting}
+Here \texttt{fst} and \texttt{snd} are the pair-projections.
+
+\subsection{Basic lemmas}
+We prove two basic lemmas, which will often occur in the proofs following:
+
+\begin{lemma}[CoICompat]
+  The predicate $\coI$ is compatible with real equality, i.e.
+  \[
+    \forall_{x \in \coI} \forall_y (x = y \to y \in \coI)
+  \]
+\end{lemma}
+\begin{proof}
+  We apply $(\star)$ to the predicate $Px := \exists_{y \in \coI} (x = y)$:
+  \[
+    \forall_x \left( Px \to \forall_x \left( Px \to \exists_{d \in \Sd, x'} \left( x' \in (\coI \cup P) \land |x'| \leq 1 \land x = \frac{d+x'}{2} \right) \right) \to x \in \coI \right)
+  \]
+  It is sufficient to prove the second premise. So assume $x$ and $y \in \coI$ with $x = y$ are given. Using $y \in \coI$ with $\coI^-$ we get $e \in \Sd$ and $y' \in \coI$ with $|y'| \leq 1$ and $y = \frac{e+y'}{2}$. Hence $d := e$ and $x' := y'$ have the desired properties.
+\end{proof}
+In the following proofs, this theorem is used tacitly. In Minlog it has the name \texttt{CoICompat}. The extracted term of this theorem is given by
+\begin{lstlisting}
+cCoICompat :: (Str -> Str)
+cCoICompat u0 = strCoRec u0 (\ su1 -> (case su1 of
+    {s2 u2 -> (s2,Left u2)}))
+\end{lstlisting}
+Assume \texttt{f} is the costep-function above, then for \texttt{C s u} some stream we have \texttt{f(C s u) = (s,Left u)}. So if we unfold the \texttt{strCoRec} we get
+\begin{lstlisting}
+cCoICompat (C s u) = C s u,
+\end{lstlisting}
+i.e. the computational content of this lemma is actually the identity. Hence to increase readability, we will leave it out in the following.
+
+\begin{lemma}[CoIClosureInv]
+  \[
+    \forall_{x \in \coI, d \in \Sd} \frac{d+x}{2} \in \coI
+  \]
+\end{lemma}
+\begin{proof}
+  We use $(\star)$ with the predicate
+  \[
+    Px := \exists_{d \in \Sd, x' \in \coI} x = \frac{d+x'}{2},
+  \]
+  Again, in order to prove the goal formula, it is sufficient to prove the second premise. Therefore our goal is
+  \[
+    \forall_x \left( \exists_{d \in \Sd, x' \in \coI} \left( x = \frac{d+x'}{2} \right) \to \exists_{d \in \Sd, x'} \left( x' \in (\coI \cup P) \land |x'| \leq 1 \land x = \frac{d+x'}{2} \right) \right).
+  \]
+  But this follows immediately from $\coI \subseteq \coI \cup P$ and $x \in \coI \to |x'| \leq 1$.
+\end{proof}
+
+In Minlog this lemma has the name \texttt{CoIClosureInv} and its extracted term is given by
+\begin{lstlisting}
+cCoIClosureInv :: (Sd -> (Str -> Str))
+cCoIClosureInv s0 u1 = strCoRec (s0 , u1)
+    (\ su2 -> (
+    (case su2 of
+    { (,) s u -> s }) ,
+    (Left (case su2 of
+    { (,) s0 u0 -> u0 })))),
+\end{lstlisting}
+which is an elaborate way to write the constructor \texttt{C}, namely if \texttt{f} is the costep-function above then \texttt{f (s0,u1) = (s0,Left u1)} and by unfolding \texttt{strCoRec}
+\texttt{cCoIClosureInv s0 u1 = C s0 u1}.
+
+\subsection{Cauchy reals and signed digit streams}
+We now formalize the relation between reals represented by Cauchy-sequences of rationals and signed digit streams.
+
+\begin{definition}[Cauchy representation]
+  We denote $as : \N \to \Q$ and $M : \Z^+ \to \N$ and define
+  \[
+    \Mon(M) := M \in \T \land \forall_{p \leq q} (Mp \leq Mq).
+  \]
+  For a real $x$ we write $x \in \mathbf{R}$, if there exist $M \in \Mon$ and $as \in \T$ with
+  \[
+    \forall_{p \in \T} \forall_{n \geq M(p)} \left( |x - (as \ n)| < 2^{-(p+1)} \right),
+  \]
+  i.e. there is a sequence of rationals converging to $x$.
+\end{definition}
+
+In Haskell this representation is given by the datatype
+\begin{lstlisting}
+data Rea = RealConstr (Nat -> Rational) (Pos -> Nat),
+\end{lstlisting}
+with the pair-projections
+\begin{lstlisting}
+realSeq :: (Rea -> (Nat -> Rational))
+realSeq (RealConstr as m) = as
+
+realMod :: (Rea -> (Pos -> Nat))
+realMod (RealConstr as m) = m.
+\end{lstlisting}
+
+In the following we will prove that for some $x \in \coI$ and $n \in \T$ there exists a rational approximation to $x$ with precision $\frac{1}{2^n}$. To get a sequence of rationals representing $x$ we need dependent choice. Moreover later we will use countable choice.
+
+\begin{definition}[Choice Principles]
+  We denote $f : \N \to \alpha$, then the axiom of dependent choice \textbf{DC} is given by
+  \[
+    \exists_\alpha P(0, \alpha) \to \forall_{n \in \T, \alpha} (P(n, \alpha) \to \exists_\alpha P(n+1, \alpha)) \to \exists_f \forall_{n \in \T} P(n, fn).
+  \]
+  It has the type
+  \[
+    \tau(P) \to (\N \to \tau(P) \to \tau(P)) \to \N \to \tau(P)
+  \]
+  and the realizer is given by the recursion operator for $\N$, i.e.
+\begin{lstlisting}
+natRec :: Nat -> a -> (Nat -> a -> a) -> a
+natRec 0 g h = g
+natRec n g h | n > 0 = h (n - 1) (natRec (n - 1) g h).
+\end{lstlisting}
+  The axiom of countable choice \textbf{CC} is given by
+  \[
+    \forall_{n \in \T} \exists_{\alpha \in \T} P(n, \alpha) \to \exists_{f \in \T} \forall_{n \in \T} P(n, fn)
+  \]
+  Its type is $(\N \to \alpha \times \tau(P)) \to (\N \to \alpha) \times (\N \to \tau(P))$ and the realizer is basically given by the identity, namely
+  \[
+    \lambda F \langle \lambda n (F n)_0, \lambda n (F n)_1 \rangle.
+  \]
+\end{definition}
+
+\begin{theorem}[StrToCs]
+  Any real $x$ represented by a signed digit code can be represented by a Cauchy-sequence, i.e.
+  \[
+    \forall_{x \in \coI} (x \in \mathbf{R} \land |x| \leq 1).
+  \]
+\end{theorem}
+\begin{proof}
+  Assume $x \in \coI$, then $|x| \leq 1$ holds by $\coI^-$. Now let
+  \[
+    P(n, a) := a \in \T \land \exists_{y \in \coI} \left( x = 2^{-(n+1)}y + a \right)
+  \]
+  We want to apply \textbf{DC}, hence we first prove $\exists_a P(0, a)$. By $\coI^-$ there is $y \in \coI, d \in \Sd$ with $x = \frac{y+d}{2}$, so let $a := \frac{d}{2}$. For the second premise of \textbf{DC} assume $n \in \T, a \in \T$ and $P(n, a)$ i.e. there exists $y \in \coI$ with $x = \frac{1}{2^{n+1}}y + a$. We need to prove
+  \[
+    \exists_b \left( b \in \T \land \exists_{z \in \coI} \left( x = 2^{-(n+2)}z + b \right) \right)
+  \]
+  Since $y \in \coI$ we get $d \in \Sd, y' \in \coI$ with $y = \frac{y'+d}{2}$. Now we choose $b := a + \frac{d}{2^{n+2}}$ and $z = y'$, then
+  \[
+    x = \frac{1}{2^{n+1}}y + a = \frac{1}{2^{n+2}}y' + b
+  \]
+  Hence by \textbf{DC} there exists $as \in \T$ with
+  \[
+    \forall_{n \in \T} \exists_{y \in \coI} \left( x = 2^{-(n+1)}y + (as \ n) \right).
+  \]
+  Hence with $Mp := p$ and $|y| \leq 1$ we get $x \in \mathbf{R}$.
+\end{proof}
+
+The extracted term of the proof is given by
+\begin{lstlisting}
+cStrToCsInit :: (Str -> (Rational, Str))
+cStrToCsInit u0 = (sdtoint(hd u0) % 2 , tl u0)
+
+cStrToCsStep :: (Nat -> ((Rational, Str) -> (Rational, Str)))
+cStrToCsStep n0 (a,u0)= (a + sdtoint(hd u0) % (((2 ^ n0) * 2) * 2) ,
+    tl u0)
+
+cStrToCs :: (Str -> Rea)
+cStrToCs u0 = (\ n1 -> (fst (natRec n1 (cStrToCsInit u0) cStrToCsStep)) ,
+    id).
+\end{lstlisting}
+Here \texttt{cStrToCsInit} corresponds to the first premise and \texttt{cStrToCsStep} to the second premise of \textbf{DC} in the proof. \textbf{DC} itself only appears as the \texttt{natRec} term in \texttt{cStrToCs}. Informally we can represent the computational content by
+\[
+  d_0 d_1 d_2 \dots \mapsto \left( \left( \sum_{i=1}^n d_i 2^{-i} \right)_n, \iota \right),
+\]
+where $\iota : \Z^+ \to \N$ is the canonical inclusion.
+For the converse of Theorem 2.7 we first prove the following two lemmas.
+
+\begin{lemma}[Special case of ApproxSplit]
+  Let $a, b : \Q$ then
+  \[
+    \forall_{a,b \in \T, x \in \mathbf{R}} (a < b \to a \leq x \lor x \leq b).
+  \]
+\end{lemma}
+\begin{proof}
+  Given $(as, M)$ a Cauchy-sequence converging to $x$. Find $p$ be such that $\frac{1}{2^p} < b - a$ (which is possible since $a, b \in \T$). Then for $n \geq M p$
+  \[
+    |x - (as \ n)| \leq 2^{-(p+1)},
+  \]
+  i.e. $x \in [(as \ n) - \frac{1}{2^{p+1}}, (as \ n) + \frac{1}{2^{p+1}}]$. Case $(as \ n) \leq \frac{a+b}{2}$. In that case $x \leq (as \ n) + \frac{1}{2^{p+1}} < b$. Otherwise $a \leq x$.
+\end{proof}
+Note that it can be proven more generally for $y, z \in \mathbf{R}$ and $y < z$ instead of $a, b$, but we will actually only need it for for the special cases $0 < \frac{1}{2}$ and $-\frac{1}{2} < 0$. The extracted term for the former case is:
+\begin{lstlisting}
+cApproxSplitZeroPtFive :: (Rea -> Bool)
+cApproxSplitZeroPtFive (RealConstr as m) = (as (m 3)) <= (1/4)
+\end{lstlisting}
+where \texttt{cRatLeAbsBound} is the extracted term of a proof of $\forall_{a \in \T} \exists_{n \in \T} |a| \leq 2^n$.
+For the converse of Theorem 2.7 we first prove the following lemma.
+
+\begin{lemma}[CsToStrAux]
+  For all $x \in \mathbf{R}$ with $|x| \leq 1$
+  \[
+    \exists_{d \in \Sd, y \in \mathbf{R}} \left( |y| \leq 1 \land x = \frac{y+d}{2} \right).
+  \]
+\end{lemma}
+\begin{proof}
+  Let $(as, M)$ a Cauchy-sequence converging to $x$. We use Lemma 2.8 with $0 < \frac{1}{2}$ respectively $-\frac{1}{2} < 0$. We define
+  \[
+    d :=
+    \begin{cases}
+      \bar{1} & \text{if } x < 0, \\
+      0 & \text{if } -\frac{1}{2} < x < \frac{1}{2}, \\
+      1 & \text{if } 0 < x,
+    \end{cases}
+  \]
+  $bs \ n := 2(as \ n) - d$, $Np := M(p+1)$ and $y = 2x - d$. Then $(bs, N)$ is a Cauchy-sequence converging to $y$. Furthermore $x = \frac{1}{2}(y+d)$ and $|y| \leq 1$ by definition.
+\end{proof}
+The extracted term is given by
+\begin{lstlisting}
+cCsToStrAux :: (Rea -> (Sd, Rea))
+cCsToStrAux (RealConstr as m) =
+    (if ((as (m 3)<=-1/4) then
+      (SdL , (RealConstr (\ n3 -> (((2) * (as n3)) + (1)))
+        (\ p3 -> (m (p3 + 1)))))
+    else
+      (if ((as (m 3)<=1/4) then
+        (SdM , (RealConstr (\ n3 -> ((2) * (as n3)))
+          (\ p3 -> (m (p3 + 1)))))
+      else
+        (SdR , (RealConstr (\ n3 -> (((2) * (as n3)) + (-1)))
+          (\ p3 -> (m (p3 + 1))))))))).
+\end{lstlisting}
+Again we can represent the computational content informally, namely
+\[
+  (as, M) \mapsto (g(as, M), (h(as, M), N)),
+\]
+where $Np := M(p+1)$ and $g, h$ are the functions
+\[
+  g(as, M) :=
+  \begin{cases}
+    \bar{1} & \text{if } as(M \ 3) \leq -\frac{1}{4}, \\
+    0 & \text{if } |as(M \ 3)| \leq \frac{1}{4}, \\
+    1 & \text{otherwise}.
+  \end{cases}
+\]
+\[
+  h(as, M) := 2as - g(as, M)
+\]
+Using this lemma the proof of the translation from Cauchy-sequences to stream is very short:
+
+\begin{theorem}[CsToStr]
+  \[
+    \forall_x (x \in \mathbf{R} \to |x| \leq 1 \to x \in \coI)
+  \]
+\end{theorem}
+\begin{proof}
+  Assume $x \in \mathbf{R}$ and $|x| \leq 1$. We use $(\star)$ with
+  \[
+    Px := \exists_{d \in \Sd, y \in \mathbf{R}} \left( |y| \leq 1 \land x = \frac{y+d}{2} \right).
+  \]
+  By the previous lemma it suffices to prove the second premise, namely
+  \[
+    \forall_x \left( Px \to \exists_{d \in \Sd, x'} \left( x' \in (\coI \cup P) \land |x'| \leq 1 \land x = \frac{d+x'}{2} \right) \right).
+  \]
+  But this follows immediately by another application of the lemma, namely let $d \in \Sd, y \in \mathbf{R}$ with $|y| \leq 1$ and $x = \frac{y+d}{2}$. Then by the lemma there are $e \in \Sd, z \in \mathbf{R}$ with $|z| \leq 1$ and $y = \frac{z+e}{2}$ and hence $y \in P \subseteq \coI \cup P$.
+\end{proof}
+The extracted term is
+\begin{lstlisting}
+cCsToStr :: (Rea -> Str)
+cCsToStr x0 = strCoRec
+    (cCsToStrAux x0)
+    (\ sx1 -> (case sx1 of { (,) s0 x0 ->
+        (case (cStrToCsAux x0) of { (,) s1 x1 ->
+        (s0 , (Right (s1 , x1))) }) })),
+\end{lstlisting}
+and informally
+\[
+  x \mapsto \pi_0(\texttt{cCsToStrAux } x) :: \texttt{cCsToStr}(\pi_1(\texttt{cCsToStrAux } x)).
+\]
+
+\section{Convergence theorem}
+The convergence theorem states that the signed digit representation is closed under limits. In this section we consider a direct proof of this theorem, which only relies on the signed digit representation of real numbers, and an indirect proof, which works with Cauchy reals and uses the translation between the signed digit code and Cauchy reals. After proving the convergence theorem in these two ways, we compare the extracted terms of both proofs.
+
+\begin{definition}[Convergence]
+  Let $xs : \N \to \R$ and $M \in \Mon$ then $xs$ is a \textit{Cauchy-sequence with modulus $M$} iff
+  \[
+    \forall_{p \in \T} \forall_{n,m \geq M(p)} |(xs \ n) - (xs \ m)| \leq 2^{-p},
+  \]
+  we also write $\Cauchy(xs, M)$. The sequence $xs$ converges to $x$ with Modulus $M$ iff
+  \[
+    \forall_{p \in \T} \forall_{n \geq M(p)} |x - (xs \ n)| \leq 2^{-p},
+  \]
+  we write $\Conv(xs, x, M)$.
+\end{definition}
+
+The convergence theorem can now be stated in the following way.
+
+\begin{theorem}[SdLim]
+  Let $xs : \N \to \R$ be a sequence of reals in $\coI$ which converges to some real $x$ with modulus $M$. Then $x \in \coI$, i.e.
+  \[
+    \forall_{x,xs; M \in \Mon} (\forall_{n \in \T} (xs \ n) \in \coI \to \Conv(xs, x, M) \to x \in \coI).
+  \]
+\end{theorem}
+
+\subsection{Direct approach}
+The following approach was already considered in [Wie21] and is adjusted here to our setting.
+
+\begin{lemma}[CoINegToCoIPlusOne, CoIPosToCoIMinusOne]
+  \[
+    \forall_{x \in \coI} (x \leq 0 \to \coI(x+1))
+  \]
+  \[
+    \forall_{x \in \coI} (0 \leq x \to \coI(x-1))
+  \]
+\end{lemma}
+\begin{proof}
+  Since the proofs are very similar, we only prove the first formula. We use $(\star)$ with $Px := \exists_{y \in \coI} (y \leq 0 \land y+1 = x)$. We need to prove the second premise, namely
+  \[
+    \forall_x \left( Px \to \exists_{d \in \Sd, x'} \left( x' \in (\coI \cup P) \land |x'| \leq 1 \land x = \frac{d+x'}{2} \right) \right)
+  \]
+  Let $x \in P, y \in \coI$ with $y \leq 0$ and $y+1 = x$ be given. Our goal is
+  \[
+    \exists_{d \in \Sd, x'} \left( x' \in (\coI \cup P) \land |x'| \leq 1 \land x = \frac{d+x'}{2} \right).
+  \]
+  From $y \in \coI$ we get $e$ and $y'$ with $e \in \Sd, y' \in \coI, |y'| \leq 1$ and $y = \frac{e+y'}{2}$. We make a case distinction on $\Sd \ e$:
+  If $e = -1$, we define $d := 1 \in \Sd$ and $x' := y'$. Then $|x'| \leq 1$ and $x' \in \coI$ by definition. Furthermore we have
+  \[
+    x = y + 1 = \frac{-1+y'}{2} + 1 = \frac{1+y'}{2} = \frac{d+x'}{2}.
+  \]
+  If $e = 0$, we define $d := 1$ and $x' := y' + 1$. In this case we prove $Px'$, namely we show $y' \in \coI, y' \leq 0$ and $x' = y' + 1$. We only need to prove $y' \leq 0$ which follows directly from $y \leq 0$ and $y = \frac{0+y'}{2}$.
+  The last case is $e = 1$. Because of $y \leq 0, y = \frac{-1+y'}{2}$ and $|y'| \leq 1$, this is only possible if $y$ is equal to $0$, and therefore $x = 1$. Hence we define $d := 1$ and $x' := 1$. Then $x = \frac{d+x'}{2}$ and $x' = 1 \in \coI$ is easily proven by coinduction. (For details we refer to the Minlog implementation of the theorem \texttt{CoIOne} in \texttt{examples/analysis/sddiv.scm}.)
+\end{proof}
+A realizer of the first formula is a function \texttt{f}, which takes a signed digit stream of a real number $x$ and returns a signed digit stream of $x+1$ if $x \leq 0$. The extracted term of the proof of the first statement translated to Haskell is
+\begin{lstlisting}
+cCoINegToCoIPlusOne :: (Str -> Str)
+cCoINegToCoIPlusOne u0 = aiCoRec u0
+    (\ u1 -> (case (hd u1) of
+    { SdR -> (SdR , (Left cCoIOne)) ;
+      SdM -> (SdR , (Right (tl u1))) ;
+      SdL -> (SdR , (Left (tl u1))) })),
+\end{lstlisting}
+where
+\begin{lstlisting}
+cCoIOne :: Str
+cCoIOne = (aiCoRec () (\ g -> (SdR , (Right ()))))
+\end{lstlisting}
+is the stream representing 1. Unfolding \texttt{strCoRec} once yields \texttt{cCoIOne = C SdR cCCoIOne}, i.e. it is a constant stream of \texttt{SdR}.
+Another way to characterise this function \texttt{f} is to give its computation rules:
+\begin{align*}
+  \texttt{f}(C \bar{1} v) &:= C 1 v \\
+  \texttt{f}(C 0 v) &:= C 1 (\texttt{f} v) \\
+  \texttt{f}(C 1 v) &:= [1, 1, \dots]
+\end{align*}
+Analogously as extracted term of the second statement of this lemma, we get a function $\texttt{g} : \Str \to \Str$ which is characterised by the rules
+\begin{align*}
+  \texttt{g}(C \bar{1} v) &:= [\bar{1}, \bar{1}, \dots] \\
+  \texttt{g}(C 0 v) &:= C \bar{1} (\texttt{g} v) \\
+  \texttt{g}(C 1 v) &:= C \bar{1} v.
+\end{align*}
+It takes a signed digit stream of a real $x$ and returns a signed digit stream of $x-1$ if $0 \leq x$. Using this lemma, we are now able to prove the following lemma:
+
+\begin{lemma}[CoIToCoIDouble]
+  \[
+    \forall_{x \in \coI} \left( |x| \leq \frac{1}{2} \to 2x \in \coI \right)
+  \]
+\end{lemma}
+\begin{proof}
+  We apply $\coI^-$ and get $d \in \Sd, x' \in \coI$ with $|x'| \leq 1$ and $x = \frac{d+x'}{2}$. We distinguish cases on $d \in \Sd$:
+  $d = 1$: Then $2x - 1 = x'$ and $|x| \leq \frac{1}{2}$ which imply $x' \leq 0$. By the first part of Lemma 3.3 $1 + x' = 2x \in \coI$.
+  $d = -1$: As the first case but with the second part of Lemma 3.3.
+  $d = 0$: In this case $2x = x'$ and $x' \in \coI$ by assumption.
+\end{proof}
+In Haskell notation the extracted term is given by
+\begin{lstlisting}
+cCoIToCoIDouble :: (Str -> Str)
+cCoIToCoIDouble u0 = case (hd u0) of
+    { SdR -> (cCoINegToCoIPlusOne (tl u0)) ;
+      SdM -> (tl u0) ;
+      SdL -> (cCoIPosToCoIMinusOne (tl u0)) }
+\end{lstlisting}
+Again we give a more readable characterisation of the extracted term \texttt{D} by the computation rules
+\begin{align*}
+  \texttt{D}(C \bar{1} u) &:= \texttt{g}u \\
+  \texttt{D}(C 0 u) &:= u \\
+  \texttt{D}(C 1 u) &:= \texttt{f}u,
+\end{align*}
+where \texttt{f}, \texttt{g} are the computational content of the previous lemma. The following lemma is a special case of
+\[
+  \forall_{x \in \coI, y \in \coI} \frac{x+y}{2} \in \coI.
+\]
+This theorem is implemented as the theorem \texttt{Average} in \texttt{examples/analysis/average.scm} of Minlog and was considered in [BS12, MS15]. But here we give a direct proof of a special case because it is instructive and elementary.
+
+\begin{lemma}[Special case of CoIAverage]
+  \[
+    \forall_{x \in \coI} \left( \frac{x}{2} \pm \frac{1}{4} \right) \in \coI
+  \]
+\end{lemma}
+\begin{proof}
+  Applying $\coI^-$ yields $x' \in \coI$ and $d \in \Sd$ with $x = \frac{d+x'}{2}$. We show only $\coI(\frac{x}{2} + \frac{1}{4})$, the other case is proven analogously. We distinguish cases on $d \in \Sd$:
+  $d = 1$: Then $\frac{x}{2} + \frac{1}{4} = \frac{2+x'}{4} = \frac{1}{2}(1 + \frac{x'}{2})$.
+  $d = 0$: Then $\frac{x}{2} + \frac{1}{4} = \frac{1+x'}{4} = \frac{1}{2} \frac{1+x'}{2}$.
+  $d = -1$: Then $\frac{x}{2} + \frac{1}{4} = \frac{x'}{4} = \frac{1}{2} \frac{x'}{2}$.
+  In each case we apply Lemma 2.4 twice to get $(\frac{x}{2} + \frac{1}{4}) \in \coI$.
+\end{proof}
+We denote the extracted term of the proven statement by $q^+$. From the proof and the fact that the extracted term of Lemma 2.4 is given by \texttt{C}, one easily sees that $q^+$ has the following computation rules:
+\begin{align*}
+  q^+(\bar{1}u) &:= 00u \\
+  q^+(0u) &:= 01u \\
+  q^+(1u) &:= 10u
+\end{align*}
+Analogously, the extracted term $q^-$ of the statement $\forall_x \coI x \to \coI(\frac{x}{2} - \frac{1}{4})$ is characterised by
+\begin{align*}
+  q^-(\bar{1}u) &:= \bar{1}0u \\
+  q^-(0u) &:= 0\bar{1}u \\
+  q^-(1u) &:= 00u.
+\end{align*}
+In the direct proof of \texttt{sdlim} below we will make use of the following case-distinction. To shorten the extracted term we outsource this case-distinction into a separate lemma.
+
+\begin{lemma}[TripleCases]
+  For $x \in \coI$
+  \[
+    x \in \left[ \frac{1}{8}, 1 \right] \lor x \in \left[ -1, -\frac{1}{8} \right] \lor x \in \left[ -\frac{1}{4}, \frac{1}{4} \right]
+  \]
+\end{lemma}
+\begin{proof}
+  Triple application of $\coI^-$ to $x \in \coI$ gives $d_1, d_2, d_3 \in \Sd$ and $y' \in \coI$ such that $x = \frac{4d_1+2d_2+d_3+y'}{8}$. The claim follows by case-distinction on $d_1, d_2$ and $d_3$. Namely writing $x = d_1 d_2 d_3 y'$ we have
+  \[
+    \left.
+    \begin{matrix}
+      11d_3y' \\
+      10d_3y' \\
+      1\bar{1}1y' \\
+      1\bar{1}0y' \\
+      011y' \\
+      010y'
+    \end{matrix}
+  \right\} \to \frac{1}{8} \leq x
+  \quad
+  \left.
+  \begin{matrix}
+    \bar{1}\bar{1}d_3y' \\
+    \bar{1}0d_3y' \\
+    \bar{1}1\bar{1}y' \\
+    \bar{1}10y' \\
+    0\bar{1}\bar{1}y' \\
+    0\bar{1}0y'
+  \end{matrix}
+\right\} \to x \leq -\frac{1}{8}
+\quad
+\left.
+\begin{matrix}
+  00d_3y' \\
+  \bar{1}11y' \\
+  1\bar{1}\bar{1}y' \\
+  01\bar{1}y' \\
+  0\bar{1}1y'
+\end{matrix}
+\right\} \to -\frac{1}{4} \leq x \leq \frac{1}{4}.
+\]
+\end{proof}
+We omit the extracted term in Haskell here since it is quite long and unreadable due to the 17 case-distinctions. The computational content is basically the diagram in the proof above.
+With these preparations we are now able to give the direct proof of Theorem 3.2.
+
+\begin{proof}[SdLim, direct]
+We show that
+\[
+\forall_x \left( \exists_{xs; M \in \Mon} \left( \forall_{n \in \T} (xs \ n) \in \coI \land \forall_{p \in \T} \forall_{n \geq Mp} |x - (xs \ n)| \leq 2^{-p} \right) \to \coI x \right),
+\]
+which is equivalent. We use $(\star)$ with $P$ the premise of the formula above:
+\[
+Px := \exists_{xs; M \in \Mon} \left( \forall_{n \in \T} (xs \ n) \in \coI \land \forall_{n \geq M(p)} |x - (xs \ n)| \leq 2^{-p} \right)
+\]
+Again, we need to prove the second premise, namely
+\[
+\forall_x \left( Px \to \exists_{d \in \Sd, x'} \left( x' \in (\coI \cup P) \land |x'| \leq 1 \land x = \frac{d+x'}{2} \right) \right)
+\]
+So let $x, xs$ and $M \in \Mon$ be given and assume $\forall_{n \in \T} (xs \ n) \in \coI$ and $\forall_{p \in \T} \forall_{n \geq M(p)} |(xs \ n) - x| \leq 2^{-p}$. We use the lemma above with $(xs(M4)) \in \coI$ and get three cases:
+(i) $\frac{1}{8} \leq xs(M(4))$. In this case we choose
+\[
+d := 1 \text{ and } x' := 2x - 1.
+\]
+Then $|x'| \leq 1$ and $x = \frac{d+x'}{2}$ follow directly. We show that $Px'$, so we define
+\[
+ys \ n := 2(xs((M(4)) \sqcup n)) - 1,
+\]
+where $m \sqcup l := \max\{m, l\}$ and $N(p) := M(p+1) \in \Mon$. The statement $\forall_{n \geq Np} |ys(n) - x'| \leq 2^{-p}$ is a direct consequence of $\forall_{n \geq M(p)} |xs(n) - x| \leq 2^{-p}$ and it remains to show $\forall_{n \in \T} (ys \ n) \in \coI$. We calculate
+\[
+ys \ n = 4 \left( \frac{xs(M(4) \sqcup n)}{2} - \frac{1}{4} \right),
+\]
+and conclude $\frac{1}{4}(ys \ n) \in \coI$ by Lemma 3.5. Furthermore, we have $xs(M(4)) \geq \frac{1}{8}$ and $\forall_{n \geq M(4)} |xs(n) - x| \leq \frac{1}{16}$ and therefore
+\[
+xs(M(4) \sqcup n) = (xs(M(4) \sqcup n) - x) + (x - xs(M(4))) + xs(M(4))
+\]
+\[
+\geq -\frac{1}{16} - \frac{1}{16} + \frac{1}{8} = 0.
+\]
+Hence $0 \leq xs(M(4) \sqcup n) \leq 1$, which implies $|\frac{xs(M(4) \sqcup n)}{2} - \frac{1}{4}| \leq \frac{1}{4}$ and by double application of Lemma 3.4 we finally get $ys \ n \in \coI$.
+
+(ii) $xs(M(4)) \leq -\frac{1}{8}$. In this case we define
+\[
+d := -1, \quad x' := 2x + 1, \quad ys \ n := (2xs(M(4) \sqcup n) + 1), \quad Np := M(p+1).
+\]
+The proof in this case is analogous to the proof of the first case.
+
+(iii) $-\frac{1}{4} \leq f(M(4)) \leq \frac{1}{4}$. We define
+\[
+d := 0 \quad \text{and} \quad x' := 2x.
+\]
+Again we show $Px'$, namely
+\[
+\exists_{ys; N \in \Mon} \left( \forall_{n \in \T} (ys \ n) \in \coI \land \forall_{n \geq Np} |x' - (ys \ n)| \leq 2^{-p} \right).
+\]
+To this end we define
+\[
+ys \ n := 2xs(M(4) \sqcup n) \quad \text{and} \quad Np := M(p+1).
+\]
+Again, the right side of the conjunction follows from the assumptions. For the left side consider
+\[
+|2(ys \ n)| = |xs(M(4) \sqcup n)| \leq |xs(M(4) \sqcup n) - x| + |x - xs(M(4))| + |xs(M(4))| \leq \frac{1}{2},
+\]
+which implies $(ys \ n) \in \coI$ by Lemma 3.4.
+\end{proof}
+The extracted term is
+\begin{lstlisting}
+coilim :: (((Pos -> Nat), (Nat -> Str)) -> Str)
+coilim (m,us0) = aiCoRec (m,us0)
+    (\ mus1 -> (case mus1 of
+    { (,) m us -> (case (cTripleCases (us (m 4))) of
+    { Left() -> (cSdLimCaseR m us) ;
+      Right(Left ()) ->(cSdLimCaseL m us) ;
+      Right(Right()) -> (cSdLimCaseM m us)}}.
+\end{lstlisting}
+The terms \texttt{cSdLimCaseR}, \texttt{cSdLimCaseL} and \texttt{cSdLimCaseM} are given by
+\begin{lstlisting}
+cSdLimCaseR :: ((Pos -> Nat) -> ((Nat -> Str) ->
+    (Sd, (Either Str ((Pos -> Nat), (Nat -> Str))))))
+cSdLimCaseR m0 us1 = (SdR ,
+    (Right ((\ p2 -> (m0 (p2 + 1))) ,
+    (\ n2 -> (cCoIToCoIDoublePlusOne (us1 ((m0 3) + n2)))))))
+
+cSdLimCaseM :: ((Pos -> Nat) -> ((Nat -> Str) ->
+    (Sd, (Either Str ((Pos -> Nat), (Nat -> Str))))))
+cSdLimCaseM m0 us1 = (SdM ,
+    (Right ((\ p2 -> (m0 (p2 + 1))) ,
+    (\ n2 -> (cCoIToCoIDouble (us1 ((m0 3) + n2)))))))
+
+cSdLimCaseL :: ((Pos -> Nat) -> ((Nat -> Str) ->
+    (Sd, (Either Str ((Pos -> Nat), (Nat -> Ai))))))
+cSdLimCaseL m0 us1 = (SdL ,
+    (Right ((\ p2 -> (m0 (p2 + 1))) ,
+    (\ n2 -> (cCoIToCoIDoubleMinusOne (us1 ((m0 3) + n2)))))))
+\end{lstlisting}
+In the following we will discuss the computational content, we will denote it by \texttt{Lim}, in more detail. It has the type
+\[
+\texttt{Lim} : (\Z^+ \to \N) \to (\N \to \Str) \to \Str.
+\]
+It takes as inputs the modulus of convergence and the sequence of streams and returns the stream representing the limit. In order to give a more readable characterisation of \texttt{Lim}, we define the following sets
+\begin{align*}
+\mathbf{R} &:= \{11v, 10v, 1\bar{1}1v, 1\bar{1}0v, 011v, 010v \mid v : \Str\} \\
+\mathbf{M} &:= \{00v, \bar{1}11v, 1\bar{1}\bar{1}v, 01\bar{1}v, 0\bar{1}1v \mid v : \Str\} \\
+\mathbf{L} &:= \{\bar{1}\bar{1}v, \bar{1}0v, \bar{1}1\bar{1}v, \bar{1}10v, 0\bar{1}\bar{1}v, 0\bar{1}0v \mid v : \Str\}.
+\end{align*}
+which correspond to the intervals from Lemma 3.6. According to the proof we then have the following rule for \texttt{Lim}:
+\[
+\texttt{Lim } M \ F :=
+\begin{cases}
+C \ 1 \ (\texttt{Lim } \lambda_p M(p+1) \ \lambda_n (\texttt{DD}q^- F(M(4) \sqcup n))) & \text{if } F(M(4)) \in \mathbf{R} \\
+C \ 0 \ (\texttt{Lim } \lambda_p M(p+1) \ \lambda_n (\texttt{DF}(M(4) \sqcup n))) & \text{if } F(M(4)) \in \mathbf{M} \\
+C \ \bar{1} \ (\texttt{Lim } \lambda_p M(p+1) \ \lambda_n (\texttt{DD}q^+ F(M(4) \sqcup n))) & \text{if } F(M(4)) \in \mathbf{L}
+\end{cases}
+\]
+The functions \texttt{D}, $q^+$ and $q^-$ are the computational content of the lemmas above. Note that the definition of the new sequence is not unique. For reasons of efficiency one should be flexible with the choice of the new sequence, which is called $ys$ in the proof above. For example by choosing $ys$ one can replace $M(4) \sqcup n$ by $M(4) + n$. The efficiency depends on the concrete sequence. In the Minlog file we have chosen $M(4) + n$ because the proofs are simpler with the addition instead of the maximum.
+
+\subsection{Indirect approach}
+Now we redo the proof using translations between the Cauchy and sd-representation. First we state the completeness of Cauchy-reals, which will be used.
+
+\begin{theorem}[RealComplete]
+Assume $xs$ and $M \in \Mon$ such that $\forall_{n \in \T} (xs \ n) \in \mathbf{R}$ and $\Cauchy(xs, M)$ then there exists $x \in \mathbf{R}$ such that $\Conv(xs, x, M)$.
+\end{theorem}
+\begin{proof}
+We refer to Theorem 2.3 in [Sch03].
+\end{proof}
+The extracted term is:
+\begin{lstlisting}
+cRealComplete :: ((Nat -> Rea) -> ((Pos -> Nat) -> Rea))
+cRealComplete xs0 m1 = RealConstr
+    (\ n -> (realSeq (xs0 n)
+    (realMod (xs0 n) (cNatPos n))))
+    (\ p -> ((m1 (p + 1)) `max` ((p + 1) + 1)))
+\end{lstlisting}
+Note the following: Given witnesses $(as_n, M_n)_n$ to $\forall_{n \in \T} (xs \ n) \in \mathbf{R}$, the rational sequence witnessing the limit is given by $as \ n := as_n(M_n \ n)$ and the Cauchy-modulus of the limit-real is given by $Np := \max(M(p+1), p+2)$ where $M$ is the modulus of convergence.
+As preparation for the indirect proof we state some elementary properties of limits and sequences that we will need but do not have any computational content.
+
+\begin{lemma}
+Assume $xs$ is a sequence of reals, $x$ is another real and $M \in \Mon$ such that $\Conv(xs, x, M)$. Then we have
+\begin{enumerate}[label=(\roman*)]
+\item $\Cauchy(xs, N)$, where $Np := M(p+1)$,
+\item $\forall_{n \in \T} |(xs \ n)| \leq 1 \to |x| \leq 1$ and
+\item $\forall_{y, N \in \Mon} (\Conv(xs, y, N) \to x = y)$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+(i) Follows directly by using the triangle inequality and the definitions.
+(ii) For arbitrary $p \in \T$ let $n := M(p)$. Then $|x| \leq |x - xs(n)| + |xs(n)| \leq 2^{-p} + 1$. As $p \in \T$ is arbitrary it follows $|x| \leq 1$.
+(iii) We have $xs(n) - x$ converges to $0$ with modulus $M$ and $xs(n) - y$ converges to $0$ with modulus $N$. Therefore, $x - y$ converges to zero with modulus $p \mapsto \max\{M(p+1), N(p+1)\}$. I.e. $|x - y| \leq 2^p$ for all $p$ and therefore $x - y = 0$.
+\end{proof}
+
+Using the lemmas above, the indirect proof of the convergence theorem becomes quite short:
+
+\begin{proof}[SdLim, indirect]
+Assume $x, xs, M \in \Mon, \forall_{n \in \T} (xs \ n) \in \coI$ and $\forall_{n \geq M(p)} |(xs \ n) - x| \leq 2^{-p}$. We apply Theorem 2.7 to $\forall_{n \in \T} (xs \ n)$ and get
+\[
+\forall_{n \in \T} xs \in \mathbf{R} \land |xs \ n| \leq 1.
+\]
+By the lemma above $xs$ is a Cauchy-sequence. So we apply Theorem 3.7 to get $y \in \mathbf{R}$ with $\Conv(xs, y, N)$. By the above lemma $x = y \in \mathbf{R}$ and $|y| \leq 1$, so $x \in \coI$ by Theorem 2.10 and 2.3.
+\end{proof}
+The extracted term for this proof is given by
+\begin{lstlisting}
+cCoILim :: ((Pos -> Nat) -> ((Nat -> Str) -> Str))
+cCoILim m g = cCsToStr (cRealComplete
+    (\ n -> (cStrToCs (g n)))
+    (\ p -> (m (p + 1)))),
+\end{lstlisting}
+i.e. given a sequence $u_0 u_1 \dots$ of $\Sd$-streams we apply \texttt{cRealComplete} to the sequence of translated stream \texttt{cStrToCs}$(u_0)$\texttt{cStrToCs}$(u_1) \dots$ and then translate the result back.
+
+\subsection{Comparison}
+We now compare the two algorithms obtained by the direct and indirect method. To understand the results of the runtime-experiments we analyze the \textit{lookahead} of the algorithms first. Both limit algorithms have a sequence $F : \N \to \Str$ of streams and a modulus $M : \Z^+ \to \N$ of convergence as inputs and they produce one output-stream. Here, the lookahead for some $n \in \N$ is given by two natural numbers $m_0, m_1 \in \N$. Namely, to compute the first $n$ output digits we need the first $m_0$ digits of the first $m_1$ elements of $F$.
+Unfolding \texttt{cRealComplete} in the definition of the indirect case leads to
+\[
+\texttt{cCoILim}(M, F) = \texttt{cCsToStr}\left( \left( \sum_{i=1}^n \frac{(F(n))_i}{2^i} \right)_n, \lambda_p M(p+2) \right),
+\]
+where \texttt{cCsToStr}$(as, M)$ compares $as(M \ 3)$ with $\pm 0.25$. Hence, to compute the $n$-th digit of \texttt{cCoILim}$(M, F)$ we need to examine the first $M(n+4)$ digits of $F(M(n+4))$. The algorithm in the direct case was given by
+\[
+\texttt{Lim } M \ F :=
+\begin{cases}
+C \ 1 \ (\texttt{Lim } \lambda_p M(p+1) \ \lambda_n (\texttt{DD}q^- F(M(4) \sqcup n))) & \text{if } F(M(4)) \in \mathbf{R} \\
+C \ 0 \ (\texttt{Lim } \lambda_p M(p+1) \ \lambda_n (\texttt{DF}(M(4) \sqcup n))) & \text{if } F(M(4)) \in \mathbf{M} \\
+C \ \bar{1} \ (\texttt{Lim } \lambda_p M(p+1) \ \lambda_n (\texttt{DD}q^+ F(M(4) \sqcup n))) & \text{if } F(M(4)) \in \mathbf{L}
+\end{cases}
+\]
+By examining the defining equations of \texttt{D}, $q^\pm$ one easily sees that all these functions needs at most the first $n+1$ digits of the input stream to compute the first $n$ digits of the output stream. For the first digit we need to decide whether $F(M(4))$ is in $\mathbf{R}, \mathbf{M}$ or $\mathbf{L}$ which requires the first three digits of $F(M(4))$, since we apply \texttt{cCoITripleClosure}. All in all, to compute the $n$-th digit of \texttt{Lim} $M \ F$ we need to examine the first $3n$ digits of $F(M(n+3))$. This follows as $M$ is monotone and hence $M(4) \sqcup \dots \sqcup M(n+3) = M(n+3)$.
+
+As we can see, in the direct case the lookahead depends in a way linearly on the modulus $M$ of convergence, whereas in the indirect case it depends quadratically on $M$. Furthermore, if the modulus of convergence is asymptotically lower than $\lambda_n 3n$, the indirect algorithm should outperform the direct one.
+
+As a first test we run both algorithms in Haskell on the constant sequence $F := \lambda_n u_0$ which converges with the constant modulus $\lambda_p 0$. Here $u_0$ is a pseudo-random stream of $\Sd$ generated with the Haskell \texttt{System.Random} package. To test the dependence of the two algorithms on the modulus of convergence we artificially set different moduli and compute different amounts of digits. All measurements are the average for $n=10$ tries with different random numbers in seconds.
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{c|ccc}
+Mod & 50 digits & 100 digits & 200 digits \\ \hline
+$\lambda_p p$ & 1.78 & 12.2 & 87 \\
+$\lambda_p p^2$ & 1.84 & 12.7 & 90 \\
+$\lambda_p p^3$ & 2.25 & 13.4 & 95
+\end{tabular}
+\caption{First test - Constant sequences with different moduli for the direct algorithm}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{c|cccc}
+Mod & 10 digits & 20 digits & 50 digits & 100 digits \\ \hline
+$\lambda_p p$ & - & < 0.05 & 0.075 & 0.21 \\
+$\lambda_p p^2$ & 0.084 & 0.41 & 16.38 & 1140 \\
+$\lambda_p p^3$ & 4.3 & 503 & >1500 & -
+\end{tabular}
+\caption{Constant sequences with different moduli for the indirect algorithm}
+\end{figure}
+
+As a second experiment we take the geometric series $(x^n)_n$ for some $|x| \leq 0.5$. This is a Cauchy-sequence converging to 0 with modulus $\lambda_p p$, since for $n \leq m$ and $|x| \leq 0.5$ we have
+\[
+|x^n - x^m| \leq |x^n| |1 - x^{n-m}| \leq \frac{1}{2^n}.
+\]
+Again we generate pseudorandom sequences $u$ and here we put a 0 in front to ensure that the absolute value is bounded by 0.5. Then we run both algorithms for the sequence $F$ given by
+\[
+F \ 0 := 0 :: u \qquad F(n+1) = \texttt{cCoIMult}(0 :: u)(F \ n),
+\]
+where \texttt{cCoIMult} is the algorithm from [Sch22]. The results below are the average over $n=15$ tests. The direct algorithm did not terminate in a reasonable amount of time ($\leq$ 30 minutes) for $n \geq 30$ digits. As expected the indirect algorithm is better here, since the modulus of convergence is the identity here.
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{c|cc}
+digits & indirect & direct \\ \hline
+5 & 0.74 & 0.69 \\
+10 & 3.3 & 23.4 \\
+20 & 26 & 1227 \\
+30 & 87 & >1500 \\
+40 & 239 & - \\
+50 & 502 & -
+\end{tabular}
+\caption{Second test - Geometric sequence}
+\end{figure}
+
+\section{Applications}
+
+\subsection{Heron's method}
+To show an application of the two algorithms extracted in the last section, we define the Heron sequence and show that it converges to the square root.
+
+\begin{definition}[Heron]
+We define $H : \R \to \N \to \R$ by the computation rules
+\[
+H(x, 0) := 1, \qquad H(x, n+1) := \frac{1}{2} \left( H(x, n) + \frac{x}{H(x, n)} \right).
+\]
+For every non-negative $x$ the sequence $H(x, \cdot) =: H(x) : \N \to \R$ is the sequence, we get from Heron's method with initial value 1. Note that $H$ is well-defined for non-negative $x$ since $H(x, n) \geq 2^{-n}$.
+\end{definition}
+
+\begin{lemma}
+For every $x \in [0, 1]$, $H(x)$ converges to $\sqrt{x}$ with modulus $\iota : \Z^+ \to \N$. Furthermore we have that
+\[
+\forall_{n \in \T} \sqrt{x} \leq H(x, n).
+\]
+\end{lemma}
+\begin{proof}
+Let $x \in [0, 1]$ be given. We define $\Delta(x, n) := H(x, n) - \sqrt{x}$. We calculate
+\begin{align*}
+\Delta(x, n+1) &= \frac{1}{2} \left( H(x, n) + \frac{x}{H(x, n)} \right) - \sqrt{x} = \frac{(H(n, x))^2 - 2H(x, n)\sqrt{x} + x}{2H(x, n)} \\
+&= \frac{(\Delta(x, n))^2}{2H(x, n)}.
+\end{align*}
+By induction on $n$ we immediately get $0 \leq H(x, n)$ and therefore $0 \leq \Delta(x, n+1)$. Since $\Delta(x, 0) = 1 - \sqrt{x} \geq 0$ we have $\forall_{n \in \T} \sqrt{x} \leq H(x, n)$.
+Furthermore, we calculate:
+\[
+\Delta(x, n+1) = \frac{(\Delta(x, n))^2}{2H(x, n)} = \frac{1}{2}\Delta(x, n) \frac{\Delta(x, n)}{H(x, n)} = \frac{1}{2}\Delta(x, n) \left( 1 - \frac{\sqrt{x}}{H(x, n)} \right)
+\]
+\[
+\leq \frac{1}{2}\Delta(x, n)
+\]
+Therefore, by induction we have $|H(x, n) - \sqrt{x}| = \Delta(x, n) \leq 2^{-n}$ and this implies
+\[
+\forall_{p \in \T} \forall_{n \geq p} |H(x, n) - \sqrt{x}| \leq 2^{-p},
+\]
+i.e. $H(x)$ converges to $\sqrt{x}$ with modulus $\iota$.
+\end{proof}
+
+This lemma by itself does not have any computational content, but it states that $\iota$ is a modulus of convergence of $Hx$ to $\sqrt{x}$. In some special cases we can improve on the modulus.
+
+\begin{definition}[Poslog]
+For a positive integer $p$ we define $\texttt{poslog}(p)$ as the least natural number $n$ with $p \leq 2^n$. Equivalently it is the number of digits in the binary representation.
+\end{definition}
+
+One possibility to implement the function \texttt{poslog} is to define an auxiliary function \texttt{auxlog} $: \Z^+ \to \N \to \N$ with the computation rules
+\[
+\texttt{auxlog } p \ n :=
+\begin{cases}
+n, & \text{if } p \leq 2^n \\
+\texttt{auxlog } p \ (n+1), & \text{otherwise},
+\end{cases}
+\]
+and then set $\texttt{poslog}(p) := \texttt{auxlog } p \ 0$.
+
+\begin{proposition}
+If $x \in [\frac{1}{4}, 1]$ then $\texttt{poslog} : \Z^+ \to \N$ is a modulus of convergence of $H(x)$ to $\sqrt{x}$.
+\end{proposition}
+\begin{proof}
+Let $x \in [\frac{1}{4}, 1]$. From Lemma 4.2 we know $\forall_{n \in \T} \sqrt{x} \leq H(x, n)$ and therefore $\forall_{n \in \T} \frac{1}{2} \leq H(x, n)$. In the proof of Lemma 4.2 the formula
+\[
+\Delta(x, n+1) = \frac{(\Delta(x, n))^2}{2H(x, n)}
+\]
+is proven. This implies $\Delta(x, n+1) \leq (\Delta(x, n))^2$. Since $\frac{1}{2} \leq \sqrt{x}$, by induction we get
+\[
+\Delta(x, n) \leq 2^{-2^n}
+\]
+for all $n \in \T$. Hence for given $p$ and $n \geq \texttt{poslog}(p)$ we get $p \leq 2^n$ and
+\[
+|H(x, n) - \sqrt{x}| = \Delta(x, n) \leq 2^{-2^n} \leq 2^{-p}.
+\]
+\end{proof}
+
+\begin{lemma}
+For all $x \in \coI$ with $\frac{1}{16} \leq x$ we have $\forall_{n \in \T} H(x, n) \in \coI$. Expressed as a formula
+\[
+\forall_{x \in \coI} \left( \frac{1}{16} \leq x \to \forall_{n \in \T} H(x, n) \in \coI \right).
+\]
+\end{lemma}
+\begin{proof}
+We use the results of [MS15], [SW21] and of Section 3.3 from [Wie17]. Namely we have
+\begin{equation}
+\forall_{x \in \coI, y \in \coI} \frac{x+y}{2} \in \coI. \tag{4.1}
+\end{equation}
+In Minlog this theorem is implemented in \texttt{average.scm} in the folder \texttt{examples/analysis} and has the name \texttt{CoIAverage}. Furthermore
+\begin{equation}
+\forall_{x \in \coI, y \in \coI} \left( |x| \leq y \to \frac{1}{4} \leq y \to \frac{x}{y} \in \coI \right) \tag{4.2}
+\end{equation}
+is proven there. In Minlog this theorem is implemented in \texttt{sddiv.scm} in the folder \texttt{examples/analysis} and has the name \texttt{CoIDiv}. Using these, the proof of this lemma is done by induction on $n$: For $n=0$ it is easy since $H(x, 0) = 1$ and $1 \in \coI$. For any total $n$ we have
+\[
+H(x, n+1) = \frac{1}{2} \left( H(x, n) + \frac{x}{H(x, n)} \right).
+\]
+By Lemma 4.2 we get $\sqrt{x} \leq H(n, x)$ and therefore
+\[
+\sqrt{\frac{1}{16}} = \frac{1}{4} \leq H(x, n) \quad \text{and} \quad x \leq \sqrt{x} \leq H(x, n).
+\]
+Additionally, by the induction hypothesis, $H(x, n) \in \coI$. By (4.2) we have $\frac{x}{H(x, n)} \in \coI$, so with (4.1) we get $H(x, n+1) \in \coI$.
+\end{proof}
+
+By \texttt{cCoIAverage} and \texttt{cCoIDiv} we denote the computational content of (4.1) and (4.2). Each of these terms takes two streams of reals and returns a stream of their average and their quotient, respectively. Then the extracted term is
+\begin{lstlisting}
+cCoIHeron :: (Str -> (Nat -> Str))
+cCoIHeron u0 n1 = natRec n1
+    cCoIOne
+    (\ n2 -> (\ u3 -> (cCoIAverage u3 (cCoIDiv u0 u3))))
+\end{lstlisting}
+Informally the computational content \texttt{Heron} is defined by recursion:
+\begin{align*}
+\texttt{Heron } v \ 0 &:= [1, 1, \dots] \\
+\texttt{Heron } v \ (n+1) &:= \texttt{cCoIAverage}(\texttt{Heron } v \ n)(\texttt{cCoIDiv } v \ (\texttt{Heron } v \ n))
+\end{align*}
+Which is Definition 4.1 in the notation of streams.
+
+\begin{theorem}
+\[
+\forall_{x \in \coI} (0 \leq x \to \sqrt{x} \in \coI)
+\]
+\end{theorem}
+\begin{proof}
+We apply $(\star)$ with
+\[
+Px := \exists_{y \in \coI} (0 \leq y \land \sqrt{y} = x).
+\]
+To show the goal formula, we need to show the second premise, namely for all $x$
+\[
+\exists_{y \in \coI} (0 \leq y \land \sqrt{y} = x) \to \exists_{d \in \Sd, x'} \left( x' \in (\coI \cup P) \land |x'| \leq 1 \land x = \frac{d+x'}{2} \right).
+\]
+Let $y \in \coI$ with $0 \leq x$ and $\sqrt{y} = x$ be given. Triple application of $\coI^-$ to $y \in \coI$ yields $d_1, d_2, d_3 \in \Sd$ and $y' \in \coI$ with $y = d_1 d_2 d_3 y'$. We distinguish three different cases:
+If $y$ has one of the forms $\bar{1}d_2 d_3 y', 0\bar{1}d_3 y'$ or $00\bar{1}y'$ we have $y \leq 0$ and therefore $x = \sqrt{y} = 0$. Hence we define $d := 0$ and $x' := 0$ and the claim follows immediately.
+If $y$ has one of the forms $000y', 001y', 01\bar{1}y'$ or $1\bar{1}\bar{1}y'$ we can rewrite $y = 00ey'$ for some $e \in \{0, 1\}$. Here we define $d := 0$ and $x' := \sqrt{\frac{e+y'}{2}}$. Then
+\[
+x = \sqrt{y} = \sqrt{\frac{e+y'}{8}} = \frac{\sqrt{\frac{e+y'}{2}}}{2} = \frac{d+x'}{2}.
+\]
+Furthermore $\frac{e+y'}{2} \in \coI$ by Lemma 2.4 and $0 \leq \frac{e+y'}{2}$ since $0 \leq y = \frac{e+y'}{8}$. Altogether we get $Px'$.
+The remaining case is that $y$ has one of the forms $010y', 011y', 1\bar{1}1y', 1\bar{1}0y', 10d_3y'$ or $11d_3y'$. In that case we have $\frac{1}{8} \leq y$. Hence by Lemma 4.5 $\forall_{n \in \T} \coI(H(y, n))$ and we know that $H(y)$ converges to $\sqrt{y}$ with modulus $\iota : \Z^+ \to \N$ by Lemma 4.2. Thus we use Theorem 3.2 to get $x \in \coI$ and by one application of $\coI^-$
+\[
+\exists_{d \in \Sd, x' \in \coI} \left( |x'| \leq 1 \land x = \frac{d+x'}{2} \right),
+\]
+which proves the goal formula.
+\end{proof}
+
+We omit the description of the extracted term as Haskell code as it is quite long due to the case distinctions. But we give an informal description of the extracted term:
+By the definitions of \texttt{cSdLim} as the computational content of Theorem 3.2 and \texttt{Heron} as the computational content of Lemma 4.5 we have the following rules for the computational content \texttt{sqrt} : $\Str \to \Str$ of this theorem:
+\begin{align*}
+\texttt{sqrt}(\bar{1}u) &:= [0, 0, \dots] \\
+\texttt{sqrt}(0\bar{1}u) &:= [0, 0, \dots] \\
+\texttt{sqrt}(00u) &:= 0 \ \texttt{sqrt } u \\
+\texttt{sqrt}(01\bar{1}u) &:= 0 \ \texttt{sqrt } 1u \\
+\texttt{sqrt}(1\bar{1}\bar{1}u) &:= 0 \ \texttt{sqrt } 1u \\
+\texttt{sqrt } u &:= \texttt{cSdLim } \iota \ (\texttt{Heron } u)
+\end{align*}
+The last rule shall only be applied if the other rules do not fit.
+
+\subsection{Multiplication}
+Our last application is motivated by Helmut Schwichtenberg and the Minlog file \texttt{sdmult.scm} in \texttt{examples/analysis}. There it is proven that for any $x, y \in \coI$ the product $xy$ is also in $\coI$. In the following we use the limit-theorem to formulate another proof of this theorem. Our approach is based on repeated applications of $\coI^-$ to $y \in \coI$, namely
+\[
+xy = \frac{xd_1 + xy_1}{2} = \frac{x(d_1 + \frac{d_1}{2}) + x \frac{y_2}{2}}{2} = \dots = x \sum_{i=1}^n \frac{d_i}{2^i} + x \frac{y_n}{2^n},
+\]
+and the sequence $xs \ n := \sum_{i=1}^n \frac{d_i}{2^i}$ converges to $y$. In order to realize this idea we first define a constant $\Sum : \mathbb{L}(\Sd) \to \Q$ by
+\[
+\Sum [] = 0 \qquad \Sum l := \sum_{i=1}^{\text{lth}(l)} \frac{(l)_i}{2^i},
+\]
+where $\text{lth} : \mathbb{L} \to \N$ is the length-function for lists and $(l)_i$ is the $i$-th element of the list $l$.
+We prove the following.
+
+\begin{lemma}[CoIMultSum]
+Let $x \in \coI$ then for all $l : \mathbb{L}(\Sd)$ in $\T$ we have
+\[
+x \cdot \Sum l \in \coI.
+\]
+\end{lemma}
+\begin{proof}
+We use the theorem \texttt{CoIAverage}, which was already mention in the proof of Lemma 4.5 and \texttt{CoISdTimes} (i.e. $\forall_{x \in \coI, d \in \Sd} dx \in \coI$).
+The proof is done by induction on $l \in \T$. Namely if $l = []$ then $x \cdot 0 = 0 \in \coI$ (see \texttt{CoIZero} in Minlog). Now assume that $x \cdot \Sum l \in \coI$ and $d \in \Sd$. We calculate
+\[
+x \cdot \Sum(d :: l) = x \sum_{i=1}^{n+1} \frac{(l)_i}{2^i} = \frac{1}{2} \left( x \sum_{i=1}^n \frac{(l)_{i+1}}{2^i} + x \cdot (l)_1 \right).
+\]
+Now we can apply \texttt{CoIAverage}, namely $x \cdot l_1 \in \coI$ by \texttt{CoISdTimes} and the first summand is in $\coI$ by the induction hypothesis.
+\end{proof}
+Note that the induction hypothesis is applied to the list $(l)_2 :: \dots :: (l)_{n+1}$, so the stream computed in the previous step is not used. Therefore, the runtime of the algorithm must be at least quadratic in the length of the list in the output. We will later see that the runtime of the algorithm that is obtained is worse than the one extracted in [Sch22]. The Haskell-translation of the extracted term is
+\begin{lstlisting}
+cCoIMultSum :: Str -> [Sd] -> Str
+cCoIMultSum u0 l1 = listRec
+    l1
+    cCoIZero
+    (\ s2 -> (\ l3 -> (\ u4 -> (cCoIAverage (cCoISdTimes s2 u0) u4))))
+\end{lstlisting}
+And the computational content of the lemma, here denoted $\texttt{f} : \Str \to \mathbb{L}(\Sd) \to \Str$, can also be represented in the more readable form by
+\begin{align*}
+\texttt{f}(u, []) &= \texttt{cCoIZero} \\
+\texttt{f}(u, d :: l) &= \texttt{cCoIAverage}(\texttt{f}(u, l), \texttt{cCoISdTimes}(d, u)),
+\end{align*}
+where \texttt{cCoIZero} is analogous to \texttt{cCoIOne}:
+\begin{lstlisting}
+cCoIZero :: Str
+cCoIZero = (aiCoRec () (\ g -> (SdM , (Right ()))))
+\end{lstlisting}
+The next lemma is basically repeated application of $\coI^-$. The proof is very similar to the proof of Theorem 2.7 and so are the extracted terms.
+
+\begin{lemma}[CoIToConvSeq]
+Let $x \in \coI$ then there exists $G : \N \to \mathbb{L}(\Sd)$ in $\T$ such that
+\[
+\Conv(\lambda_n \Sum G(n), x, \iota).
+\]
+\end{lemma}
+\begin{proof}
+For $x \in \coI$ we first show that
+\[
+\exists_{G \in \T} \forall_{n \in \T} \exists_{y \in \coI} \left( \text{lth}(G \ n) = n \land x = \Sum (G \ n) + \frac{y}{2^n} \right).
+\]
+By application of \textbf{CC} it suffices to show
+\[
+\forall_{n \in \T} \exists_{l \in \T} \exists_{y \in \coI} \left( \text{lth}(l) = n \land x = \Sum l + \frac{y}{2^n} \right),
+\]
+which is done by induction on $n \in \T$. If $n = 0$ then choose $y := x$ and $l = []$.
+Now assume we have $l' \in \T$ with $\text{lth}(l') = n$ and $z \in \coI$ with
+\[
+x = \Sum l' + \frac{z}{2^n}.
+\]
+We apply $\coI^-$ to $z$ and get $d \in \Sd, y \in \coI$ with $z = \frac{y+d}{2}$, then $l := l' \star d$ (Note that $\star$ denotes concatenation of lists) will do the trick.
+So assume we have $G$ with the properties above and $n \in \T$. Then there exists some $y_n \in \coI$ with $x = \Sum (G \ n) + \frac{y}{2^n}$ and
+\[
+|x - \Sum (G \ n)| \leq \frac{|y_n|}{2^n} \leq 2^{-n}.
+\]
+Hence $\Sum (G \cdot)$ converges to $x$ with modulus \texttt{PosToNat}.
+\end{proof}
+The extracted term is
+\begin{lstlisting}
+cCoIToConvSeq :: Str -> Nat -> [Sd]
+cCoIToConvSeq u0 n1 = fst
+    (natRec n1 ([] , u0)
+    (\ n2 -> (\ g -> (case g of
+    { (,) l u1 -> ((l ++ ((head u1) : [])) , (tail u1)) }))))
+\end{lstlisting}
+Let $\texttt{g} : \Str \to \N \to \mathbb{L}(\Sd)$ denote a simplified iterative version of the computational content of the last lemma. It can be given by the computation rules
+\[
+\texttt{g}(u, 0) = ([], u) \qquad \texttt{g}(C \ s \ v, n + 1) = \texttt{g}(v, n) \star s,
+\]
+so this is the function that returns the first $n$ elements of the stream. The last lemma we need states that limits are closed under multiplication, namely:
+
+\begin{lemma}
+Assume $\Conv(ys, y, M)$ and $|x| \leq 1$ then $\Conv(\lambda_n (x \cdot (ys \ n)), xy, M)$.
+\end{lemma}
+The proof is elementary. Now we can apply the limit theorem.
+
+\begin{theorem}
+For all $x, y \in \coI$ we have $x \cdot y \in \coI$.
+\end{theorem}
+\begin{proof}
+We apply Lemma 4.8 to $y \in \coI$ in order to obtain $G \in \T$ with
+\[
+\Conv(\Sum(G, \cdot), y, \texttt{PosToNat}).
+\]
+By Lemma 4.9 $x \cdot (\Sum(G \ n)) \in \coI$ for all $n$ and it converges to $x \cdot y$ by Lemma 4.9. Hence, we apply Theorem 3.2.
+\end{proof}
+The extracted term from Haskell is given by
+\begin{lstlisting}
+cCoIMultLim :: Str -> Str -> Str
+cCoIMultLim u0 u1 = cCoILim
+    id
+    (\ n2 -> (cCoIMultSum u0 (cCoIToConvSeq u1 n2))).
+\end{lstlisting}
+Now let $\texttt{Mult} : \Str \to \Str \to \Str$ denote the computational content in human-readable. Then
+\[
+\texttt{Mult}(u, v) := \texttt{coilim}(\texttt{PosToNat}, \lambda_n \texttt{f}(u, \texttt{g}(v, n))).
+\]
+We compare the algorithms obtained in this way using the indirect and direct limit theorem with the algorithm from [Sch22] that was obtained from a direct proof. To this end we apply all three algorithms to two randomly generated sequences and measure the runtime in Haskell. The result is the average over $n = 10$ tests. Although the algorithm using the direct limit is better here, the algorithm from [Sch22] still performs best. It seems that in order to obtain efficient algorithms, completeness results should only be used if they are really needed.
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{c|ccc}
+number of digits & mult(schwicht) & mult(lim,indirect) & mult(lim,direct) \\ \hline
+5 & 0.056 & 0.51 & 0.1 \\
+10 & 0.061 & 15 & 0.71 \\
+15 & 0.063 & 432 & 11.6 \\
+30 & 0.095 & - & 60.8 \\
+100 & 0.43 & - & -
+\end{tabular}
+\caption{Third test - Runtime of different multiplication algorithms}
+\end{figure}
+
+\section{Conclusion and further work}
+We presented a formal method for extracting verified algorithms for exact real number arithmetic using different representations. All the proofs up to Section 4 have been carried out in the proof assistant Minlog. Furthermore automatic generation of correctness proofs and translation to Haskell was carried out. Even though the proofs from 4 have only been partially carried out in a proof assistant, the program extraction by hand was still a reliable method to get certified algorithms.
+
+Although algorithms extracted via the indirect method by translations tend to have a low lookahead, they do rely on rational arithmetic, so the direct method should outperform the indirect one in most cases. Our aim was to obtain verified algorithms and we do not claim that our programs are the most efficient. Some inefficiency stems from overestimation of bounds in formal proofs. These can usually be removed by careful analysis of the proofs involved.
+
+Since we have proven that the signed digit representation is closed under multiplication, average, division and limits we can now easily prove that a lot of functions are represented by stream-transformers, e.g. trigonometric functions, using their Taylor-expansion directly as was done for Herons algorithm. Another viable approach to limits should be to use the completeness of metric spaces, i.e. prove that signed-digits-reals satisfy the axioms of a metric space and then use a completeness theorem for abstract metric spaces.
+
+\section*{Acknowledgment}
+The first author would like to thank the Istituto Nazionale di Alta Matematica ``Francesco Severi'' for their scholarship of his PhD study. This project has received funding from the European Unions Horizon 2020 research and innovation programme under the Marie Sklodowska-Curie grant agreement No. 731143. In addition it was funded by the FWF project P 32080-N31.
+Both authors would like to thank Helmut Schwichtenberg for proof reading this paper and for his support during the creation of this paper.
+
+\begin{thebibliography}{99}
+
+\bibitem[Ber11]{Ber11} Ulrich Berger. From coinductive proofs to exact real arithmetic: theory and applications. \textit{Log. Methods Comput. Sci.}, 7(1), 2011.
+
+\bibitem[BH08]{BH08} Ulrich Berger and Tie Hou. Coinduction for Exact Real Number Computation. \textit{Theory of Computing Systems}, 43(3):394–409, 2008.
+
+\bibitem[BS12]{BS12} Ulrich Berger and Monika Seisenberger. Proofs, programs, processes. \textit{Theory of Computing Systems}, 51(3):313–329, 2012.
+
+\bibitem[CG06]{CG06} Alberto Ciaffaglione and Pietro Di Gianantonio. A certified, corecursive implementation of exact real numbers. \textit{Theoretical Computer Science}, 351:39–51, 2006.
+
+\bibitem[Köp18]{Kop18} Nils Köpp. Automatically verified program extraction from proofs with applications to constructive analysis. MSc Thesis, Ludwig Maximilians University Munich, 2018.
+
+\bibitem[Miy17]{Miy17} Kenji Miyamoto. The Minlog System. \url{http://www.mathematik.uni-muenchen.de/~logik/minlog/index.php}, 2017. [Online; accessed 17 June 2022].
+
+\bibitem[MS15]{MS15} Kenji Miyamoto and Helmut Schwichtenberg. Program extraction in exact real arithmetic. \textit{Mathematical Structures in Computer Science}, 25(Special issue 8):1692–1704, 2015.
+
+\bibitem[Sch03]{Sch03} Helmut Schwichtenberg. Constructive analysis with witnesses. In \textit{Proc. NATO Advanced Study Institute}, Marktoberdorf, 2003, pages 323–353, 2003.
+
+\bibitem[Sch21]{Sch21} Helmut Schwichtenberg. Computational aspects of Bishop's constructive mathematics. In D. Bridges, H. Ishihara, H. Schwichtenberg, and M. Rathjen, editors, \textit{Handbook of constructive mathematics}. Cambridge University Press, 2021. Submitted.
+
+\bibitem[Sch22]{Sch22} Helmut Schwichtenberg. Logic for exact real arithmetic: multiplication. To appear in \textit{Mathematics for Computation (M4C)} (ed. M. Benini, O. Beyersdorff, M. Rathjen, P. Schuster), World Scientific, Singapore, 2022.
+
+\bibitem[SW12]{SW12} Helmut Schwichtenberg and Stanley S. Wainer. \textit{Proofs and Computations}. Perspectives in Logic. Association for Symbolic Logic and Cambridge University Press, 2012.
+
+\bibitem[SW21]{SW21} Helmut Schwichtenberg and Franziskus Wiesnet. Logic for exact real arithmetic. \textit{Logical Methods in Computer Science}, 17:2, 2021.
+
+\bibitem[Wie80]{Wie80} Edwin Wiedmer. Computing with infinite objects. \textit{Theoretical Computer Science}, 10:133–155, 1980.
+
+\bibitem[Wie17]{Wie17} Franziskus Wiesnet. Konstruktive Analysis mit exakten reellen Zahlen. MSc Thesis, Ludwig Maximilians University Munich, 2017.
+
+\bibitem[Wie18]{Wie18} Franziskus Wiesnet. Introduction to Minlog. In Klaus Mainzer, Peter Schuster, and Helmut Schwichtenberg, editors, \textit{Proof and Computation}, pages 233–288. World Scientific, 2018.
+
+\bibitem[Wie21]{Wie21} Franziskus Wiesnet. \textit{The computational content of abstract algebra and analysis}. PhD thesis, Ludwig Maximilians University Munich, 2021.
+
+\end{thebibliography}
+
+\end{document}
