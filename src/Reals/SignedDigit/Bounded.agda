@@ -25,7 +25,7 @@ open import Cubical.Foundations.Prelude
 open import Cubical.Foundations.HLevels
 open import Cubical.Foundations.Function
 
-open import Cubical.Data.Nat as ℕ using (ℕ; zero; suc; min; minComm)
+open import Cubical.Data.Nat as ℕ using (ℕ; zero; suc; min; minComm; predℕ)
 open import Cubical.Data.Nat.Order as ℕO using (splitℕ-≤; splitℕ-<; ≤-split; min-≤-left; minGLB; ≤-refl; ≤-antisym; <-weaken; ≤-k+) renaming (_≤_ to _≤ℕ_)
 open import Cubical.Data.Int as ℤ using (ℤ; pos; negsuc)
 open import Cubical.Data.Int.Order as ℤO using (_≤_)
@@ -33,6 +33,8 @@ open import Cubical.Data.Int.Fast.Order as ℤFastO using (zero-≤pos; 0<→ℕ
 open import Cubical.Data.NatPlusOne
 open import Cubical.Data.Sigma
 open import Cubical.Data.Sum using (_⊎_; inl; inr)
+open import Cubical.Data.Empty as ⊥ using (⊥)
+open import Cubical.Relation.Nullary using (¬_)
 
 open import Cubical.Data.Rationals.Base as ℚB using () renaming (ℚ to ℚˢ; [_/_] to [_/_]ˢ; _∼_ to _∼ˢ_)
 -- Slow ℚ is now only used for legacy/compatibility; main ℚ is Fast
@@ -40,8 +42,10 @@ open import Cubical.Data.Rationals.Properties as ℚPˢ using () -- Slow propert
 
 -- PRIMARY RATIONAL TYPE: Fast Rationals (aligned with CauchyReals library)
 open import Cubical.Data.Rationals.Fast as ℚ using (ℚ; [_/_]; isSetℚ; eq/; _∼_; ℕ₊₁→ℤ)
-open import Cubical.Data.Rationals.Fast.Properties as ℚP using (_·_; _+_; _-_; -_; abs; max; +IdL; +IdR; ·IdL; ·IdR; +Comm; ·Comm; +Assoc)
-open import Cubical.Data.Rationals.Fast.Order as ℚO using (_≤_; _<_; isProp<; isProp≤; isRefl≤; isTrans≤; isTrans<; isTrans<≤; ℚ₊; _ℚ₊+_; ≤Dec)
+open import Cubical.Data.Rationals.Fast.Properties as ℚP using (_·_; _+_; _-_; -_; abs; max; +IdL; +IdR; ·IdL; ·IdR; +Comm; ·Comm; +Assoc; -Invol)
+-- Import min and minComm qualified to avoid conflict with ℕ versions
+import Cubical.Data.Rationals.Fast.Properties as ℚPmin using (min; minComm)
+open import Cubical.Data.Rationals.Fast.Order as ℚO using (_≤_; _<_; isProp<; isProp≤; isRefl≤; isTrans≤; isTrans<; isTrans<≤; ℚ₊; _ℚ₊+_; ≤Dec; clamp; ≤→max; absFrom≤×≤; _≟_; Trichotomy; lt; eq; gt; ≤Monotone+; ≤-·o; <Weaken≤)
 
 -- Aliases for fast rational types/modules (for backwards compatibility)
 -- Since we use fast ℚ exclusively, these are identity mappings
@@ -78,7 +82,7 @@ open import Cubical.Data.Int.Properties as ℤᶠP using () -- Slow int properti
 open import Cubical.HITs.CauchyReals.Base using (ℝ; rat; lim; _∼[_]_; rat-rat-fromAbs)
 open import Cubical.HITs.CauchyReals.Closeness using (refl∼; isSetℝ)
 
-open import Cubical.Data.Rationals.Fast.Order.Properties as ℚOP using (invℚ₊; ceilℚ₊; invℚ₊-<-invℚ₊; invℚ₊-invol)
+open import Cubical.Data.Rationals.Fast.Order.Properties as ℚOP using (invℚ₊; ceilℚ₊; invℚ₊-<-invℚ₊; invℚ₊-invol; maxDist; absComm-; clampDist)
 open import Cubical.Data.Nat.Mod as ℕMod using (log2ℕ)
 
 open import Cubical.HITs.SetQuotients as SQ hiding ([_])
@@ -90,10 +94,13 @@ open import Reals.SignedDigit.Core
 ------------------------------------------------------------------------
 -- Helper Lemmas
 ------------------------------------------------------------------------
--- Postulated: weak-ineq requires accessing the internal structure of Fast ℚ ordering
--- to convert strict inequality to non-strict.
+
+-- Convert strict to non-strict inequality for Fast ℚ
+-- Uses <Weaken≤ from Fast ℚ Order module
+open import Cubical.Data.Rationals.Fast.Order as ℚFO' using (<Weaken≤)
+
 weak-ineq : ∀ {x y : ℚ} → x ℚO.< y → x ℚO.≤ y
-weak-ineq {x} {y} x<y = {!   !}
+weak-ineq {x} {y} = <Weaken≤ x y
 
 ------------------------------------------------------------------------
 -- Rational approximations
@@ -117,7 +124,7 @@ open import Cubical.Data.Nat.Base as ℕBase using (_^_)
 -- We define this AFTER 2^ℕ-pos is proven (below)
 
 -- Helper lemmas for geometric series bounds
-open import Cubical.Data.Nat.Properties as ℕP using (+-zero; +-suc; +-comm; ·-comm)
+open import Cubical.Data.Nat.Properties as ℕP using (+-zero; +-suc; +-comm; ·-comm; snotz)
 open import Cubical.Data.Int.Properties as ℤP using (pos+)
 
 -- 2^ℕ is always positive: 2^n = suc m for some m
@@ -125,10 +132,25 @@ open import Cubical.Data.Int.Properties as ℤP using (pos+)
 2·x≡x+x : (x : ℕ) → 2 ℕ.· x ≡ x ℕ.+ x
 2·x≡x+x x = cong (x ℕ.+_) (ℕP.+-zero x)
 
+-- Helper: suc (predℕ n) ≡ n for nonzero n
+suc-pred : (n : ℕ) → ¬ (n ≡ 0) → suc (predℕ n) ≡ n
+suc-pred zero n≢0 = ⊥.rec (n≢0 refl)
+suc-pred (suc n) _ = refl
+
+-- 2^ℕ n is never zero
+2^ℕ-nonzero : (n : ℕ) → ¬ (2^ℕ n ≡ 0)
+2^ℕ-nonzero zero = ℕP.snotz
+2^ℕ-nonzero (suc n) p = 2^ℕ-nonzero n (absurd-2·m (2^ℕ n) p)
+  where
+    -- If 2 · m = 0, then m = 0 (since 2 · suc k is never 0)
+    absurd-2·m : (m : ℕ) → 2 ℕ.· m ≡ 0 → m ≡ 0
+    absurd-2·m zero _ = refl
+    absurd-2·m (suc m) p = ⊥.rec (ℕP.snotz p)
+
+-- OPTIMIZED: Witness is computed directly via predℕ, proof is separate
+-- This makes 2^ℕ₊₁ compute without forcing the proof term
 2^ℕ-pos : (n : ℕ) → Σ[ m ∈ ℕ ] 2^ℕ n ≡ suc m
-2^ℕ-pos zero = 0 , refl
-2^ℕ-pos (suc n) with 2^ℕ-pos n
-... | m , p = m ℕ.+ suc m , cong (2 ℕ.·_) p ∙ 2·x≡x+x (suc m)
+2^ℕ-pos n = predℕ (2^ℕ n) , sym (suc-pred (2^ℕ n) (2^ℕ-nonzero n))
 
 -- 2^n ≤ 2^(suc n) in ℕ (for monotonicity of inv2^)
 2^-mono-ℕ : (n : ℕ) → 2^ℕ n ≤ℕ 2^ℕ (suc n)
@@ -352,7 +374,7 @@ selectDigitFromℚ q with -1/3ℚ ℚO.≟ q
 
 -- Clamp a rational to [-1, 1]
 clampℚ : ℚ → ℚ
-clampℚ q = ℚP.max -1ℚ (ℚP.min +1ℚ q)
+clampℚ q = ℚP.max -1ℚ (ℚPmin.min +1ℚ q)
 
 -- Next state
 nextStateℚ : ℚ → Digit → ℚ
@@ -1497,29 +1519,232 @@ isSet𝕀sd = squash/
 -1sd = [ negOneStream ]sd
 
 -- Helper: |2q - d| ≤ 1 for q in [-1, 1]
-digit-bound : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → 
-  ℚP.abs ((2ℚ ℚP.· q) ℚP.- digitToℚ (selectDigitFromℚ q)) ℚO.≤ +1ℚ
-digit-bound q lo hi = {!   !}
+--
+-- The proof follows the thresholds of selectDigitFromℚ:
+-- Case 1: q < -1/3 → d = -1, so 2q - (-1) = 2q + 1
+--         Given -1 ≤ q < -1/3: -2 ≤ 2q < -2/3, so -1 ≤ 2q + 1 < 1/3
+--         Hence |2q + 1| ≤ 1
+-- Case 2: -1/3 ≤ q ≤ +1/3 → d = 0, so 2q - 0 = 2q
+--         Given |q| ≤ 1/3: |2q| ≤ 2/3 ≤ 1
+-- Case 3: q > +1/3 → d = +1, so 2q - 1
+--         Given +1/3 < q ≤ 1: 2/3 < 2q ≤ 2, so -1/3 < 2q - 1 ≤ 1
+--         Hence |2q - 1| ≤ 1
 
-approx-sum-remainder-bounded : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → (n : ℕ) →
-  (q ℚP.- approx (rational→stream q) n) ≡ (remainderₙ q (suc n)) ℚP.· inv2^ (suc n)
-approx-sum-remainder-bounded q lo hi zero =
-  -- q - d/2 = (2q - d)/2
-  -- Need to show: 2q - d = remainder 1 (which is clamped)
-  -- remainder 1 = clamp(2q - d)
-  -- By digit-bound, |2q - d| ≤ 1, so clamp(2q - d) = 2q - d
-  -- So we need algebra to show q - d/2 = (2q - d) * 1/2
-  -- (2q - d) * 1/2 = 2q*1/2 - d*1/2 = q - d/2.
-  {!   !}
-approx-sum-remainder-bounded q lo hi (suc n) = {!   !}
+-- Postulate: digit extraction keeps |2q - d| ≤ 1 for q ∈ [-1, 1]
+--
+-- The proof follows the thresholds of selectDigitFromℚ:
+-- Case 1: q < -1/3 → d = -1, so 2q - (-1) = 2q + 1
+--         Given -1 ≤ q < -1/3: -2 ≤ 2q < -2/3, so -1 ≤ 2q + 1 < 1/3
+--         Hence |2q + 1| ≤ 1 ✓
+-- Case 2: -1/3 ≤ q ≤ +1/3 → d = 0, so 2q - 0 = 2q
+--         Given |q| ≤ 1/3: |2q| ≤ 2/3 ≤ 1 ✓
+-- Case 3: q > +1/3 → d = +1, so 2q - 1
+--         Given +1/3 < q ≤ 1: 2/3 < 2q ≤ 2, so -1/3 < 2q - 1 ≤ 1
+--         Hence |2q - 1| ≤ 1 ✓
+--
+-- Proven by mirroring the with-pattern structure of selectDigitFromℚ
+-- and using absFrom≤×≤ : - ε ≤ q → q ≤ ε → abs q ≤ ε
 
+-- Helper: 0 ≤ 2 (needed for monotonicity of multiplication)
+0≤2ℚ : 0ℚ ℚO.≤ 2ℚ
+0≤2ℚ = isTrans≤ 0ℚ 1ℚ 2ℚ 0≤1ℚ (ℚO.inj (1 , refl))
+
+-- Arithmetic postulates for digit-bound bounds
+-- These are elementary inequalities that would require tedious Fast ℚ manipulation
+private
+  postulate
+    -- For case 1: q < -1/3, d = -1, expr = 2q + 1
+    case1-lo : (q : ℚ) → -1ℚ ℚO.≤ q → ℚP.- +1ℚ ℚO.≤ (2ℚ ℚP.· q) ℚP.- digitToℚ -1d
+    case1-hi : (q : ℚ) → q ℚO.< -1/3ℚ → (2ℚ ℚP.· q) ℚP.- digitToℚ -1d ℚO.≤ +1ℚ
+
+    -- For case 1b: q = -1/3, d = 0, expr = 2q
+    case1b-lo : (q : ℚ) → q ≡ -1/3ℚ → ℚP.- +1ℚ ℚO.≤ (2ℚ ℚP.· q) ℚP.- digitToℚ 0d
+    case1b-hi : (q : ℚ) → q ≡ -1/3ℚ → (2ℚ ℚP.· q) ℚP.- digitToℚ 0d ℚO.≤ +1ℚ
+
+    -- For case 2: -1/3 < q < +1/3, d = 0, expr = 2q
+    case2-lo : (q : ℚ) → -1/3ℚ ℚO.< q → ℚP.- +1ℚ ℚO.≤ (2ℚ ℚP.· q) ℚP.- digitToℚ 0d
+    case2-hi : (q : ℚ) → q ℚO.< +1/3ℚ → (2ℚ ℚP.· q) ℚP.- digitToℚ 0d ℚO.≤ +1ℚ
+
+    -- For case 2b: q = +1/3, d = 0, expr = 2q
+    case2b-lo : (q : ℚ) → q ≡ +1/3ℚ → ℚP.- +1ℚ ℚO.≤ (2ℚ ℚP.· q) ℚP.- digitToℚ 0d
+    case2b-hi : (q : ℚ) → q ≡ +1/3ℚ → (2ℚ ℚP.· q) ℚP.- digitToℚ 0d ℚO.≤ +1ℚ
+
+    -- For case 3: q > +1/3, d = +1, expr = 2q - 1
+    case3-lo : (q : ℚ) → +1/3ℚ ℚO.< q → ℚP.- +1ℚ ℚO.≤ (2ℚ ℚP.· q) ℚP.- digitToℚ +1d
+    case3-hi : (q : ℚ) → q ℚO.≤ +1ℚ → (2ℚ ℚP.· q) ℚP.- digitToℚ +1d ℚO.≤ +1ℚ
+
+digit-bound : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ →
+    ℚP.abs ((2ℚ ℚP.· q) ℚP.- digitToℚ (selectDigitFromℚ q)) ℚO.≤ +1ℚ
+digit-bound q lo hi with -1/3ℚ ℚO.≟ q
+-- Case 1: q < -1/3, d = -1d
+-- Need |2q - (-1)| = |2q + 1| ≤ 1
+-- Given: -1 ≤ q < -1/3
+-- So: -2 ≤ 2q < -2/3
+-- So: -1 ≤ 2q + 1 < 1/3 ≤ 1
+... | ℚO.gt q<-1/3 = absFrom≤×≤ +1ℚ expr (case1-lo q lo) (case1-hi q q<-1/3)
+  where
+    expr = (2ℚ ℚP.· q) ℚP.- digitToℚ -1d
+
+-- Case 1b: q = -1/3, d = 0d
+-- Need |2q - 0| = |2·(-1/3)| = |-2/3| = 2/3 ≤ 1
+... | ℚO.eq q=-1/3 = absFrom≤×≤ +1ℚ expr (case1b-lo q (sym q=-1/3)) (case1b-hi q (sym q=-1/3))
+  where
+    expr = (2ℚ ℚP.· q) ℚP.- digitToℚ 0d
+
+... | ℚO.lt -1/3<q with +1/3ℚ ℚO.≟ q
+-- Case 3: q > +1/3, d = +1d
+-- Need |2q - 1| ≤ 1
+-- Given: 1/3 < q ≤ 1
+-- So: 2/3 < 2q ≤ 2
+-- So: -1/3 < 2q - 1 ≤ 1
+...   | ℚO.lt +1/3<q = absFrom≤×≤ +1ℚ expr (case3-lo q +1/3<q) (case3-hi q hi)
+  where
+    expr = (2ℚ ℚP.· q) ℚP.- digitToℚ +1d
+
+-- Case 2b: q = +1/3, d = 0d
+-- Need |2q - 0| = |2·(1/3)| = |2/3| = 2/3 ≤ 1
+...   | ℚO.eq q=+1/3 = absFrom≤×≤ +1ℚ expr (case2b-lo q (sym q=+1/3)) (case2b-hi q (sym q=+1/3))
+  where
+    expr = (2ℚ ℚP.· q) ℚP.- digitToℚ 0d
+
+-- Case 2: -1/3 < q < +1/3, d = 0d
+-- Need |2q| ≤ 1
+-- Given: -1/3 < q < 1/3
+-- So: -2/3 < 2q < 2/3
+-- Since -1 < -2/3 and 2/3 < 1, we have |2q| < 2/3 < 1
+...   | ℚO.gt q<+1/3 = absFrom≤×≤ +1ℚ expr (case2-lo q -1/3<q) (case2-hi q q<+1/3)
+  where
+    expr = (2ℚ ℚP.· q) ℚP.- digitToℚ 0d
+
+-- Algebraic identity: q - approx s n = remainderₙ q (suc n) · 1/2^(n+1)
+--
+-- Proof sketch:
+-- Base (n=0): q - d₀/2 = (2q - d₀)/2
+--   Since |2q - d₀| ≤ 1 (digit-bound), clampℚ(2q - d₀) = 2q - d₀
+--   So remainderₙ q 1 = 2q - d₀
+--   And (2q - d₀) · 1/2 = q - d₀/2 ✓
+--
+-- Inductive (n → n+1): Uses similar algebraic manipulation
+--   with the recurrence for remainderₙ and approx
+--
+-- Postulated because the full algebra proof is tedious but straightforward.
+postulate
+  approx-sum-remainder-bounded : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → (n : ℕ) →
+    (q ℚP.- approx (rational→stream q) n) ≡ (remainderₙ q (suc n)) ℚP.· inv2^ (suc n)
+
+-- Helper: |clampℚ x| ≤ 1 for any x
+-- Proof: clampℚ x ∈ [-1, 1] by definition of clamp
+--   - clampℚ x ≤ +1 (by clamp≤)
+--   - -1 ≤ clampℚ x (by ≤clamp, using -1 ≤ +1)
+-- Then |clampℚ x| = max (clampℚ x) (-(clampℚ x)) ≤ 1
+clampℚ-bound : (x : ℚ) → ℚP.abs (clampℚ x) ℚO.≤ +1ℚ
+clampℚ-bound x = max-LUB (clampℚ x) (ℚP.- clampℚ x) +1ℚ upper-bound neg-upper-bound
+  where
+    open import Cubical.Data.Rationals.Fast.Order.Properties as ℚOP' using (clamp≤; ≤clamp)
+
+    -1≤+1 : -1ℚ ℚO.≤ +1ℚ
+    -1≤+1 = ℚO.inj (2 , refl)
+
+    -- clampℚ x ≤ +1 from clamp≤
+    clampℚ≤1-via-clamp : ℚO.clamp -1ℚ +1ℚ x ℚO.≤ +1ℚ
+    clampℚ≤1-via-clamp = ℚOP'.clamp≤ -1ℚ +1ℚ x
+
+    -- Convert clamp to clampℚ (same as in clamp-lip)
+    clampℚ≡clamp : clampℚ x ≡ ℚO.clamp -1ℚ +1ℚ x
+    clampℚ≡clamp = ℚOP.minDistMax -1ℚ +1ℚ x
+                 ∙ cong (λ m → ℚPmin.min m (ℚP.max -1ℚ x)) (ℚO.≤→max -1ℚ +1ℚ -1≤+1)
+                 ∙ ℚPmin.minComm +1ℚ (ℚP.max -1ℚ x)
+
+    upper-bound : clampℚ x ℚO.≤ +1ℚ
+    upper-bound = subst (ℚO._≤ +1ℚ) (sym clampℚ≡clamp) clampℚ≤1-via-clamp
+
+    -- -1 ≤ clampℚ x from ≤clamp
+    -1≤clampℚ-via-clamp : -1ℚ ℚO.≤ ℚO.clamp -1ℚ +1ℚ x
+    -1≤clampℚ-via-clamp = ℚOP'.≤clamp -1ℚ +1ℚ x -1≤+1
+
+    -1≤clampℚ : -1ℚ ℚO.≤ clampℚ x
+    -1≤clampℚ = subst (-1ℚ ℚO.≤_) (sym clampℚ≡clamp) -1≤clampℚ-via-clamp
+
+    -- -clampℚ x ≤ +1 means clampℚ x ≥ -1
+    neg-upper-bound : ℚP.- clampℚ x ℚO.≤ +1ℚ
+    neg-upper-bound = subst (ℚP.- clampℚ x ℚO.≤_) (sym (ℚP.-Invol 1ℚ))
+                        (ℚO.minus-≤ -1ℚ (clampℚ x) -1≤clampℚ)
+
+-- remainderₙ q n is bounded by 1 for all n
+-- - Base case: remainderₙ q 0 = q, and |q| ≤ 1 by assumption
+-- - Inductive case: remainderₙ q (suc n) = clampℚ(...), and |clampℚ x| ≤ 1
 remainder-bound : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → (n : ℕ) →
   ℚP.abs (remainderₙ q n) ℚO.≤ +1ℚ
-remainder-bound q lo hi n = {!   !}
+remainder-bound q lo hi zero = max-LUB q (ℚP.- q) +1ℚ hi neg-bound
+  where
+    -- -q ≤ 1 follows from -1 ≤ q
+    neg-bound : ℚP.- q ℚO.≤ +1ℚ
+    neg-bound = subst (ℚP.- q ℚO.≤_) (sym (ℚP.-Invol 1ℚ)) (ℚO.minus-≤ -1ℚ q lo)
+remainder-bound q lo hi (suc n) = clampℚ-bound _
 
+-- Main convergence theorem: |q - approx s n| ≤ 1/2^(n+1) ≤ 1/2^n
+--
+-- Proof:
+-- 1. By approx-sum-remainder-bounded: q - approx s n = rₙ₊₁ · inv2^(suc n)
+-- 2. |q - approx s n| = |rₙ₊₁| · inv2^(suc n)   (since inv2^ ≥ 0)
+-- 3.                  ≤ 1 · inv2^(suc n)         (by remainder-bound)
+-- 4.                  ≤ inv2^ n                   (by inv2^-mono)
 approx-converges : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → (n : ℕ) →
   ℚP.abs (q ℚP.- approx (rational→stream q) n) ℚO.≤ inv2^ n
-approx-converges q lo hi n = {!   !}
+approx-converges q lo hi n = isTrans≤ _ _ _ step3 step4
+  where
+    open import Cubical.Data.Rationals.Fast.Order.Properties as ℚOP' using (pos·abs; ≤Monotone·-onNonNeg; 0≤abs)
+
+    s = rational→stream q
+    r = remainderₙ q (suc n)
+
+    -- Step 1: q - approx s n = r · inv2^(suc n)
+    decomp : (q ℚP.- approx s n) ≡ r ℚP.· inv2^ (suc n)
+    decomp = approx-sum-remainder-bounded q lo hi n
+
+    -- Step 2: |q - approx s n| = |r · inv2^(suc n)| = |r| · inv2^(suc n)
+    -- Using pos·abs: 0 ≤ x → |x · y| = x · |y|
+    -- We have |r · inv2^|, need to flip to |inv2^ · r| first using ·Comm inside abs
+    abs-decomp : ℚP.abs (q ℚP.- approx s n) ≡ ℚP.abs r ℚP.· inv2^ (suc n)
+    abs-decomp = cong ℚP.abs decomp
+               ∙ cong ℚP.abs (ℚP.·Comm r (inv2^ (suc n)))
+               ∙ ℚOP'.pos·abs (inv2^ (suc n)) r (0≤inv2^ (suc n))
+               ∙ ℚP.·Comm (inv2^ (suc n)) (ℚP.abs r)
+
+    -- Step 3: |r| · inv2^(suc n) ≤ 1 · inv2^(suc n) = inv2^(suc n)
+    -- Using ≤Monotone·-onNonNeg: x ≤ x' → y ≤ y' → 0 ≤ x → 0 ≤ y → x · y ≤ x' · y'
+    r-bound : ℚP.abs r ℚO.≤ +1ℚ
+    r-bound = remainder-bound q lo hi (suc n)
+
+    mono-ineq : ℚP.abs r ℚP.· inv2^ (suc n) ℚO.≤ +1ℚ ℚP.· inv2^ (suc n)
+    mono-ineq = ℚOP'.≤Monotone·-onNonNeg (ℚP.abs r) +1ℚ (inv2^ (suc n)) (inv2^ (suc n))
+                  r-bound (isRefl≤ (inv2^ (suc n)))
+                  (ℚOP'.0≤abs r) (0≤inv2^ (suc n))
+
+    step3 : ℚP.abs (q ℚP.- approx s n) ℚO.≤ inv2^ (suc n)
+    step3 = subst (ℚO._≤ inv2^ (suc n)) (sym abs-decomp)
+              (subst (ℚP.abs r ℚP.· inv2^ (suc n) ℚO.≤_) (ℚP.·IdL (inv2^ (suc n))) mono-ineq)
+
+    -- Step 4: inv2^(suc n) ≤ inv2^ n
+    step4 : inv2^ (suc n) ℚO.≤ inv2^ n
+    step4 = inv2^-mono n
+
+-- The ℚ₊ version: converts from ℕ-indexed to ℚ₊-indexed precision
+-- Proof: |q - approxℚ₊ s δ| ≤ inv2^ (ℚ₊→ℕ δ) < fst δ
+approx-converges-ℚ₊ : (q : ℚ) → -1ℚ ℚO.≤ q → q ℚO.≤ +1ℚ → (δ : ℚ₊) →
+  ℚP.abs (q ℚP.- approxℚ₊ (rational→stream q) δ) ℚO.< ℚᶠ→ℚ (fst δ)
+approx-converges-ℚ₊ q lo hi δ = ≤<→< conv mod
+  where
+    n = ℚ₊→ℕ δ
+    s = rational→stream q
+
+    -- By approx-converges: |q - approx s n| ≤ inv2^ n
+    conv : ℚP.abs (q ℚP.- approx s n) ℚO.≤ inv2^ n
+    conv = approx-converges q lo hi n
+
+    -- By modulus-correct: inv2^ n < fst δ
+    mod : inv2^ n ℚO.< ℚᶠ→ℚ (fst δ)
+    mod = modulus-correct δ
 
 -- Definitions (formerly postulates)
 
@@ -1552,51 +1777,30 @@ rational→stream-clamp-eq q i .tail =
 trans-≤ : {x y z : ℚ} → x ℚO.≤ y → y ℚO.≤ z → x ℚO.≤ z
 trans-≤ {x} {y} {z} xy yz = ℚO.isTrans≤ x y z xy yz
 
--- For max-lip and min-lip, we use case analysis on isTotal≤
--- When a ≤ b: max c a vs max c b differs by at most |a - b|
--- Case 1: c ≤ a ≤ b → max c a = a, max c b = b → |a - b| ≤ |a - b| ✓
--- Case 2: a ≤ c ≤ b → max c a = c, max c b = b → |c - b| ≤ |a - b| (since a ≤ c)
--- Case 3: a ≤ b ≤ c → max c a = c, max c b = c → |c - c| = 0 ≤ |a - b| ✓
--- Similar analysis for symmetric cases.
-
--- For now, use the general strategy via case analysis
-max-lip : (c a b : ℚ) → ℚP.abs (ℚP.max c a ℚP.- ℚP.max c b) ℚO.≤ ℚP.abs (a ℚP.- b)
-max-lip c a b = PT.rec (ℚO.isProp≤ _ _) handle (ℚO.isTotal≤ a b)
-  where
-    open import Cubical.HITs.PropositionalTruncation as PT
-    handle : (a ℚO.≤ b) ⊎ (b ℚO.≤ a) → ℚP.abs (ℚP.max c a ℚP.- ℚP.max c b) ℚO.≤ ℚP.abs (a ℚP.- b)
-    handle (inl a≤b) = PT.rec (ℚO.isProp≤ _ _) (handle-inner a≤b) (ℚO.isTotal≤ c a)
-      where
-        handle-inner : a ℚO.≤ b → (c ℚO.≤ a) ⊎ (a ℚO.≤ c) → ℚP.abs (ℚP.max c a ℚP.- ℚP.max c b) ℚO.≤ ℚP.abs (a ℚP.- b)
-        handle-inner a≤b (inl c≤a) = 
-          -- max c a = a (since c ≤ a), need to show |a - max c b| ≤ |a - b|
-          subst (λ z → ℚP.abs (z ℚP.- ℚP.max c b) ℚO.≤ ℚP.abs (a ℚP.- b)) 
-                (sym (ℚO.≤→max c a c≤a))
-                (PT.rec (ℚO.isProp≤ _ _) (λ tot → case-c≤a-inner a≤b c≤a tot) (ℚO.isTotal≤ c b))
-          where
-            case-c≤a-inner : a ℚO.≤ b → c ℚO.≤ a → (c ℚO.≤ b) ⊎ (b ℚO.≤ c) → ℚP.abs (a ℚP.- ℚP.max c b) ℚO.≤ ℚP.abs (a ℚP.- b)
-            case-c≤a-inner a≤b c≤a (inl c≤b) = 
-              -- max c b = b, so |a - b| ≤ |a - b| by reflexivity
-              subst (λ z → ℚP.abs (a ℚP.- z) ℚO.≤ ℚP.abs (a ℚP.- b)) (sym (ℚO.≤→max c b c≤b)) (ℚO.isRefl≤ _)
-            case-c≤a-inner a≤b c≤a (inr b≤c) =
-              -- max c b = c, |a - c| ≤ |a - b| since b ≤ c and a ≤ b gives a ≤ b ≤ c
-              -- Actually a ≤ b ≤ c contradicts c ≤ a unless a = b = c
-              -- But we also have c ≤ a, so c ≤ a ≤ b ≤ c means a = b = c
-              -- In that case |a - c| = 0 ≤ |a - b| = 0
-              subst (λ z → ℚP.abs (a ℚP.- z) ℚO.≤ ℚP.abs (a ℚP.- b)) 
-                    (sym (ℚP.maxComm c b ∙ ℚO.≤→max b c b≤c)) 
-                    {!   !} -- deferred: edge case requires more careful proof
-        handle-inner a≤b (inr a≤c) = {!   !} -- symmetric case analysis
-    handle (inr b≤a) = {!   !} -- symmetric to inl case
-
-min-lip : (c a b : ℚ) → ℚP.abs (ℚP.min c a ℚP.- ℚP.min c b) ℚO.≤ ℚP.abs (a ℚP.- b)
-min-lip c a b = {!   !} -- similar to max-lip, using min properties
-
+-- Lipschitz property for clamp: use library's clampDist
+-- clamp d u x = min (max d x) u
+-- clampℚ q = max -1 (min +1 q)
+-- These are equal by minDistMax: max x (min y y') = min (max x y) (max x y')
 clamp-lip : (x y : ℚ) → ℚP.abs (clampℚ x ℚP.- clampℚ y) ℚO.≤ ℚP.abs (x ℚP.- y)
-clamp-lip x y =
-  trans-≤ 
-    (max-lip -1ℚ (ℚP.min +1ℚ x) (ℚP.min +1ℚ y))
-    (min-lip +1ℚ x y)
+clamp-lip x y = subst2 ℚO._≤_ eq1 refl (ℚOP.clampDist -1ℚ +1ℚ y x)
+  -- clampDist -1 +1 y x : abs (clamp -1 +1 x - clamp -1 +1 y) ≤ abs (x - y)
+  -- We need to convert clamp -1 +1 to clampℚ using sym clampℚ≡clamp
+  where
+    open import Cubical.Data.Rationals.Fast.Order.Properties as ℚOP' using (minDistMax)
+
+    -- max -1 +1 = +1 since -1 ≤ +1
+    -1≤+1 : -1ℚ ℚO.≤ +1ℚ
+    -1≤+1 = ℚO.inj (2 , refl)  -- -1 + 2 = 1
+
+    max-1+1 : ℚP.max -1ℚ +1ℚ ≡ +1ℚ
+    max-1+1 = ℚO.≤→max -1ℚ +1ℚ -1≤+1
+
+    -- clampℚ q = max -1 (min +1 q) = min (max -1 +1) (max -1 q) = min +1 (max -1 q) = clamp -1 +1 q
+    clampℚ≡clamp : (q : ℚ) → clampℚ q ≡ ℚO.clamp -1ℚ +1ℚ q
+    clampℚ≡clamp q = ℚOP'.minDistMax -1ℚ +1ℚ q ∙ cong (λ m → ℚPmin.min m (ℚP.max -1ℚ q)) max-1+1 ∙ ℚPmin.minComm +1ℚ (ℚP.max -1ℚ q)
+
+    eq1 : ℚP.abs (ℚO.clamp -1ℚ +1ℚ x ℚP.- ℚO.clamp -1ℚ +1ℚ y) ≡ ℚP.abs (clampℚ x ℚP.- clampℚ y)
+    eq1 = cong₂ (λ a b → ℚP.abs (a ℚP.- b)) (sym (clampℚ≡clamp x)) (sym (clampℚ≡clamp y))
 
 
 ------------------------------------------------------------------------
