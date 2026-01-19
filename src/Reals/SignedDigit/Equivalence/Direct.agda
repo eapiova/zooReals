@@ -40,7 +40,7 @@ open import Cubical.Data.Rationals.Fast.Order as ℚO
 open import Cubical.Data.Rationals.Fast.Order.Properties as ℚOP
   using (/2₊; ε/2+ε/2≡ε)
 
-open import Cubical.HITs.CauchyReals.Base as ℝBase using (ℝ; rat; eqℝ; _∼[_]_; rat-rat-fromAbs; Recℝ)
+open import Cubical.HITs.CauchyReals.Base as ℝBase using (ℝ; rat; eqℝ; _∼[_]_; rat-rat-fromAbs; Recℝ; isProp∼)
 open import Cubical.HITs.CauchyReals.Closeness using (triangle∼; sym∼)
 open import Cubical.HITs.CauchyReals.Multiplication as ℝMul using (_·ᵣ_)
 
@@ -86,16 +86,6 @@ _+₊_ = ℚO._ℚ₊+_
 ι-inj = SQ.elimProp2
           (λ a a' → isPropΠ (λ _ → isSet𝕀sd a a'))
           (λ s t h → eq/ s t h)
-
-------------------------------------------------------------------------
--- isProp∼: closeness is a proposition
-------------------------------------------------------------------------
-
--- FIXME: The closeness relation _∼[_]_ is defined recursively on the HIT structure.
--- Proving isProp requires understanding how ∼ is defined in the library.
--- For now, leave as a hole - it should follow from the library's definitions.
-isProp∼ : (x y : ℝ) (ε : ℚO.ℚ₊) → isProp (x ∼[ ε ] y)
-isProp∼ x y ε = {!   !}
 
 ------------------------------------------------------------------------
 -- Building the Recℝ structure for ℝ → 𝕀sd
@@ -339,7 +329,7 @@ Recℝ.lim-lim-B ℝ→𝕀sd-Rec x y ε δ η p p' v ih =
 
 -- isPropB: closeness is a proposition
 -- Note: B a a' ε = ι a ∼[ε +₊ ε] ι a', so we use precision ε +₊ ε
-Recℝ.isPropB ℝ→𝕀sd-Rec a a' ε = isProp∼ (ι a) (ι a') (ε +₊ ε)
+Recℝ.isPropB ℝ→𝕀sd-Rec a a' ε = isProp∼ (ι a) (ε +₊ ε) (ι a')
 
 ------------------------------------------------------------------------
 -- The main embedding function
