@@ -98,37 +98,38 @@ B→std-close a a' allClose ε = subst (λ x → ι a ∼[ x ] ι a') (/2₊+/2�
 -- Building the Recℝ structure for ℝ → 𝕀sd
 ------------------------------------------------------------------------
 
-ℝ→𝕀sd-Rec : Recℝ 𝕀sd 𝕀sd-B
-Recℝ.ratA ℝ→𝕀sd-Rec q = SQ.[ rational→stream q ]
+abstract
+  ℝ→𝕀sd-Rec : Recℝ 𝕀sd 𝕀sd-B
+  Recℝ.ratA ℝ→𝕀sd-Rec q = SQ.[ rational→stream q ]
 
--- limA: use the coinductive limit lifted to 𝕀sd
--- The coherence argument has type: ∀ δ ε → B (streams δ) (streams ε) (δ +₊ ε)
--- i.e., ∀ δ ε → ι (streams δ) ∼[(δ +₊ ε) +₊ (δ +₊ ε)] ι (streams ε)
--- This matches exactly what limA-𝕀sd expects.
-Recℝ.limA ℝ→𝕀sd-Rec streams coherence = limA-𝕀sd streams coherence
+  -- limA: use the coinductive limit lifted to 𝕀sd
+  -- The coherence argument has type: ∀ δ ε → B (streams δ) (streams ε) (δ +₊ ε)
+  -- i.e., ∀ δ ε → ι (streams δ) ∼[(δ +₊ ε) +₊ (δ +₊ ε)] ι (streams ε)
+  -- This matches exactly what limA-𝕀sd expects.
+  Recℝ.limA ℝ→𝕀sd-Rec streams coherence = limA-𝕀sd streams coherence
 
-Recℝ.eqA ℝ→𝕀sd-Rec a a' allClose = ι-inj a a' (eqℝ (ι a) (ι a') (B→std-close a a' allClose))
-  -- Given: allClose : ∀ ε → B a a' ε = ∀ ε → ι a ∼[ε +₊ ε] ι a'
-  -- By B→std-close: ∀ ε → ι a ∼[ε] ι a'
-  -- By eqℝ, this gives a path ι a ≡ ι a' in ℝ
-  -- By ι-inj, we get a ≡ a' in 𝕀sd
+  Recℝ.eqA ℝ→𝕀sd-Rec a a' allClose = ι-inj a a' (eqℝ (ι a) (ι a') (B→std-close a a' allClose))
+    -- Given: allClose : ∀ ε → B a a' ε = ∀ ε → ι a ∼[ε +₊ ε] ι a'
+    -- By B→std-close: ∀ ε → ι a ∼[ε] ι a'
+    -- By eqℝ, this gives a path ι a ≡ ι a' in ℝ
+    -- By ι-inj, we get a ≡ a' in 𝕀sd
 
--- Coherence proofs (imported from Coherence.agda for faster compilation)
-Recℝ.rat-rat-B ℝ→𝕀sd-Rec = rat-rat-B-proof
-Recℝ.rat-lim-B ℝ→𝕀sd-Rec = rat-lim-B-proof
-Recℝ.lim-rat-B ℝ→𝕀sd-Rec = lim-rat-B-proof
-Recℝ.lim-lim-B ℝ→𝕀sd-Rec = lim-lim-B-proof
+  -- Coherence proofs (imported from Coherence.agda for faster compilation)
+  Recℝ.rat-rat-B ℝ→𝕀sd-Rec = rat-rat-B-proof
+  Recℝ.rat-lim-B ℝ→𝕀sd-Rec = rat-lim-B-proof
+  Recℝ.lim-rat-B ℝ→𝕀sd-Rec = lim-rat-B-proof
+  Recℝ.lim-lim-B ℝ→𝕀sd-Rec = lim-lim-B-proof
 
--- isPropB: closeness is a proposition
--- Note: B a a' ε = ι a ∼[ε +₊ ε] ι a', so we use precision ε +₊ ε
-Recℝ.isPropB ℝ→𝕀sd-Rec a a' ε = isProp∼ (ι a) (ε +₊ ε) (ι a')
+  -- isPropB: closeness is a proposition
+  -- Note: B a a' ε = ι a ∼[ε +₊ ε] ι a', so we use precision ε +₊ ε
+  Recℝ.isPropB ℝ→𝕀sd-Rec a a' ε = isProp∼ (ι a) (ε +₊ ε) (ι a')
+
+  ℝ→𝕀sd-direct : ℝ → 𝕀sd
+  ℝ→𝕀sd-direct = Recℝ.go ℝ→𝕀sd-Rec
 
 ------------------------------------------------------------------------
 -- The main embedding function
 ------------------------------------------------------------------------
-
-ℝ→𝕀sd-direct : ℝ → 𝕀sd
-ℝ→𝕀sd-direct = Recℝ.go ℝ→𝕀sd-Rec
 
 -- The main embedding: ι⁻¹ : ℝ → 𝕀sd
 -- Embedding from HoTT Cauchy reals to signed-digit reals

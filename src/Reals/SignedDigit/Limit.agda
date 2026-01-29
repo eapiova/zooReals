@@ -22,8 +22,10 @@ open import Cubical.Data.Int
 open import Cubical.Data.Rationals.Fast as ℚ
 open import Cubical.Data.Rationals.Fast.Order as ℚO
 open import Cubical.Data.Rationals.Fast.Properties as ℚP
-open import Cubical.Data.Rationals.Fast.Order.Properties as ℚOP using (pos·abs; 0<sucN; /2₊; /4₊; ε/2+ε/2≡ε; /4₊+/4₊≡/2₊)
+open import Cubical.Data.Rationals.Fast.Order.Properties as ℚOP using (pos·abs; 0<sucN; /2₊; /4₊; ε/2+ε/2≡ε; /4₊+/4₊≡/2₊; /4₊≡/2₊/2₊; 0<pos; abs·abs; decℚ<?)
+open import Cubical.Data.Rationals.Fast.Order as ℚO using (ℚ₊; ℚ₊≡; _≟_; lt; eq; gt; _<_; _≤_; 0<_; <Weaken≤; isTrans<; <-·o; absFrom<×<; <→0<; 0<→<; <-o+; 0<ℚ₊)
 open import Cubical.Relation.Nullary
+open import Cubical.Tactics.CommRingSolverFast.FastRationalsReflection using (ℚ!!)
 
 open import Cubical.Codata.Stream
 
@@ -31,9 +33,10 @@ open import Reals.SignedDigit.Core
 open import Reals.SignedDigit.Bounded
 open import Reals.SignedDigit.Bounded using (ι; approxℚ₊; approxℚ₊-cauchy)
 open import Reals.SignedDigit.Equivalence.RoundTrip using (round-trip-bounded)
-open import Cubical.HITs.CauchyReals.Base using (ℝ; rat; lim; _∼[_]_; rat-rat-fromAbs)
+open import Cubical.HITs.CauchyReals.Base using (ℝ; rat; lim; _∼[_]_; rat-rat-fromAbs; eqℝ)
 open import Cubical.HITs.CauchyReals.Closeness using (triangle∼; sym∼; ∼→∼')
-open import Cubical.HITs.CauchyReals.Lipschitz using (𝕣-lim-self)
+open import Cubical.HITs.CauchyReals.Lipschitz using (𝕣-lim-self; ∼-monotone≤)
+-- 𝕣-lim-self imported via Closeness
 
 -- Use the library's ℚ₊ addition (handles positivity proofs automatically)
 _+₊_ : ℚ₊ → ℚ₊ → ℚ₊
@@ -49,14 +52,18 @@ _+₊_ = ℚO._ℚ₊+_
 /16₊ ε = /4₊ (/4₊ ε)
 
 -- Arithmetic lemmas for combining precision bounds
--- These follow from rational arithmetic but require careful handling of ℚ₊ representation.
--- Postulated for now; proofs require showing the underlying rationals are equal.
-postulate
-  -- /2₊ (/2₊ ε) ≡ /4₊ ε (both are ε/4)
-  /2₊∘/2₊≡/4₊ : ∀ ε → /2₊ (/2₊ ε) ≡ /4₊ ε
+-- These follow from rational arithmetic and are proven using ℚ₊≡.
 
-  -- /2₊ (/4₊ ε) ≡ /8₊ ε (both are ε/8)
-  /2₊∘/4₊≡/8₊ : ∀ ε → /2₊ (/4₊ ε) ≡ /8₊ ε
+-- /2₊ (/2₊ ε) ≡ /4₊ ε (both are ε/4)
+-- Proof: Use /4₊≡/2₊/2₊ from the library and lift via ℚ₊≡
+/2₊∘/2₊≡/4₊ : ∀ ε → /2₊ (/2₊ ε) ≡ /4₊ ε
+/2₊∘/2₊≡/4₊ ε = ℚ₊≡ (sym (/4₊≡/2₊/2₊ ε))
+
+-- /2₊ (/4₊ ε) ≡ /8₊ ε (both are ε/8)
+-- Proof: /8₊ ε = /4₊ (/2₊ ε), need /2₊ (/4₊ ε) ≡ /4₊ (/2₊ ε)
+-- This follows from commutativity: (ε/4)/2 = (ε/2)/4 = ε/8
+/2₊∘/4₊≡/8₊ : ∀ ε → /2₊ (/4₊ ε) ≡ /8₊ ε
+/2₊∘/4₊≡/8₊ ε = ℚ₊≡ ℚ!!
 
 -- Helper: /8₊ ε +₊ /8₊ ε ≡ /4₊ ε
 -- Proof: /8₊ ε = /4₊ (/2₊ ε), and by /4₊+/4₊≡/2₊:
@@ -101,9 +108,9 @@ postulate
 1/16ℚ = [ pos 1 / 1+ (10n +ℕ 4n +ℕ 1) ]
 
 -- 1/16 is positive ([ pos 1 / _ ] has positive numerator)
--- Postulated: proving this requires Fast ℚ internals
-postulate
-  0<1/16 : ℚO.0< 1/16ℚ
+-- Uses 0<pos from the library: 0 < [ pos (suc n) / m ], then convert via <→0<
+0<1/16 : ℚO.0< 1/16ℚ
+0<1/16 = <→0< 1/16ℚ (ℚOP.0<pos 0 (1+ (10n +ℕ 4n +ℕ 1)))
 
 -- Bundle 1/16 as a positive rational
 1/16ℚ₊ : ℚO.ℚ₊
@@ -123,23 +130,24 @@ postulate
 0≤2Q = ℚO.<Weaken≤ (ℚ.fromNat 0) 2Q 0<2Q
 
 -- Distributivity: c · a - c · b = c · (a - b)
--- Postulated: well-known algebraic identity, tedious to derive without exported lemmas
-postulate
-  ·DistL- : (c a b : ℚ.ℚ) → (c ℚP.· a) ℚP.- (c ℚP.· b) ≡ c ℚP.· (a ℚP.- b)
+-- Proof: Direct application of the ℚ!! ring solver
+·DistL- : (c a b : ℚ.ℚ) → (c ℚP.· a) ℚP.- (c ℚP.· b) ≡ c ℚP.· (a ℚP.- b)
+·DistL- c a b = ℚ!!
 
 -- Ring identity: (a - c) - (b - c) = a - b (the c's cancel)
--- Proof: (a - c) - (b - c) = a - c - b + c = a - b
-postulate
-  sub-cancel : (a b c : ℚ.ℚ) → (a ℚP.- c) ℚP.- (b ℚP.- c) ≡ a ℚP.- b
+-- Proof: Direct application of the ℚ!! ring solver
+sub-cancel : (a b c : ℚ.ℚ) → (a ℚP.- c) ℚP.- (b ℚP.- c) ≡ a ℚP.- b
+sub-cancel a b c = ℚ!!
 
 -- Multiplication monotonicity: c > 0 → a < b → c · a < c · b
--- This is a standard property of ordered fields
-postulate
-  <-·-mono-r : (c a b : ℚ.ℚ) → ℚO._<_ (ℚ.fromNat 0) c → a ℚO.< b → (c ℚP.· a) ℚO.< (c ℚP.· b)
+-- Proof: Use <-·o from library with commutativity
+<-·-mono-r : (c a b : ℚ.ℚ) → ℚO._<_ (ℚ.fromNat 0) c → a ℚO.< b → (c ℚP.· a) ℚO.< (c ℚP.· b)
+<-·-mono-r c a b 0<c a<b = subst2 ℚO._<_ (ℚP.·Comm a c) (ℚP.·Comm b c) (<-·o a b c 0<c a<b)
 
--- General abs multiplicativity (postulated; tedious to prove by cases on signs)
-postulate
-  abs-mult : (a b : ℚ.ℚ) → ℚP.abs (a ℚP.· b) ≡ ℚP.abs a ℚP.· ℚP.abs b
+-- General abs multiplicativity: |a · b| = |a| · |b|
+-- Proof: Use sym of abs·abs from the library
+abs-mult : (a b : ℚ.ℚ) → ℚP.abs (a ℚP.· b) ≡ ℚP.abs a ℚP.· ℚP.abs b
+abs-mult a b = sym (ℚOP.abs·abs a b)
 
 -- abs-dist-scale: |2x - 2y| = 2|x - y|
 -- Proof: |2x - 2y| = |2(x - y)| = 2|x - y| (by pos·abs since 2 ≥ 0)
@@ -149,10 +157,9 @@ abs-dist-scale x y =
   ∙ ℚOP.pos·abs 2Q (x ℚP.- y) 0≤2Q  -- |2z| = 2|z| for z = x - y
 
 -- bound→abs: If -ε < x < ε then |x| < ε
--- This follows from the definition of absolute value
--- Postulated for now; proof requires case analysis on sign of x
-postulate
-  bound→abs : (x ε : ℚ.ℚ) → (ℚP.- ε) ℚO.< x → x ℚO.< ε → ℚP.abs x ℚO.< ε
+-- Proof: Use absFrom<×< from the library
+bound→abs : (x ε : ℚ.ℚ) → (ℚP.- ε) ℚO.< x → x ℚO.< ε → ℚP.abs x ℚO.< ε
+bound→abs x ε neg-bound pos-bound = absFrom<×< ε x neg-bound pos-bound
 
 {-# TERMINATING #-}
 limA : (f : ℚ₊ → 𝟛ᴺ) → (∀ δ ε → stream→ℝ (f δ) ∼[ δ +₊ ε ] stream→ℝ (f ε)) → 𝟛ᴺ
@@ -222,14 +229,89 @@ limA streams coh = record { head = d ; tail = limA nextStreams nextCoh }
 
     -- Helper: /16₊ δ +₊ /16₊ γ ≡ /16₊ (δ +₊ γ)
     -- This distributes /16₊ over addition
-    postulate
-      /16₊-distrib : ∀ δ γ → /16₊ δ +₊ /16₊ γ ≡ /16₊ (δ +₊ γ)
+    -- Proof: (δ/16) + (γ/16) = (δ+γ)/16, proven via ℚ₊≡ and ℚ!!
+    /16₊-distrib : ∀ δ γ → /16₊ δ +₊ /16₊ γ ≡ /16₊ (δ +₊ γ)
+    /16₊-distrib δ γ = ℚ₊≡ ℚ!!
 
     -- Arithmetic helper: The total error bound scaled by 2 is still less than δ+γ
-    -- Proof: 2 * (δ/8 + (δ+γ)/16 + γ/8) = 2 * 3(δ+γ)/16 = 3(δ+γ)/8 < δ+γ
-    postulate
-      scaled-bound-< : ∀ δ γ →
-        2Q ℚP.· fst ((/8₊ δ +₊ (/16₊ δ +₊ /16₊ γ)) +₊ /8₊ γ) ℚO.< fst (δ +₊ γ)
+    -- Proof: 2 * (δ/8 + δ/16 + γ/16 + γ/8) = 3(δ+γ)/8 < δ+γ (since 3/8 < 1)
+    --
+    -- Strategy:
+    -- 1. Show LHS = (3/8) · (δ+γ) algebraically
+    -- 2. Show (3/8) · x < x for x > 0 using order properties
+    --
+    -- The algebraic equality:
+    --   2 * (δ/8 + δ/16 + γ/16 + γ/8)
+    --   = 2 * ((2δ + δ + γ + 2γ)/16)
+    --   = 2 * (3δ + 3γ)/16
+    --   = (6δ + 6γ)/16
+    --   = (3δ + 3γ)/8
+    --   = (3/8) * (δ + γ)
+    --
+    -- For the inequality, since δ+γ > 0 and 3/8 < 1:
+    --   (3/8) * (δ+γ) < 1 * (δ+γ) = δ+γ
+    --
+    -- Proof: 2 · (δ/8 + (δ/16 + γ/16) + γ/8) = 2 · 3(δ+γ)/16 = 3(δ+γ)/8 < δ+γ
+    -- Since 3/8 < 1 and (δ+γ) > 0.
+    --
+    -- Strategy: Show (3/8) · (δ+γ) < 1 · (δ+γ) = δ+γ using <-·-mono-r
+    -- Then substitute lhs = (3/8) · (δ+γ) via ℚ!!
+    scaled-bound-< : ∀ δ γ →
+      2Q ℚP.· fst ((/8₊ δ +₊ (/16₊ δ +₊ /16₊ γ)) +₊ /8₊ γ) ℚO.< fst (δ +₊ γ)
+    scaled-bound-< δ γ =
+      let
+        lhs = 2Q ℚP.· fst ((/8₊ δ +₊ (/16₊ δ +₊ /16₊ γ)) +₊ /8₊ γ)
+        δγ = fst (δ +₊ γ)
+
+        -- 3/8 as a rational
+        3/8ℚ : ℚ.ℚ
+        3/8ℚ = [ pos 3 / 1+ 7 ]
+
+        -- 5/8 as a rational
+        5/8ℚ : ℚ.ℚ
+        5/8ℚ = [ pos 5 / 1+ 7 ]
+
+        -- 0 < 5/8 (5/8 is a positive rational)
+        5/8-pos : 0ℚ < 5/8ℚ
+        5/8-pos = ℚOP.0<pos 4 (1+ 7)
+
+        -- 3/8 + 5/8 = 1
+        sum-eq : 3/8ℚ ℚ.+ 5/8ℚ ≡ [ pos 1 / 1+ 0 ]
+        sum-eq = ℚ!!
+
+        -- 3/8 + 0 < 3/8 + 5/8  by <-o+
+        step-3/8 : (3/8ℚ ℚ.+ 0ℚ) < (3/8ℚ ℚ.+ 5/8ℚ)
+        step-3/8 = <-o+ 0ℚ 5/8ℚ 3/8ℚ 5/8-pos
+
+        -- 3/8 + 0 = 3/8
+        lhs-simp : 3/8ℚ ℚ.+ 0ℚ ≡ 3/8ℚ
+        lhs-simp = ℚP.+IdR 3/8ℚ
+
+        -- 3/8 < 1
+        3/8<1 : 3/8ℚ < [ pos 1 / 1+ 0 ]
+        3/8<1 = subst2 _<_ lhs-simp sum-eq step-3/8
+
+        -- δ+γ > 0 from the ℚ₊ structure
+        δγ-pos : 0ℚ < δγ
+        δγ-pos = 0<→< δγ (snd (δ +₊ γ))
+
+        -- (δ+γ) · (3/8) < (δ+γ) · 1 by monotonicity (<-·-mono-r gives c·a < c·b)
+        scaled-ineq : (δγ ℚP.· 3/8ℚ) < (δγ ℚP.· [ pos 1 / 1+ 0 ])
+        scaled-ineq = <-·-mono-r δγ 3/8ℚ [ pos 1 / 1+ 0 ] δγ-pos 3/8<1
+
+        -- (δ+γ) · 1 = δ+γ
+        one-id : δγ ℚP.· [ pos 1 / 1+ 0 ] ≡ δγ
+        one-id = ℚP.·IdR δγ
+
+        -- lhs = (δ+γ) · (3/8) algebraically (by commutativity and simplification)
+        lhs-eq : lhs ≡ δγ ℚP.· 3/8ℚ
+        lhs-eq = ℚ!!
+
+        -- Chain: lhs = (δ+γ)·(3/8) < (δ+γ)·1 = δ+γ
+        step1 : (δγ ℚP.· 3/8ℚ) < δγ
+        step1 = subst ((δγ ℚP.· 3/8ℚ) <_) one-id scaled-ineq
+
+      in subst (_< δγ) (sym lhs-eq) step1
 
     -- nextRat produces bounded rationals (needed for round-trip)
     -- This follows from: streams are bounded to [-1,1], approx is bounded,
@@ -358,44 +440,246 @@ limA streams coh = record { head = d ; tail = limA nextStreams nextCoh }
 -- Key property: limA produces streams close to input streams
 ------------------------------------------------------------------------
 --
--- This is the fundamental property that `limA` satisfies:
--- The constructed stream is close to any of the input streams.
+-- This is the FUNDAMENTAL property that all other limit properties depend on.
+-- Once proven, limA-𝕀sd and limA-𝕀sd-close follow.
 --
--- Proof sketch (coinductive):
---   1. The first digit d is chosen from f(1/16) at precision 10
---   2. This digit is "correct" for representing f(δ) for small δ
---   3. The tail recursively satisfies the same property
---   4. By coinduction, the full stream is close to f(δ)
+-- Proof approach:
+-- The proof requires showing that `stream→ℝ (limA f coh)` is close to each
+-- `stream→ℝ (f δ)`. This involves:
+--
+--   1. Show that `stream→ℝ (limA f coh) ≡ lim (stream→ℝ ∘ f) coh`
+--      (the coinductive construction equals the Cauchy limit)
+--
+--   2. Use `𝕣-lim-self`: for any Cauchy sequence s with coherence coh,
+--      `s δ ∼[δ + ε] lim s coh`
+--
+--   3. Combined: `stream→ℝ (limA f coh) ∼[δ + δ] stream→ℝ (f δ)`
+--
+-- The equality in step 1 is the core coinductive argument. It requires:
+--   a. Showing the approximations of `limA f coh` converge to the same
+--      value as the limit `lim (stream→ℝ ∘ f) coh`
+--   b. Using `eqℝ` to convert closeness at all ε to equality
+--
+-- This is proven in Surjection.agda as `limA-stream-correct`, but that
+-- proof USES this postulate. An independent proof would need to reason
+-- directly about the coinductive structure of `limA`.
 --
 -- The bound δ +₊ δ comes from:
---   - Error in approximating f(δ) contributes δ
---   - Error from coherence (f(δ) vs f(1/16)) contributes another δ
+--   - One δ from `𝕣-lim-self` (f δ to the limit)
+--   - One δ from the symmetric direction
 --
--- TODO: This requires a coinductive proof. For now, postulated.
+-- DIFFICULTY: High. Requires coinductive reasoning about stream approximations.
+--
+-- Proof strategy:
+-- 1. Define L = lim (stream→ℝ ∘ f) coh (the Cauchy limit of the family)
+-- 2. Prove limA-eq : stream→ℝ (limA f coh) ≡ L using eqℝ
+-- 3. By 𝕣-lim-self: stream→ℝ (f δ) ∼[δ + δ] L
+-- 4. Substitute L with stream→ℝ (limA f coh) using limA-eq
+-- 5. Apply sym∼ to get the desired direction
+
+-- Helper: the Cauchy limit of the stream family
+limA-target : (f : ℚ₊ → 𝟛ᴺ) → (coh : ∀ δ ε → stream→ℝ (f δ) ∼[ δ +₊ ε ] stream→ℝ (f ε)) → ℝ
+limA-target f coh = lim (stream→ℝ ∘ f) coh
+
+-- Core lemma: stream→ℝ (limA f coh) equals the Cauchy limit
+-- This requires showing ε-closeness for all ε
+--
+-- For any ε, we show stream→ℝ (limA f coh) ∼[ε] lim (stream→ℝ ∘ f) coh:
+--   1. stream→ℝ (limA f coh) ∼[ε/2] rat (approxℚ₊ (limA f coh) (ε/4))  [by 𝕣-lim-self, sym∼]
+--   2. Need: rat (approxℚ₊ (limA f coh) (ε/4)) close to stream→ℝ (f (ε/4))
+--   3. stream→ℝ (f (ε/4)) ∼[ε/2] lim (stream→ℝ ∘ f) coh  [by 𝕣-lim-self]
+--
+-- Step 2 is the key technical challenge - it requires analyzing how limA constructs
+-- its digits from the input streams.
+--
+-- PROOF STRATEGY for approx-limA-close:
+-- =====================================
+--
+-- Goal: rat (approxℚ₊ (limA f coh) ε) ∼[ 2ε ] stream→ℝ (f ε)
+--
+-- Decomposition:
+--   1. approxℚ₊ (limA f coh) ε = Σᵢ₌₀^(n-1) dᵢ/2^(i+1)  where n = ℚ₊→ℕ ε
+--   2. Each digit dᵢ of limA comes from recursive construction:
+--      - d₀: from f(1/16) sampled at precision 10
+--      - d₁: from nextStreams(1/16), which involves f(1/256)
+--      - dᵢ: from sampling at precision ≈ (1/16)^(i+1)
+--
+-- Key observations:
+--   A. By coherence: stream→ℝ (f((1/16)^k)) ∼[(1/16)^k + ε] stream→ℝ (f ε)
+--      So all samples are close to f ε.
+--
+--   B. The digit selection at each level "commits" to a value based on the
+--      approximation threshold (±1/4). If approx(f(δ), prec) ≈ stream→ℝ (f ε),
+--      then the chosen digit is consistent with stream→ℝ (f ε).
+--
+--   C. The tail bound: |stream→ℝ s - approx s n| < 1/2^n ≈ ε
+--      (by modulus property)
+--
+-- Error accumulation:
+--   - Each digit position i contributes error ≈ 2·(1/16)^(i+1) / 2^(i+1) from coherence
+--   - Geometric sum: Σᵢ 2·(1/16)^(i+1) / 2^(i+1) < ε
+--   - Tail truncation: < ε
+--   - Total: < 2ε ✓
+--
+-- DIFFICULTY: High - requires coinductive analysis of limA structure
+-- DEPENDENCY: This is the key lemma. Once proven, limA-eq and limA-close-to-input follow.
+--
+-- NOTE: Cannot use limA-eq here (circular dependency).
+-- Must prove directly from digit construction.
+--
 postulate
-  limA-close-to-input : (f : ℚ₊ → 𝟛ᴺ) →
-                        (coh : ∀ δ ε → stream→ℝ (f δ) ∼[ δ +₊ ε ] stream→ℝ (f ε)) →
-                        ∀ δ → stream→ℝ (limA f coh) ∼[ δ +₊ δ ] stream→ℝ (f δ)
+  approx-limA-close : (f : ℚ₊ → 𝟛ᴺ) →
+                      (coh : ∀ δ ε → stream→ℝ (f δ) ∼[ δ +₊ ε ] stream→ℝ (f ε)) →
+                      ∀ ε → rat (approxℚ₊ (limA f coh) ε) ∼[ ε +₊ ε ] stream→ℝ (f ε)
+
+-- Prove the equality: stream→ℝ (limA f coh) ≡ lim (stream→ℝ ∘ f) coh
+limA-eq : (f : ℚ₊ → 𝟛ᴺ) →
+          (coh : ∀ δ ε → stream→ℝ (f δ) ∼[ δ +₊ ε ] stream→ℝ (f ε)) →
+          stream→ℝ (limA f coh) ≡ limA-target f coh
+limA-eq f coh = eqℝ (stream→ℝ (limA f coh)) (limA-target f coh) close-at-all-ε
+  where
+    L = limA-target f coh
+    s = limA f coh
+
+    -- Helper for ε/8 + ε/8 = ε/4
+    /8₊+/8₊≡/4₊-ε : ∀ ε → /8₊ ε +₊ /8₊ ε ≡ /4₊ ε
+    /8₊+/8₊≡/4₊-ε = /8₊+/8₊≡/4₊
+
+    close-at-all-ε : ∀ ε → stream→ℝ s ∼[ ε ] L
+    close-at-all-ε ε =
+      let
+        ε/4 = /4₊ ε
+        ε/8 = /8₊ ε
+
+        -- Step 1: rat (approxℚ₊ s (ε/8)) ∼[ε/8 + ε/8] stream→ℝ s = ∼[ε/4] stream→ℝ s
+        -- By 𝕣-lim-self on the approximation sequence of s
+        approx-to-stream-raw : rat (approxℚ₊ s ε/8) ∼[ ε/8 +₊ ε/8 ] stream→ℝ s
+        approx-to-stream-raw = 𝕣-lim-self (λ ε' → rat (approxℚ₊ s ε')) (approxℚ₊-cauchy s) ε/8 ε/8
+
+        -- Transport to ε/4
+        approx-to-stream : rat (approxℚ₊ s ε/8) ∼[ ε/4 ] stream→ℝ s
+        approx-to-stream = subst (λ x → rat (approxℚ₊ s ε/8) ∼[ x ] stream→ℝ s) (/8₊+/8₊≡/4₊-ε ε) approx-to-stream-raw
+
+        -- Symmetric: stream→ℝ s ∼[ε/4] rat (approxℚ₊ s (ε/8))
+        stream-to-approx : stream→ℝ s ∼[ ε/4 ] rat (approxℚ₊ s ε/8)
+        stream-to-approx = sym∼ (rat (approxℚ₊ s ε/8)) (stream→ℝ s) ε/4 approx-to-stream
+
+        -- Step 2: rat (approxℚ₊ s (ε/8)) ∼[ε/8 + ε/8] stream→ℝ (f (ε/8)) = ∼[ε/4]
+        -- By the technical lemma approx-limA-close
+        approx-to-f-raw : rat (approxℚ₊ s ε/8) ∼[ ε/8 +₊ ε/8 ] stream→ℝ (f ε/8)
+        approx-to-f-raw = approx-limA-close f coh ε/8
+
+        approx-to-f : rat (approxℚ₊ s ε/8) ∼[ ε/4 ] stream→ℝ (f ε/8)
+        approx-to-f = subst (λ x → rat (approxℚ₊ s ε/8) ∼[ x ] stream→ℝ (f ε/8)) (/8₊+/8₊≡/4₊-ε ε) approx-to-f-raw
+
+        -- Step 3: stream→ℝ (f (ε/8)) ∼[ε/8 + ε/8] L = ∼[ε/4]
+        -- By 𝕣-lim-self on the family
+        f-to-L-raw : stream→ℝ (f ε/8) ∼[ ε/8 +₊ ε/8 ] L
+        f-to-L-raw = 𝕣-lim-self (stream→ℝ ∘ f) coh ε/8 ε/8
+
+        f-to-L : stream→ℝ (f ε/8) ∼[ ε/4 ] L
+        f-to-L = subst (λ x → stream→ℝ (f ε/8) ∼[ x ] L) (/8₊+/8₊≡/4₊-ε ε) f-to-L-raw
+
+        -- Combine via triangle inequality:
+        -- stream→ℝ s ∼[ε/4] rat (approxℚ₊ s ε/8) ∼[ε/4] stream→ℝ (f ε/8) ∼[ε/4] L
+        -- Total: ε/4 + ε/4 + ε/4 = 3ε/4 < ε ✓
+        -- But we need exactly ε, not 3ε/4. Use ε/4 + ε/2 = 3ε/4 bound for now,
+        -- then weaken to ε.
+
+        -- First combine stream-to-approx and approx-to-f: stream→ℝ s ∼[ε/4 + ε/4] stream→ℝ (f ε/8)
+        step12-raw : stream→ℝ s ∼[ ε/4 +₊ ε/4 ] stream→ℝ (f ε/8)
+        step12-raw = triangle∼ stream-to-approx approx-to-f
+
+        step12 : stream→ℝ s ∼[ /2₊ ε ] stream→ℝ (f ε/8)
+        step12 = subst (λ x → stream→ℝ s ∼[ x ] stream→ℝ (f ε/8)) (/4₊+/4₊≡/2₊ ε) step12-raw
+
+        -- Now combine step12 and f-to-L: stream→ℝ s ∼[ε/2 + ε/4] L
+        step123-raw : stream→ℝ s ∼[ /2₊ ε +₊ ε/4 ] L
+        step123-raw = triangle∼ step12 f-to-L
+
+        -- ε/2 + ε/4 = 3ε/4 < ε, so we can weaken the bound
+        -- Using ∼→∼' : x ∼[ε] y → ε ≤ ε' → x ∼[ε'] y (closeness weakening)
+        3/4-bound : /2₊ ε +₊ ε/4 ≡ /4₊ ε +₊ /2₊ ε
+        3/4-bound = ℚ₊≡ ℚ!!
+
+        -- Closeness can be weakened: if x ∼[ε] y and ε ≤ ε' then x ∼[ε'] y
+        -- We have stream→ℝ s ∼[ε/2 + ε/4] L and need stream→ℝ s ∼[ε] L
+        -- ε/2 + ε/4 = 3ε/4 ≤ ε, so this works
+
+        -- 3ε/4 < ε follows from: 3ε/4 = 3/4 · ε < 1 · ε = ε (since 3/4 < 1 and ε > 0)
+        -- Proof: (ε/2 + ε/4) + ε/4 = ε, and ε/4 > 0, so ε/2 + ε/4 < ε.
+        --
+        -- Step 1: 0 < ε/4 (using snd of ℚ₊)
+        pos-ε/4 : 0ℚ < fst ε/4
+        pos-ε/4 = 0<→< (fst ε/4) (snd ε/4)
+
+        -- Step 2: Use <-o+ to get (ε/2 + ε/4) + 0 < (ε/2 + ε/4) + ε/4
+        -- <-o+ a b c proof gives: c + a < c + b when proof : a < b
+        step-raw : fst (/2₊ ε +₊ ε/4) ℚ.+ 0ℚ < fst (/2₊ ε +₊ ε/4) ℚ.+ fst ε/4
+        step-raw = <-o+ 0ℚ (fst ε/4) (fst (/2₊ ε +₊ ε/4)) pos-ε/4
+
+        -- Step 3: Simplify LHS: x + 0 = x
+        step-lhs : fst (/2₊ ε +₊ ε/4) < fst (/2₊ ε +₊ ε/4) ℚ.+ fst ε/4
+        step-lhs = subst (_< (fst (/2₊ ε +₊ ε/4) ℚ.+ fst ε/4)) (ℚP.+IdR (fst (/2₊ ε +₊ ε/4))) step-raw
+
+        -- Step 4: Show RHS = (ε/2 + ε/4) + ε/4 = ε
+        -- Using ℚ!! for the algebraic identity
+        rhs-eq : fst (/2₊ ε +₊ ε/4) ℚ.+ fst ε/4 ≡ fst ε
+        rhs-eq = ℚ!!
+
+        three-quarter-lt-one : fst (/2₊ ε +₊ ε/4) < fst ε
+        three-quarter-lt-one = subst (fst (/2₊ ε +₊ ε/4) <_) rhs-eq step-lhs
+
+        bound-le : fst (/2₊ ε +₊ ε/4) ℚO.≤ fst ε
+        bound-le = ℚO.<Weaken≤ _ _ three-quarter-lt-one
+
+      in ∼-monotone≤ bound-le step123-raw
+
+-- Main theorem: limA produces streams close to input streams
+limA-close-to-input : (f : ℚ₊ → 𝟛ᴺ) →
+                      (coh : ∀ δ ε → stream→ℝ (f δ) ∼[ δ +₊ ε ] stream→ℝ (f ε)) →
+                      ∀ δ → stream→ℝ (limA f coh) ∼[ δ +₊ δ ] stream→ℝ (f δ)
+limA-close-to-input f coh δ =
+  let
+    L = limA-target f coh
+
+    -- By 𝕣-lim-self: stream→ℝ (f δ) ∼[δ + δ] L
+    f-to-L : stream→ℝ (f δ) ∼[ δ +₊ δ ] L
+    f-to-L = 𝕣-lim-self (stream→ℝ ∘ f) coh δ δ
+
+    -- Substitute L with stream→ℝ (limA f coh) using limA-eq
+    f-to-limA : stream→ℝ (f δ) ∼[ δ +₊ δ ] stream→ℝ (limA f coh)
+    f-to-limA = subst (λ x → stream→ℝ (f δ) ∼[ δ +₊ δ ] x) (sym (limA-eq f coh)) f-to-L
+
+    -- Apply sym∼ to get the desired direction
+  in sym∼ (stream→ℝ (f δ)) (stream→ℝ (limA f coh)) (δ +₊ δ) f-to-limA
 
 ------------------------------------------------------------------------
 -- Lifted coinductive limit for 𝕀sd (the quotient type)
 ------------------------------------------------------------------------
 --
--- This lifts the coinductive limit `limA` to work on the quotient type
--- 𝕀sd = 𝟛ᴺ / _≈sd_. The key insight is that different representatives
--- give the same stream→ℝ value, so the coherence condition is preserved
--- regardless of which representatives we choose.
+-- These lift `limA` to work on the quotient type 𝕀sd = 𝟛ᴺ / _≈sd_.
 --
--- For implementation, we would need to:
---   1. For each f δ : 𝕀sd, choose a representative stream
---   2. Apply limA to get a result stream
---   3. Quote the result back into 𝕀sd
---   4. Prove the result is independent of representative choices
+-- DEPENDENCY: Both postulates follow from `limA-close-to-input` once proven.
 --
--- The correctness follows from:
---   - s ≈sd t implies stream→ℝ s ≡ stream→ℝ t (by definition)
---   - limA only depends on stream→ℝ values (via approx)
---   - So any choice of representatives gives ≈sd-equivalent results
+-- Proof sketch for limA-𝕀sd:
+--   1. The coherence `coh` only uses `ι (f δ)`, the ℝ values
+--   2. Define `g : ℚ₊ → ℝ` by `g δ = ι (f δ)`
+--   3. The limit `lim g coh'` exists in ℝ
+--   4. Need to show this limit is in the image of `ι : 𝕀sd → ℝ`
+--
+-- Step 4 requires showing:
+--   a. `limA` respects `≈sd`: if `∀ δ. s δ ≈sd t δ` then `limA s _ ≈sd limA t _`
+--   b. This follows from `limA-close-to-input`: both are close to the same
+--      family of values, hence `stream→ℝ (limA s _) ≡ stream→ℝ (limA t _)`
+--   c. With this, we can use SQ.elim to work with any representatives
+--
+-- Proof sketch for limA-𝕀sd-close:
+--   1. By `limA-close-to-input`: `stream→ℝ (limA s coh') ∼[δ + δ] stream→ℝ (s δ)`
+--   2. Since `ι` is defined as `SQ.rec _ stream→ℝ _`, we have `ι [s]sd = stream→ℝ s`
+--   3. The closeness lifts directly to the quotient level
+--
+-- DIFFICULTY: Medium (given limA-close-to-input). Requires quotient elimination.
 
 postulate
   -- Lift coinductive limit to quotient type
