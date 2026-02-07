@@ -82,18 +82,3 @@ isSetℝsd = SQ.squash/
 toℝ : ℝsd → ℝ
 toℝ = SQ.rec isSetℝ toℝ-raw toℝ-raw-resp
 
-------------------------------------------------------------------------
--- The inverse direction (fromℝ) and the equivalence proof
-------------------------------------------------------------------------
-
--- The encoding fromℝ : ℝ → ℝsd requires digit extraction and normalization.
--- These are implemented in Reals.SignedDigit.Equivalence.
---
--- The full equivalence ℝsd ≃ ℝ is provided in Equivalence.agda.equivalence:
---   toℝ-fromℝ : toℝ (fromℝ y) ≡ y
---     Uses δ-correct : stream→ℝ (δ z) ≡ val z
---     and choose-k-correct : relating val z back to y
---
---   fromℝ-toℝ : fromℝ (toℝ x) ≡ x
---   fromℝ-toℝ : fromℝ (toℝ x) ≡ x
---     Follows from quotient structure since _≈ext_ is the kernel of toℝ-raw
