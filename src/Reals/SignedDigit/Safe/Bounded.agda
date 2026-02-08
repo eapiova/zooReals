@@ -81,6 +81,8 @@ open import Cubical.Data.Int.Properties as ℤᶠP using () -- Slow int properti
 
 open import Cubical.HITs.CauchyReals.Base using (ℝ; rat; lim; _∼[_]_; rat-rat-fromAbs)
 open import Cubical.HITs.CauchyReals.Closeness using (refl∼; isSetℝ)
+open import Cubical.HITs.CauchyReals.Order as ℝO using (_≤ᵣ_; clampᵣ; ≤ℚ→≤ᵣ)
+open import Cubical.HITs.CauchyReals.Inverse as ℝInv using (clampᵣ∈ℚintervalℙ)
 
 open import Cubical.Data.Rationals.Fast.Order.Properties as ℚOP using (invℚ₊; ceilℚ₊; invℚ₊-<-invℚ₊; invℚ₊-invol; maxDist; absComm-; clampDist; clam∈ℚintervalℙ; ∈ℚintervalℙ→clam≡)
 open import Cubical.Data.Nat.Mod as ℕMod using (log2ℕ)
@@ -2139,3 +2141,24 @@ stream→ℝ-resp s t h = h
 -- Embedding from signed-digit reals to HoTT Cauchy reals
 ι : 𝕀sd → ℝ
 ι = SQ.rec isSetℝ stream→ℝ stream→ℝ-resp
+
+------------------------------------------------------------------------
+-- Bounded real subtype helpers (safe public API)
+------------------------------------------------------------------------
+
+minusOneℝ : ℝ
+minusOneℝ = rat -1ℚ
+
+oneℝ : ℝ
+oneℝ = rat +1ℚ
+
+minusOne≤one : minusOneℝ ℝO.≤ᵣ oneℝ
+minusOne≤one = ℝO.≤ℚ→≤ᵣ -1ℚ +1ℚ -1≤+1
+
+ℝ[-1,1] : Type₀
+ℝ[-1,1] = Σ ℝ (λ x → (minusOneℝ ℝO.≤ᵣ x) × (x ℝO.≤ᵣ oneℝ))
+
+clamp-to-𝕀sd : ℝ → ℝ[-1,1]
+clamp-to-𝕀sd x =
+  ℝO.clampᵣ minusOneℝ oneℝ x
+  , ℝInv.clampᵣ∈ℚintervalℙ minusOneℝ oneℝ minusOne≤one x
