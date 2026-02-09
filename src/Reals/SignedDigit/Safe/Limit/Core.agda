@@ -552,7 +552,7 @@ module Approximation
   (approx-limA-close :
     (f : ℚ₊ → 𝟛ᴺ) →
     (coh : ∀ δ ε → stream→ℝ (f δ) ∼[ δ +₊ ε ] stream→ℝ (f ε)) →
-    ∀ ε → rat (approxℚ₊ (limA f coh) ε) ∼[ ε +₊ ε ] stream→ℝ (f ε))
+    ∀ ε → rat (approxℚ₊ (limA f coh) ε) ∼[ ((ε +₊ ε) +₊ ε) +₊ ε ] stream→ℝ (f ε))
   where
 
   -- Prove the equality: stream→ℝ (limA f coh) ≡ lim (stream→ℝ ∘ f) coh
@@ -587,13 +587,15 @@ module Approximation
           stream-to-approx : stream→ℝ s ∼[ ε/4 ] rat (approxℚ₊ s ε/8)
           stream-to-approx = sym∼ (rat (approxℚ₊ s ε/8)) (stream→ℝ s) ε/4 approx-to-stream
 
-          -- Step 2: rat (approxℚ₊ s (ε/8)) ∼[ε/8 + ε/8] stream→ℝ (f (ε/8)) = ∼[ε/4]
-          -- By the technical lemma approx-limA-close
-          approx-to-f-raw : rat (approxℚ₊ s ε/8) ∼[ ε/8 +₊ ε/8 ] stream→ℝ (f ε/8)
-          approx-to-f-raw = approx-limA-close f coh ε/8
+          -- Step 2: rat (approxℚ₊ s (ε/8)) ∼[ε/2] stream→ℝ (f (ε/8))
+          -- By the technical lemma approx-limA-close (with 4ε bound)
+          approx-to-f : rat (approxℚ₊ s ε/8) ∼[ ((ε/8 +₊ ε/8) +₊ ε/8) +₊ ε/8 ] stream→ℝ (f ε/8)
+          approx-to-f = approx-limA-close f coh ε/8
 
-          approx-to-f : rat (approxℚ₊ s ε/8) ∼[ ε/4 ] stream→ℝ (f ε/8)
-          approx-to-f = subst (λ x → rat (approxℚ₊ s ε/8) ∼[ x ] stream→ℝ (f ε/8)) (/8₊+/8₊≡/4₊-ε ε) approx-to-f-raw
+          -- Transport to ε/2: 4·(ε/8) = ε/2
+          approx-to-f' : rat (approxℚ₊ s ε/8) ∼[ /2₊ ε ] stream→ℝ (f ε/8)
+          approx-to-f' = subst (λ x → rat (approxℚ₊ s ε/8) ∼[ x ] stream→ℝ (f ε/8))
+            (ℚ₊≡ ℚ!!) approx-to-f
 
           -- Step 3: stream→ℝ (f (ε/8)) ∼[ε/8 + ε/8] L = ∼[ε/4]
           -- By 𝕣-lim-self on the family
@@ -604,59 +606,22 @@ module Approximation
           f-to-L = subst (λ x → stream→ℝ (f ε/8) ∼[ x ] L) (/8₊+/8₊≡/4₊-ε ε) f-to-L-raw
 
           -- Combine via triangle inequality:
-          -- stream→ℝ s ∼[ε/4] rat (approxℚ₊ s ε/8) ∼[ε/4] stream→ℝ (f ε/8) ∼[ε/4] L
-          -- Total: ε/4 + ε/4 + ε/4 = 3ε/4 < ε ✓
-          -- But we need exactly ε, not 3ε/4. Use ε/4 + ε/2 = 3ε/4 bound for now,
-          -- then weaken to ε.
+          -- stream→ℝ s ∼[ε/4] rat (approxℚ₊ s ε/8) ∼[ε/2] stream→ℝ (f ε/8) ∼[ε/4] L
+          -- Total: ε/4 + ε/2 + ε/4 = ε ✓ (exact, no weakening needed)
+          step12 : stream→ℝ s ∼[ ε/4 +₊ /2₊ ε ] stream→ℝ (f ε/8)
+          step12 = triangle∼ stream-to-approx approx-to-f'
 
-          -- First combine stream-to-approx and approx-to-f: stream→ℝ s ∼[ε/4 + ε/4] stream→ℝ (f ε/8)
-          step12-raw : stream→ℝ s ∼[ ε/4 +₊ ε/4 ] stream→ℝ (f ε/8)
-          step12-raw = triangle∼ stream-to-approx approx-to-f
+          ε-total : ℚ₊
+          ε-total = (ε/4 +₊ /2₊ ε) +₊ ε/4
 
-          step12 : stream→ℝ s ∼[ /2₊ ε ] stream→ℝ (f ε/8)
-          step12 = subst (λ x → stream→ℝ s ∼[ x ] stream→ℝ (f ε/8)) (/4₊+/4₊≡/2₊ ε) step12-raw
+          step123 : stream→ℝ s ∼[ ε-total ] L
+          step123 = triangle∼ step12 f-to-L
 
-          -- Now combine step12 and f-to-L: stream→ℝ s ∼[ε/2 + ε/4] L
-          step123-raw : stream→ℝ s ∼[ /2₊ ε +₊ ε/4 ] L
-          step123-raw = triangle∼ step12 f-to-L
+          -- ε/4 + ε/2 + ε/4 = ε (exact)
+          sum-eq : ε-total ≡ ε
+          sum-eq = ℚ₊≡ ℚ!!
 
-          -- ε/2 + ε/4 = 3ε/4 < ε, so we can weaken the bound
-          -- Using ∼→∼' : x ∼[ε] y → ε ≤ ε' → x ∼[ε'] y (closeness weakening)
-          3/4-bound : /2₊ ε +₊ ε/4 ≡ /4₊ ε +₊ /2₊ ε
-          3/4-bound = ℚ₊≡ ℚ!!
-
-          -- Closeness can be weakened: if x ∼[ε] y and ε ≤ ε' then x ∼[ε'] y
-          -- We have stream→ℝ s ∼[ε/2 + ε/4] L and need stream→ℝ s ∼[ε] L
-          -- ε/2 + ε/4 = 3ε/4 ≤ ε, so this works
-
-          -- 3ε/4 < ε follows from: 3ε/4 = 3/4 · ε < 1 · ε = ε (since 3/4 < 1 and ε > 0)
-          -- Proof: (ε/2 + ε/4) + ε/4 = ε, and ε/4 > 0, so ε/2 + ε/4 < ε.
-          --
-          -- Step 1: 0 < ε/4 (using snd of ℚ₊)
-          pos-ε/4 : 0ℚ < fst ε/4
-          pos-ε/4 = 0<→< (fst ε/4) (snd ε/4)
-
-          -- Step 2: Use <-o+ to get (ε/2 + ε/4) + 0 < (ε/2 + ε/4) + ε/4
-          -- <-o+ a b c proof gives: c + a < c + b when proof : a < b
-          step-raw : fst (/2₊ ε +₊ ε/4) ℚ.+ 0ℚ < fst (/2₊ ε +₊ ε/4) ℚ.+ fst ε/4
-          step-raw = <-o+ 0ℚ (fst ε/4) (fst (/2₊ ε +₊ ε/4)) pos-ε/4
-
-          -- Step 3: Simplify LHS: x + 0 = x
-          step-lhs : fst (/2₊ ε +₊ ε/4) < fst (/2₊ ε +₊ ε/4) ℚ.+ fst ε/4
-          step-lhs = subst (_< (fst (/2₊ ε +₊ ε/4) ℚ.+ fst ε/4)) (ℚP.+IdR (fst (/2₊ ε +₊ ε/4))) step-raw
-
-          -- Step 4: Show RHS = (ε/2 + ε/4) + ε/4 = ε
-          -- Using ℚ!! for the algebraic identity
-          rhs-eq : fst (/2₊ ε +₊ ε/4) ℚ.+ fst ε/4 ≡ fst ε
-          rhs-eq = ℚ!!
-
-          three-quarter-lt-one : fst (/2₊ ε +₊ ε/4) < fst ε
-          three-quarter-lt-one = subst (fst (/2₊ ε +₊ ε/4) <_) rhs-eq step-lhs
-
-          bound-le : fst (/2₊ ε +₊ ε/4) ℚO.≤ fst ε
-          bound-le = ℚO.<Weaken≤ _ _ three-quarter-lt-one
-
-        in ∼-monotone≤ bound-le step123-raw
+        in subst (λ x → stream→ℝ s ∼[ x ] L) sum-eq step123
 
   -- Main theorem: limA produces streams close to input streams
   limA-close-to-input : (f : ℚ₊ → 𝟛ᴺ) →
@@ -677,6 +642,25 @@ module Approximation
       -- Apply sym∼ to get the desired direction
     in sym∼ (stream→ℝ (f δ)) (stream→ℝ (limA f coh)) (δ +₊ δ) f-to-limA
 
--- Quotient lift (`limA-𝕀sd`, `limA-𝕀sd-close`) is intentionally deferred in
--- this phase. Direct-equivalence modules remain out-of-target until the core
--- approximation lemma is discharged constructively.
+------------------------------------------------------------------------
+-- Proof of the approximation lemma
+------------------------------------------------------------------------
+--
+-- The core approximation lemma relates the n-digit prefix sum of
+-- limA f coh to stream→ℝ (f ε). The proof uses ℕ-induction.
+--
+-- The bound has form: c · inv2^n + 2ε, where c = 9/8 absorbs the
+-- fixed-precision errors from digit selection (precision 10 from f(1/16)).
+--
+-- Base case (n = 0): |d/2 - stream→ℝ (f ε)| ≤ 1/2 + 1/16 + ε ≤ c/2 + 2ε
+-- Derivation: c·inv2^n + 2ε < c·ε + 2ε = 3.125ε < 4ε ✓
+
+-- Proof of the approximation lemma (WIP - contains holes)
+approx-limA-close-proof :
+  (f : ℚ₊ → 𝟛ᴺ) →
+  (coh : ∀ δ ε → stream→ℝ (f δ) ∼[ δ +₊ ε ] stream→ℝ (f ε)) →
+  ∀ ε → rat (approxℚ₊ (limA f coh) ε) ∼[ ((ε +₊ ε) +₊ ε) +₊ ε ] stream→ℝ (f ε)
+approx-limA-close-proof f coh ε = {!!}
+
+-- Instantiate the Approximation module
+open Approximation approx-limA-close-proof public
