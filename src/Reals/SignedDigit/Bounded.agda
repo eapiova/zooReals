@@ -42,7 +42,7 @@ open import Cubical.Data.Rationals.Properties as ℚPˢ using () -- Slow propert
 
 -- PRIMARY RATIONAL TYPE: Fast Rationals (aligned with CauchyReals library)
 open import Cubical.Data.Rationals.Fast as ℚ using (ℚ; [_/_]; isSetℚ; eq/; _∼_; ℕ₊₁→ℤ)
-open import Cubical.Data.Rationals.Fast.Properties as ℚP using (_·_; _+_; _-_; -_; abs; max; +IdL; +IdR; ·IdL; ·IdR; +Comm; ·Comm; +Assoc; -Invol)
+open import Cubical.Data.Rationals.Fast.Properties as ℚP using (_·_; _+_; _-_; -_; abs; max; +IdL; +IdR; ·IdL; ·IdR; +Comm; ·Comm; +Assoc; ·Assoc; ·DistL+; ·AnnihilL; -Invol)
 -- Import min and minComm qualified to avoid conflict with ℕ versions
 import Cubical.Data.Rationals.Fast.Properties as ℚPmin using (min; minComm)
 open import Cubical.Data.Rationals.Fast.Order as ℚO using (_≤_; _<_; isProp<; isProp≤; isRefl≤; isTrans≤; isTrans<; isTrans<≤; ℚ₊; _ℚ₊+_; ≤Dec; clamp; ≤→max; absFrom≤×≤; _≟_; Trichotomy; lt; eq; gt; ≤Monotone+; ≤-·o; <Weaken≤)
@@ -88,6 +88,8 @@ open import Cubical.Data.Nat.Mod as ℕMod using (log2ℕ)
 open import Cubical.HITs.SetQuotients as SQ hiding ([_])
 
 open import Cubical.Relation.Nullary using (Dec; yes; no)
+
+open import Cubical.Tactics.CommRingSolverFast.FastRationalsReflection using (ℚ!!)
 
 open import Reals.SignedDigit.Core
 
@@ -219,6 +221,11 @@ approx s (suc n) = approx s n ℚP.+ digitContrib (s ! suc n) (suc n)
       n = fst (ℕMod.log2ℕ (ℕ₊₁→ℕ k))       -- n : ℕ with k < 2^n
   in suc n  -- inv2^(suc n) = 1/2^{n+2} < 1/2^{n+1} = inv2^n < 1/2^n < ε
 
+-- Predecessor of ℚ₊→ℕ (well-defined since ℚ₊→ℕ always returns suc)
+ℚ₊→ℕ-pred : ℚ₊ → ℕ
+ℚ₊→ℕ-pred ε =
+  let k = fst (ℚOP.ceilℚ₊ (ℚOP.invℚ₊ ε))
+  in fst (ℕMod.log2ℕ (ℕ₊₁→ℕ k))
 
 -- Approximation indexed by precision (now just uses approx directly since it returns ℚ)
 approxℚ₊ : 𝟛ᴺ → ℚ₊ → ℚ
@@ -505,7 +512,87 @@ open import Cubical.Data.Int.Fast.Properties as ℤfP using (·≡·f)
 inv2^-double : (n : ℕ) → inv2^ n ≡ inv2^ (suc n) ℚP.+ inv2^ (suc n)
 inv2^-double n = sym (x+x≡2·x (inv2^ (suc n)) ∙ 2·inv2^-suc n)
 
+------------------------------------------------------------------------
+-- Halving lemmas for approx decomposition
+------------------------------------------------------------------------
 
+-- (2·x)·(1/2) = x — ring identity proved by tactic
+two-half : (x : ℚ) → (2ℚ ℚP.· x) ℚP.· inv2^ zero ≡ x
+two-half x = ℚ!!
+
+-- (1/2)·(1/2^{k+1}) = 1/2^{k+2}
+half-inv2^ : (k : ℕ) → inv2^ zero ℚP.· inv2^ k ≡ inv2^ (suc k)
+half-inv2^ k =
+  inv2^ zero ℚP.· inv2^ k
+    ≡⟨ ℚP.·Comm (inv2^ zero) (inv2^ k) ⟩
+  inv2^ k ℚP.· inv2^ zero
+    ≡⟨ cong (λ t → t ℚP.· inv2^ zero) (sym (2·inv2^-suc k)) ⟩
+  (2ℚ ℚP.· inv2^ (suc k)) ℚP.· inv2^ zero
+    ≡⟨ two-half (inv2^ (suc k)) ⟩
+  inv2^ (suc k)
+    ∎
+
+-- (1/2)·digitContrib(d,k) = digitContrib(d,k+1)
+half-digitContrib : (d : Digit) (k : ℕ) →
+  inv2^ zero ℚP.· digitContrib d k ≡ digitContrib d (suc k)
+half-digitContrib d k =
+  inv2^ zero ℚP.· digitContrib d k
+    ≡⟨ refl ⟩
+  inv2^ zero ℚP.· (digitToℚ d ℚP.· inv2^ k)
+    ≡⟨ ℚP.·Assoc (inv2^ zero) (digitToℚ d) (inv2^ k) ⟩
+  (inv2^ zero ℚP.· digitToℚ d) ℚP.· inv2^ k
+    ≡⟨ cong (λ t → t ℚP.· inv2^ k) (ℚP.·Comm (inv2^ zero) (digitToℚ d)) ⟩
+  (digitToℚ d ℚP.· inv2^ zero) ℚP.· inv2^ k
+    ≡⟨ sym (ℚP.·Assoc (digitToℚ d) (inv2^ zero) (inv2^ k)) ⟩
+  digitToℚ d ℚP.· (inv2^ zero ℚP.· inv2^ k)
+    ≡⟨ cong (digitToℚ d ℚP.·_) (half-inv2^ k) ⟩
+  digitToℚ d ℚP.· inv2^ (suc k)
+    ≡⟨ refl ⟩
+  digitContrib d (suc k)
+    ∎
+
+-- Decomposition: approx(s)(suc n) = digitContrib(head s)(0) + (1/2)·approx(tail s)(n)
+approx-unfold : (s : 𝟛ᴺ) (n : ℕ) →
+  approx s (suc n)
+  ≡ digitContrib (head s) zero ℚP.+ (inv2^ zero ℚP.· approx (tail s) n)
+approx-unfold s zero =
+  approx s (suc zero)
+    ≡⟨ refl ⟩
+  approx s zero ℚP.+ digitContrib (s ! suc zero) (suc zero)
+    ≡⟨ refl ⟩
+  digitContrib (head s) zero ℚP.+ digitContrib (tail s ! zero) (suc zero)
+    ≡⟨ cong (digitContrib (head s) zero ℚP.+_) (sym (half-digitContrib (tail s ! zero) zero)) ⟩
+  digitContrib (head s) zero ℚP.+ (inv2^ zero ℚP.· digitContrib (tail s ! zero) zero)
+    ≡⟨ refl ⟩
+  digitContrib (head s) zero ℚP.+ (inv2^ zero ℚP.· approx (tail s) zero)
+    ∎
+approx-unfold s (suc n) =
+  approx s (suc (suc n))
+    ≡⟨ refl ⟩
+  approx s (suc n) ℚP.+ digitContrib (s ! suc (suc n)) (suc (suc n))
+    ≡⟨ cong (λ t → t ℚP.+ digitContrib (s ! suc (suc n)) (suc (suc n))) (approx-unfold s n) ⟩
+  (digitContrib (head s) zero ℚP.+ (inv2^ zero ℚP.· approx (tail s) n))
+    ℚP.+ digitContrib (s ! suc (suc n)) (suc (suc n))
+    ≡⟨ sym (ℚP.+Assoc (digitContrib (head s) zero) (inv2^ zero ℚP.· approx (tail s) n) (digitContrib (s ! suc (suc n)) (suc (suc n)))) ⟩
+  digitContrib (head s) zero
+    ℚP.+ ((inv2^ zero ℚP.· approx (tail s) n)
+      ℚP.+ digitContrib (s ! suc (suc n)) (suc (suc n)))
+    ≡⟨ cong (digitContrib (head s) zero ℚP.+_) step-tail ⟩
+  digitContrib (head s) zero ℚP.+ (inv2^ zero ℚP.· approx (tail s) (suc n))
+    ∎
+  where
+    step-tail :
+      (inv2^ zero ℚP.· approx (tail s) n) ℚP.+ digitContrib (s ! suc (suc n)) (suc (suc n))
+      ≡ inv2^ zero ℚP.· approx (tail s) (suc n)
+    step-tail =
+      (inv2^ zero ℚP.· approx (tail s) n) ℚP.+ digitContrib (s ! suc (suc n)) (suc (suc n))
+        ≡⟨ cong ((inv2^ zero ℚP.· approx (tail s) n) ℚP.+_) (sym (half-digitContrib (tail s ! suc n) (suc n))) ⟩
+      (inv2^ zero ℚP.· approx (tail s) n) ℚP.+ (inv2^ zero ℚP.· digitContrib (tail s ! suc n) (suc n))
+        ≡⟨ sym (ℚP.·DistL+ (inv2^ zero) (approx (tail s) n) (digitContrib (tail s ! suc n) (suc n))) ⟩
+      inv2^ zero ℚP.· (approx (tail s) n ℚP.+ digitContrib (tail s ! suc n) (suc n))
+        ≡⟨ refl ⟩
+      inv2^ zero ℚP.· approx (tail s) (suc n)
+        ∎
 
 -- abs(-1) = max(-1, -(-1)) = max(-1, 1) = 1
 abs-neg1 : abs -1ℚ ≡ 1ℚ

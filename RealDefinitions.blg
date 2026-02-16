@@ -1,15 +1,15 @@
 [0] Config.pm:328> INFO - This is Biber 2.21
 [0] Config.pm:331> INFO - Logfile is 'RealDefinitions.blg'
-[24] biber:342> INFO - === Sat Dec  6, 2025, 19:53:39
-[29] Biber.pm:421> INFO - Reading 'RealDefinitions.bcf'
-[63] Biber.pm:1002> INFO - Found 107 citekeys in bib section 0
-[68] Biber.pm:4487> INFO - Processing section 0
+[22] biber:342> INFO - === Sun Feb 15, 2026, 03:58:57
+[27] Biber.pm:421> INFO - Reading 'RealDefinitions.bcf'
+[64] Biber.pm:1002> INFO - Found 122 citekeys in bib section 0
+[69] Biber.pm:4487> INFO - Processing section 0
 [72] Biber.pm:4678> INFO - Looking for bibtex file 'references.bib' for section 0
 [73] bibtex.pm:1713> INFO - LaTeX decoding ...
-[94] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
-[283] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[284] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[284] Biber.pm:4307> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
-[284] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
-[312] bbl.pm:676> INFO - Writing 'RealDefinitions.bbl' with encoding 'UTF-8'
-[324] bbl.pm:779> INFO - Output to RealDefinitions.bbl
+[97] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
+[315] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[315] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[315] Biber.pm:4307> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[315] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
+[350] bbl.pm:676> INFO - Writing 'RealDefinitions.bbl' with encoding 'UTF-8'
+[363] bbl.pm:779> INFO - Output to RealDefinitions.bbl

@@ -2413,7 +2413,18 @@
     <bcf:citekey order="8" intorder="1">Ambridge2024</bcf:citekey>
     <bcf:citekey order="8" intorder="2">TypeTopology</bcf:citekey>
     <bcf:citekey order="8" intorder="3">WiesnetKopp2022</bcf:citekey>
-    <bcf:citekey order="8" intorder="4">WikiSignedDigit</bcf:citekey>
+    <bcf:citekey order="8" intorder="4">Berger2011</bcf:citekey>
+    <bcf:citekey order="8" intorder="5">Niqui2008</bcf:citekey>
+    <bcf:citekey order="8" intorder="6">Kaganovsky1998</bcf:citekey>
+    <bcf:citekey order="8" intorder="7">KoeppSchwichtenberg2022</bcf:citekey>
+    <bcf:citekey order="8" intorder="8">BoehmEtAl1986</bcf:citekey>
+    <bcf:citekey order="8" intorder="9">LubarskyRichman2015</bcf:citekey>
+    <bcf:citekey order="8" intorder="10">BooijLocators</bcf:citekey>
+    <bcf:citekey order="8" intorder="11">SchwichtenbergWiesnet2021</bcf:citekey>
+    <bcf:citekey order="8" intorder="12">BergerSeisenberger2012</bcf:citekey>
+    <bcf:citekey order="8" intorder="13">BergerLloyd2009</bcf:citekey>
+    <bcf:citekey order="8" intorder="14">EscardoSimpson2014</bcf:citekey>
+    <bcf:citekey order="8" intorder="15">WikiSignedDigit</bcf:citekey>
     <bcf:citekey order="9" intorder="1">vanDerWeideFrumin2024</bcf:citekey>
     <bcf:citekey order="9" intorder="2">PattinsonMohammadian2021</bcf:citekey>
     <bcf:citekey order="9" intorder="3">deJong2023</bcf:citekey>
@@ -2524,14 +2535,26 @@
     <bcf:citekey order="36" intorder="2">Booij2017</bcf:citekey>
     <bcf:citekey order="36" intorder="3">Booij2020</bcf:citekey>
     <bcf:citekey order="36" intorder="4">Murray2022</bcf:citekey>
+    <bcf:citekey order="36" intorder="5">SchwichtenbergWiesnet2021</bcf:citekey>
     <bcf:citekey order="37" intorder="1">Weihrauch2000</bcf:citekey>
     <bcf:citekey order="37" intorder="2">WiesnetKopp2022</bcf:citekey>
     <bcf:citekey order="37" intorder="3">MathStackConstructiveReals</bcf:citekey>
     <bcf:citekey order="37" intorder="4">BergerHou2007</bcf:citekey>
+    <bcf:citekey order="37" intorder="5">Berger2011</bcf:citekey>
+    <bcf:citekey order="37" intorder="6">Niqui2008</bcf:citekey>
+    <bcf:citekey order="37" intorder="7">Kaganovsky1998</bcf:citekey>
+    <bcf:citekey order="37" intorder="8">KoeppSchwichtenberg2022</bcf:citekey>
+    <bcf:citekey order="37" intorder="9">BoehmEtAl1986</bcf:citekey>
+    <bcf:citekey order="37" intorder="10">LubarskyRichman2015</bcf:citekey>
+    <bcf:citekey order="37" intorder="11">BooijLocators</bcf:citekey>
+    <bcf:citekey order="37" intorder="12">SchwichtenbergWiesnet2021</bcf:citekey>
+    <bcf:citekey order="37" intorder="13">BergerSeisenberger2012</bcf:citekey>
+    <bcf:citekey order="37" intorder="14">BergerLloyd2009</bcf:citekey>
     <bcf:citekey order="38" intorder="1">EscardoSimpson2001</bcf:citekey>
     <bcf:citekey order="38" intorder="2">AdamekMiliusMoss2025</bcf:citekey>
     <bcf:citekey order="38" intorder="3">nLabCoalgebraInterval</bcf:citekey>
     <bcf:citekey order="38" intorder="4">Rutten2000</bcf:citekey>
+    <bcf:citekey order="38" intorder="5">EscardoSimpson2014</bcf:citekey>
     <bcf:citekey order="39" intorder="1">Vickers1996</bcf:citekey>
     <bcf:citekey order="39" intorder="2">MacNeille1937</bcf:citekey>
     <bcf:citekey order="39" intorder="3">BlechschmidtHutzler2019</bcf:citekey>
@@ -2560,30 +2583,45 @@
     <bcf:citekey order="44" intorder="2">Booij2017</bcf:citekey>
     <bcf:citekey order="44" intorder="3">Booij2020</bcf:citekey>
     <bcf:citekey order="44" intorder="4">EscardoSimpson2001</bcf:citekey>
-    <bcf:citekey order="45" intorder="1">Weihrauch2000</bcf:citekey>
-    <bcf:citekey order="45" intorder="2">BergerHou2007</bcf:citekey>
-    <bcf:citekey order="45" intorder="3">MathStackConstructiveReals</bcf:citekey>
-    <bcf:citekey order="45" intorder="4">WiesnetKopp2022</bcf:citekey>
-    <bcf:citekey order="46" intorder="1">Vickers1996</bcf:citekey>
-    <bcf:citekey order="46" intorder="2">nLabOneSided</bcf:citekey>
-    <bcf:citekey order="46" intorder="3">nLabMacNeille</bcf:citekey>
-    <bcf:citekey order="46" intorder="4">MacNeille1937</bcf:citekey>
-    <bcf:citekey order="47" intorder="1">EscardoSimpson2001</bcf:citekey>
-    <bcf:citekey order="47" intorder="2">AdamekMiliusMoss2025</bcf:citekey>
-    <bcf:citekey order="47" intorder="3">nLabCoalgebraInterval</bcf:citekey>
-    <bcf:citekey order="48" intorder="1">MacLaneMoerdijk1992</bcf:citekey>
-    <bcf:citekey order="48" intorder="2">Johnstone2002</bcf:citekey>
-    <bcf:citekey order="48" intorder="3">BauerCompleteOrderedFields</bcf:citekey>
-    <bcf:citekey order="48" intorder="4">Devillanova2021</bcf:citekey>
-    <bcf:citekey order="49" intorder="1">AbramskyJung1994</bcf:citekey>
-    <bcf:citekey order="49" intorder="2">EdalatHeckmann1998</bcf:citekey>
-    <bcf:citekey order="49" intorder="3">BauerIntervalDomain</bcf:citekey>
-    <bcf:citekey order="49" intorder="4">EdalatRealComputability</bcf:citekey>
-    <bcf:citekey order="50" intorder="1">Arthan2004</bcf:citekey>
-    <bcf:citekey order="50" intorder="2">PROMYS2023</bcf:citekey>
-    <bcf:citekey order="50" intorder="3">Fokma2021</bcf:citekey>
-    <bcf:citekey order="50" intorder="4">Keskin2025</bcf:citekey>
-    <bcf:citekey order="50" intorder="5">MathOverflowBauerHanson</bcf:citekey>
+    <bcf:citekey order="45" intorder="1">BooijLocators</bcf:citekey>
+    <bcf:citekey order="46" intorder="1">Weihrauch2000</bcf:citekey>
+    <bcf:citekey order="46" intorder="2">BergerHou2007</bcf:citekey>
+    <bcf:citekey order="46" intorder="3">MathStackConstructiveReals</bcf:citekey>
+    <bcf:citekey order="46" intorder="4">WiesnetKopp2022</bcf:citekey>
+    <bcf:citekey order="46" intorder="5">Berger2011</bcf:citekey>
+    <bcf:citekey order="46" intorder="6">Niqui2008</bcf:citekey>
+    <bcf:citekey order="46" intorder="7">Kaganovsky1998</bcf:citekey>
+    <bcf:citekey order="46" intorder="8">KoeppSchwichtenberg2022</bcf:citekey>
+    <bcf:citekey order="46" intorder="9">BoehmEtAl1986</bcf:citekey>
+    <bcf:citekey order="46" intorder="10">LubarskyRichman2015</bcf:citekey>
+    <bcf:citekey order="46" intorder="11">SchwichtenbergWiesnet2021</bcf:citekey>
+    <bcf:citekey order="46" intorder="12">BergerSeisenberger2012</bcf:citekey>
+    <bcf:citekey order="46" intorder="13">BergerLloyd2009</bcf:citekey>
+    <bcf:citekey order="47" intorder="1">Vickers1996</bcf:citekey>
+    <bcf:citekey order="47" intorder="2">nLabOneSided</bcf:citekey>
+    <bcf:citekey order="47" intorder="3">nLabMacNeille</bcf:citekey>
+    <bcf:citekey order="47" intorder="4">MacNeille1937</bcf:citekey>
+    <bcf:citekey order="48" intorder="1">EscardoSimpson2001</bcf:citekey>
+    <bcf:citekey order="48" intorder="2">AdamekMiliusMoss2025</bcf:citekey>
+    <bcf:citekey order="48" intorder="3">nLabCoalgebraInterval</bcf:citekey>
+    <bcf:citekey order="49" intorder="1">MacLaneMoerdijk1992</bcf:citekey>
+    <bcf:citekey order="49" intorder="2">Johnstone2002</bcf:citekey>
+    <bcf:citekey order="49" intorder="3">BauerCompleteOrderedFields</bcf:citekey>
+    <bcf:citekey order="49" intorder="4">Devillanova2021</bcf:citekey>
+    <bcf:citekey order="50" intorder="1">AbramskyJung1994</bcf:citekey>
+    <bcf:citekey order="50" intorder="2">EdalatHeckmann1998</bcf:citekey>
+    <bcf:citekey order="50" intorder="3">BauerIntervalDomain</bcf:citekey>
+    <bcf:citekey order="50" intorder="4">EdalatRealComputability</bcf:citekey>
+    <bcf:citekey order="51" intorder="1">Arthan2004</bcf:citekey>
+    <bcf:citekey order="51" intorder="2">PROMYS2023</bcf:citekey>
+    <bcf:citekey order="51" intorder="3">Fokma2021</bcf:citekey>
+    <bcf:citekey order="51" intorder="4">Keskin2025</bcf:citekey>
+    <bcf:citekey order="51" intorder="5">MathOverflowBauerHanson</bcf:citekey>
+    <bcf:citekey order="52" intorder="1">Altenkirch2024HCIT</bcf:citekey>
+    <bcf:citekey order="53" intorder="1">Altenkirch2024HCIT</bcf:citekey>
+    <bcf:citekey order="54" intorder="1">LorenzenShulman2024</bcf:citekey>
+    <bcf:citekey order="55" intorder="1">KristensenMogelberg2021</bcf:citekey>
+    <bcf:citekey order="56" intorder="1">AhrensCapriottiSpadotti2015</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">

@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "key": "Ambridge2024",
+      "scope": "signed-digit-core",
+      "local_pdf": "SignedDigit/Ambridge2024.pdf",
+      "title_hint": "Exact Real Search"
+    },
+    {
+      "key": "TypeTopology",
+      "scope": "signed-digit-core",
+      "local_pdf": "SignedDigit/TypeTopology.pdf",
+      "title_hint": "Domain Theory in Constructive and Predicative Univalent Foundations"
+    },
+    {
+      "key": "WiesnetKopp2022",
+      "scope": "signed-digit-core",
+      "local_pdf": "SignedDigit/WiesnetKopp2022.pdf",
+      "title_hint": "Limits of real numbers in the binary signed digit representation"
+    },
+    {
+      "key": "Berger2011",
+      "scope": "signed-digit-core",
+      "local_pdf": "SignedDigit/BergerSeisenberger2012.pdf",
+      "title_hint": "From Coinductive Proofs to Exact Real Arithmetic",
+      "note": "Canonical local filename differs from bib key."
+    },
+    {
+      "key": "Niqui2008",
+      "scope": "signed-digit-core",
+      "local_pdf": "SignedDigit/0807.1669.pdf",
+      "title_hint": "Coinductive Formal Reasoning in Exact Real Arithmetic",
+      "note": "Correct local file for the cited LMCS paper."
+    },
+    {
+      "key": "Kaganovsky1998",
+      "scope": "signed-digit-core",
+      "local_pdf": "SignedDigit/1-s2.0-S1571066105802178-main.pdf",
+      "title_hint": "Computing with Exact Real Numbers in a Radix-r System"
+    },
+    {
+      "key": "KoeppSchwichtenberg2022",
+      "scope": "signed-digit-core",
+      "local_pdf": "SignedDigit/KoeppSchwichtenberg2022.pdf",
+      "title_hint": "Lookahead analysis in exact real arithmetic"
+    },
+    {
+      "key": "BoehmEtAl1986",
+      "scope": "signed-digit-core",
+      "local_pdf": "SignedDigit/BoehmEtAl1986.pdf",
+      "title_hint": "Exact Real Arithmetic"
+    },
+    {
+      "key": "LubarskyRichman2015",
+      "scope": "signed-digit-core",
+      "local_pdf": "SignedDigit/LubarskyRichman2015.pdf",
+      "title_hint": "Signed-Bit Representations of Real Numbers"
+    },
+    {
+      "key": "BooijLocators",
+      "scope": "signed-digit-core",
+      "local_pdf": "SignedDigit/BooijLocators2021.pdf",
+      "title_hint": "Extensional constructive real analysis via locators",
+      "note": "Canonical local filename includes year suffix."
+    },
+    {
+      "key": "SchwichtenbergWiesnet2021",
+      "scope": "signed-digit-core",
+      "external_url": "https://arxiv.org/abs/2103.15702",
+      "note": "Withdrawn preprint; superseded by WiesnetKopp2022."
+    },
+    {
+      "key": "BergerSeisenberger2012",
+      "scope": "signed-digit-core",
+      "local_pdf": "SignedDigit/BergerSeisenberger2012.pdf",
+      "title_hint": "From Coinductive Proofs to Exact Real Arithmetic"
+    },
+    {
+      "key": "BergerLloyd2009",
+      "scope": "signed-digit-core",
+      "local_pdf": "SignedDigit/BergerLloyd2009.pdf",
+      "title_hint": "A coinductive approach to verified exact real number computation"
+    },
+    {
+      "key": "EscardoSimpson2014",
+      "scope": "signed-digit-core",
+      "local_pdf": "SignedDigit/EscardoSimpson2014.pdf",
+      "title_hint": "Abstract Datatypes for Real Numbers in Type Theory"
+    },
+    {
+      "key": "WikiSignedDigit",
+      "scope": "signed-digit-core",
+      "external_url": "https://en.wikipedia.org/wiki/Signed-digit_representation",
+      "note": "Local PDF title does not match the citation target; use canonical URL."
+    },
+    {
+      "key": "Altenkirch2024HCIT",
+      "scope": "hcit",
+      "local_pdf": "SignedDigit/altenkirch.pdf",
+      "title_hint": "The Reals as a Higher Coinductive Type"
+    },
+    {
+      "key": "LorenzenShulman2024",
+      "scope": "hcit",
+      "external_url": "https://arxiv.org/abs/2405.12994"
+    },
+    {
+      "key": "KristensenMogelberg2021",
+      "scope": "hcit",
+      "external_url": "https://arxiv.org/abs/2102.01969"
+    },
+    {
+      "key": "AhrensCapriottiSpadotti2015",
+      "scope": "hcit",
+      "external_url": "https://arxiv.org/abs/1504.02949"
+    },
+    {
+      "key": "DisplayedTypeTheory2023",
+      "scope": "hcit",
+      "external_url": "https://arxiv.org/abs/2311.18781"
+    },
+    {
+      "key": "Bronsveld2025",
+      "scope": "hcit",
+      "external_url": "https://arxiv.org/abs/2505.13495"
+    },
+    {
+      "key": "NaryaHigherTypes",
+      "scope": "hcit",
+      "external_url": "https://narya.readthedocs.io/en/latest/higher-types.html"
+    }
+  ]
+}

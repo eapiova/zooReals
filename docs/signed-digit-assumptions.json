@@ -1,0 +1,274 @@
+{
+  "schema_version": 1,
+  "source_root": "src/Reals/SignedDigit",
+  "dependency_classes": {
+    "semantic-arithmetic": "Missing constructive arithmetic/coherence lemmas or unfinished semantic normalization proofs; not identified as AC_omega obligations.",
+    "ac-omega": "Requires countable dependent choice (AC_omega) to choose coherent representatives across countable families."
+  },
+  "allow_unsolved_metas": [
+    {
+      "module": "Reals.SignedDigit.Bounded",
+      "reason": "Module-level option --allow-unsolved-metas is currently required."
+    },
+    {
+      "module": "Reals.SignedDigit.Equivalence",
+      "reason": "Module-level option --allow-unsolved-metas is currently required."
+    },
+    {
+      "module": "Reals.SignedDigit.Equivalence.RoundTrip",
+      "reason": "Module-level option --allow-unsolved-metas is currently required."
+    },
+    {
+      "module": "Reals.SignedDigit.Equivalence.Surjection",
+      "reason": "Module-level option --allow-unsolved-metas is currently required."
+    }
+  ],
+  "postulates": [
+    {
+      "module": "Reals.SignedDigit.Bounded",
+      "name": "case1-lo",
+      "class": "semantic-arithmetic",
+      "reason": "Fast-rational inequality case split for digit-bound."
+    },
+    {
+      "module": "Reals.SignedDigit.Bounded",
+      "name": "case1-hi",
+      "class": "semantic-arithmetic",
+      "reason": "Fast-rational inequality case split for digit-bound."
+    },
+    {
+      "module": "Reals.SignedDigit.Bounded",
+      "name": "case1b-lo",
+      "class": "semantic-arithmetic",
+      "reason": "Boundary-case inequality for q = -1/3 in digit-bound."
+    },
+    {
+      "module": "Reals.SignedDigit.Bounded",
+      "name": "case1b-hi",
+      "class": "semantic-arithmetic",
+      "reason": "Boundary-case inequality for q = -1/3 in digit-bound."
+    },
+    {
+      "module": "Reals.SignedDigit.Bounded",
+      "name": "case2-lo",
+      "class": "semantic-arithmetic",
+      "reason": "Middle-interval inequality for digit-bound."
+    },
+    {
+      "module": "Reals.SignedDigit.Bounded",
+      "name": "case2-hi",
+      "class": "semantic-arithmetic",
+      "reason": "Middle-interval inequality for digit-bound."
+    },
+    {
+      "module": "Reals.SignedDigit.Bounded",
+      "name": "case2b-lo",
+      "class": "semantic-arithmetic",
+      "reason": "Boundary-case inequality for q = +1/3 in digit-bound."
+    },
+    {
+      "module": "Reals.SignedDigit.Bounded",
+      "name": "case2b-hi",
+      "class": "semantic-arithmetic",
+      "reason": "Boundary-case inequality for q = +1/3 in digit-bound."
+    },
+    {
+      "module": "Reals.SignedDigit.Bounded",
+      "name": "case3-lo",
+      "class": "semantic-arithmetic",
+      "reason": "Upper-interval inequality for digit-bound."
+    },
+    {
+      "module": "Reals.SignedDigit.Bounded",
+      "name": "case3-hi",
+      "class": "semantic-arithmetic",
+      "reason": "Upper-interval inequality for digit-bound."
+    },
+    {
+      "module": "Reals.SignedDigit.Bounded",
+      "name": "approx-sum-remainder-bounded",
+      "class": "semantic-arithmetic",
+      "reason": "Algebraic remainder identity for bounded rational-to-stream proof."
+    },
+    {
+      "module": "Reals.SignedDigit.Equivalence.Direct.Full",
+      "name": "toℝ-fromℝ",
+      "class": "semantic-arithmetic",
+      "reason": "Round-trip law for full equivalence; depends on unfinished normalization correctness."
+    },
+    {
+      "module": "Reals.SignedDigit.Equivalence.Direct.Full",
+      "name": "fromℝ-toℝ",
+      "class": "semantic-arithmetic",
+      "reason": "Round-trip law for full equivalence; depends on unfinished normalization correctness."
+    },
+    {
+      "module": "Reals.SignedDigit.Equivalence.Surjection",
+      "name": "unbounded-case-bounds",
+      "class": "semantic-arithmetic",
+      "reason": "Bound proof for unbounded rational normalization branch."
+    },
+    {
+      "module": "Reals.SignedDigit.Equivalence.Surjection",
+      "name": "unbounded-case-correct",
+      "class": "semantic-arithmetic",
+      "reason": "Correctness of unbounded rational normalization branch."
+    },
+    {
+      "module": "Reals.SignedDigit.Equivalence.Surjection",
+      "name": "streams-from-preimages",
+      "class": "ac-omega",
+      "reason": "Chooses coherent stream representatives from truncated preimage witnesses."
+    },
+    {
+      "module": "Reals.SignedDigit.Equivalence.Surjection",
+      "name": "streams-from-preimages-coh",
+      "class": "ac-omega",
+      "reason": "Coherence of chosen stream representatives across countable family."
+    },
+    {
+      "module": "Reals.SignedDigit.Equivalence.Surjection",
+      "name": "streams-from-preimages-correct",
+      "class": "ac-omega",
+      "reason": "Correctness of chosen stream representatives against target sequence."
+    },
+    {
+      "module": "Reals.SignedDigit.HCIT.Structure",
+      "name": "cons-resp",
+      "class": "semantic-arithmetic",
+      "reason": "Semantic congruence of cons over quotient relation."
+    },
+    {
+      "module": "Reals.SignedDigit.HCIT.Structure",
+      "name": "carry-compl-𝕀",
+      "class": "semantic-arithmetic",
+      "reason": "Completeness implication over quotient semantics."
+    },
+    {
+      "module": "Reals.SignedDigit.HCIT.Structure",
+      "name": "borrow-compl-𝕀",
+      "class": "semantic-arithmetic",
+      "reason": "Completeness implication over quotient semantics."
+    },
+    {
+      "module": "Reals.SignedDigit.HCIT.Structure",
+      "name": "sep-L-𝕀",
+      "class": "semantic-arithmetic",
+      "reason": "Separation implication over quotient semantics."
+    },
+    {
+      "module": "Reals.SignedDigit.HCIT.Structure",
+      "name": "sep-R-𝕀",
+      "class": "semantic-arithmetic",
+      "reason": "Separation implication over quotient semantics."
+    },
+    {
+      "module": "Reals.SignedDigit.HCIT.Terminality",
+      "name": "sem",
+      "class": "ac-omega",
+      "reason": "Semantics map requires recursive decomposition through truncated generation witnesses."
+    },
+    {
+      "module": "Reals.SignedDigit.HCIT.Terminality",
+      "name": "sem-cons",
+      "class": "ac-omega",
+      "reason": "Defining equation for AC_omega-dependent semantics map."
+    },
+    {
+      "module": "Reals.SignedDigit.HCIT.Terminality",
+      "name": "sem-𝕀sd",
+      "class": "ac-omega",
+      "reason": "Compatibility of AC_omega-dependent semantics with quotient embedding."
+    },
+    {
+      "module": "Reals.SignedDigit.HCIT.Terminality",
+      "name": "ι⁻¹",
+      "class": "semantic-arithmetic",
+      "reason": "Inverse map is not imported from completed equivalence path in this module."
+    },
+    {
+      "module": "Reals.SignedDigit.HCIT.Terminality",
+      "name": "ι-section",
+      "class": "semantic-arithmetic",
+      "reason": "Section law for local inverse placeholder."
+    },
+    {
+      "module": "Reals.SignedDigit.HCIT.Terminality",
+      "name": "ι-retract",
+      "class": "semantic-arithmetic",
+      "reason": "Retract law for local inverse placeholder."
+    },
+    {
+      "module": "Reals.SignedDigit.HCIT.Terminality",
+      "name": "morph-is-hom",
+      "class": "ac-omega",
+      "reason": "Homomorphism proof depends on AC_omega-dependent semantics specification."
+    },
+    {
+      "module": "Reals.SignedDigit.HCIT.Terminality",
+      "name": "morph-unique",
+      "class": "ac-omega",
+      "reason": "Uniqueness proof depends on AC_omega-dependent semantics map."
+    },
+    {
+      "module": "Reals.SignedDigit.IncDec",
+      "name": "inc-resp",
+      "class": "semantic-arithmetic",
+      "reason": "Semantic congruence of inc under stream equivalence."
+    },
+    {
+      "module": "Reals.SignedDigit.IncDec",
+      "name": "dec-resp",
+      "class": "semantic-arithmetic",
+      "reason": "Semantic congruence of dec under stream equivalence."
+    },
+    {
+      "module": "Reals.SignedDigit.IncDec",
+      "name": "carry-raw",
+      "class": "semantic-arithmetic",
+      "reason": "Raw carry equation in stream semantics."
+    },
+    {
+      "module": "Reals.SignedDigit.IncDec",
+      "name": "borrow-raw",
+      "class": "semantic-arithmetic",
+      "reason": "Raw borrow equation in stream semantics."
+    },
+    {
+      "module": "Reals.SignedDigit.Limit",
+      "name": "nextRat-bounded",
+      "class": "semantic-arithmetic",
+      "reason": "Boundedness of one-step transformed rationals in limA corecursion."
+    },
+    {
+      "module": "Reals.SignedDigit.Limit",
+      "name": "approx-limA-close",
+      "class": "semantic-arithmetic",
+      "reason": "Key approximation lemma for limA correctness."
+    },
+    {
+      "module": "Reals.SignedDigit.Limit",
+      "name": "limA-𝕀sd",
+      "class": "ac-omega",
+      "reason": "Quotient lift requires coherent representative choice."
+    },
+    {
+      "module": "Reals.SignedDigit.Limit",
+      "name": "limA-𝕀sd-close",
+      "class": "ac-omega",
+      "reason": "Quotient-lift closeness theorem depends on AC_omega lift."
+    },
+    {
+      "module": "Reals.SignedDigit.Safe.Limit",
+      "name": "limA-𝕀sd",
+      "class": "ac-omega",
+      "reason": "Safe-layer quotient lift requires coherent representative choice."
+    },
+    {
+      "module": "Reals.SignedDigit.Safe.Limit",
+      "name": "limA-𝕀sd-close",
+      "class": "ac-omega",
+      "reason": "Safe-layer quotient-lift closeness theorem depends on AC_omega lift."
+    }
+  ]
+}

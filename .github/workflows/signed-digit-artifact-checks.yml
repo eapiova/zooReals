@@ -1,0 +1,89 @@
+name: Signed-Digit Artifact Checks
+
+on:
+  pull_request:
+    paths:
+      - 'src/Reals/SignedDigit/**'
+      - 'docs/signed-digit-*.json'
+      - 'docs/signed-digit-*.md'
+      - 'docs/papers/**'
+      - 'SignedDigit/**'
+      - 'scripts/check_signeddigit_*.py'
+      - 'scripts/check_signeddigit_*.sh'
+      - '.github/workflows/signed-digit-artifact-checks.yml'
+      - 'references.bib'
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/Reals/SignedDigit/**'
+      - 'docs/signed-digit-*.json'
+      - 'docs/signed-digit-*.md'
+      - 'docs/papers/**'
+      - 'SignedDigit/**'
+      - 'scripts/check_signeddigit_*.py'
+      - 'scripts/check_signeddigit_*.sh'
+      - '.github/workflows/signed-digit-artifact-checks.yml'
+      - 'references.bib'
+  workflow_dispatch:
+    inputs:
+      run_paper_agda_checks:
+        description: 'Also run scripts/check_signeddigit_papers.sh (requires agda env).'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  fast-artifact-checks:
+    name: Fast Artifact Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install pdftotext
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils
+
+      - name: Run assumption ledger check
+        run: scripts/check_signeddigit_assumptions.py
+
+      - name: Run bibliography mapping check
+        run: scripts/check_signeddigit_references.py
+
+  optional-paper-agda-checks:
+    name: Optional Paper Agda Checks
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_paper_agda_checks }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install pdftotext
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils
+
+      - name: Attempt paper Agda checks
+        run: |
+          if command -v agda >/dev/null 2>&1; then
+            scripts/check_signeddigit_papers.sh
+          else
+            echo "agda not found on runner; skipping paper Agda checks."
+            echo "Use a runner with Agda + Cubical library configured to enable this step."
+          fi

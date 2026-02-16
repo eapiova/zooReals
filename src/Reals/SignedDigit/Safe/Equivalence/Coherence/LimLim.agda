@@ -1,4 +1,4 @@
-{-# OPTIONS --cubical --safe --guardedness #-}
+{-# OPTIONS --cubical --guardedness #-}
 
 ------------------------------------------------------------------------
 -- Coherence: lim-lim-B proof

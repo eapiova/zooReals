@@ -183,6 +183,68 @@
       \verb https://wiki.portal.chalmers.se/agda/pmwiki.php
       \endverb
     \endentry
+    \entry{AhrensCapriottiSpadotti2015}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=5e0b29e8a40c8ddb6f6748f3a24cf951}{%
+           family={Ahrens},
+           familyi={A\bibinitperiod},
+           given={Benedikt},
+           giveni={B\bibinitperiod}}}%
+        {{hash=bffdc7af1b2866c21e377ec6f40235f0}{%
+           family={Capriotti},
+           familyi={C\bibinitperiod},
+           given={Paolo},
+           giveni={P\bibinitperiod}}}%
+        {{hash=29c76cd0496e5bbbadd72ed31bbe1d2f}{%
+           family={Spadotti},
+           familyi={S\bibinitperiod},
+           given={Régis},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{df5e5b68f47f07bb78fe4cb5d7e42b8d}
+      \strng{fullhash}{df5e5b68f47f07bb78fe4cb5d7e42b8d}
+      \strng{fullhashraw}{df5e5b68f47f07bb78fe4cb5d7e42b8d}
+      \strng{bibnamehash}{df5e5b68f47f07bb78fe4cb5d7e42b8d}
+      \strng{authorbibnamehash}{df5e5b68f47f07bb78fe4cb5d7e42b8d}
+      \strng{authornamehash}{df5e5b68f47f07bb78fe4cb5d7e42b8d}
+      \strng{authorfullhash}{df5e5b68f47f07bb78fe4cb5d7e42b8d}
+      \strng{authorfullhashraw}{df5e5b68f47f07bb78fe4cb5d7e42b8d}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proc.\ 13th International Conference on Typed Lambda Calculi and Applications (TLCA)}
+      \field{eprinttype}{arXiv}
+      \field{title}{Non-Wellfounded Trees in Homotopy Type Theory}
+      \field{year}{2015}
+      \verb{eprint}
+      \verb 1504.02949
+      \endverb
+    \endentry
+    \entry{Altenkirch2024HCIT}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=90877ea5f7e44778ae02b3d3954a7a1e}{%
+           family={Altenkirch},
+           familyi={A\bibinitperiod},
+           given={Thorsten},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{90877ea5f7e44778ae02b3d3954a7a1e}
+      \strng{fullhash}{90877ea5f7e44778ae02b3d3954a7a1e}
+      \strng{fullhashraw}{90877ea5f7e44778ae02b3d3954a7a1e}
+      \strng{bibnamehash}{90877ea5f7e44778ae02b3d3954a7a1e}
+      \strng{authorbibnamehash}{90877ea5f7e44778ae02b3d3954a7a1e}
+      \strng{authornamehash}{90877ea5f7e44778ae02b3d3954a7a1e}
+      \strng{authorfullhash}{90877ea5f7e44778ae02b3d3954a7a1e}
+      \strng{authorfullhashraw}{90877ea5f7e44778ae02b3d3954a7a1e}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Talk at Martín Escardó 60th Birthday Seminar}
+      \field{title}{The Reals as a Higher Coinductive Type?}
+      \field{year}{2024}
+    \endentry
     \entry{Ambridge2024}{thesis}{}{}
       \name{author}{1}{}{%
         {{hash=cf7d1e7b6ca596571ead0466eea6bfa8}{%
@@ -483,6 +545,35 @@
       \verb 10.1016/j.apal.2015.07.006
       \endverb
     \endentry
+    \entry{Berger2011}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=bc1dff07b3c80a25bc5ff1cc47bd2e6f}{%
+           family={Berger},
+           familyi={B\bibinitperiod},
+           given={Ulrich},
+           giveni={U\bibinitperiod}}}%
+      }
+      \strng{namehash}{bc1dff07b3c80a25bc5ff1cc47bd2e6f}
+      \strng{fullhash}{bc1dff07b3c80a25bc5ff1cc47bd2e6f}
+      \strng{fullhashraw}{bc1dff07b3c80a25bc5ff1cc47bd2e6f}
+      \strng{bibnamehash}{bc1dff07b3c80a25bc5ff1cc47bd2e6f}
+      \strng{authorbibnamehash}{bc1dff07b3c80a25bc5ff1cc47bd2e6f}
+      \strng{authornamehash}{bc1dff07b3c80a25bc5ff1cc47bd2e6f}
+      \strng{authorfullhash}{bc1dff07b3c80a25bc5ff1cc47bd2e6f}
+      \strng{authorfullhashraw}{bc1dff07b3c80a25bc5ff1cc47bd2e6f}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Logical Methods in Computer Science}
+      \field{number}{1}
+      \field{title}{From Coinductive Proofs to Exact Real Arithmetic: Theory and Applications}
+      \field{volume}{7}
+      \field{year}{2011}
+      \verb{doi}
+      \verb 10.2168/LMCS-7(1:8)2011
+      \endverb
+    \endentry
     \entry{BergerHou2007}{article}{}{}
       \name{author}{2}{}{%
         {{hash=bc1dff07b3c80a25bc5ff1cc47bd2e6f}{%
@@ -519,6 +610,86 @@
       \range{pages}{14}
       \verb{doi}
       \verb 10.1007/s00224-007-9017-6
+      \endverb
+    \endentry
+    \entry{BergerLloyd2009}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=bc1dff07b3c80a25bc5ff1cc47bd2e6f}{%
+           family={Berger},
+           familyi={B\bibinitperiod},
+           given={Ulrich},
+           giveni={U\bibinitperiod}}}%
+        {{hash=92f063b9c03673c90f81b64d87906c54}{%
+           family={Lloyd},
+           familyi={L\bibinitperiod},
+           given={Sion},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{5e14ef889d467243285a437c3619aed9}
+      \strng{fullhash}{5e14ef889d467243285a437c3619aed9}
+      \strng{fullhashraw}{5e14ef889d467243285a437c3619aed9}
+      \strng{bibnamehash}{5e14ef889d467243285a437c3619aed9}
+      \strng{authorbibnamehash}{5e14ef889d467243285a437c3619aed9}
+      \strng{authornamehash}{5e14ef889d467243285a437c3619aed9}
+      \strng{authorfullhash}{5e14ef889d467243285a437c3619aed9}
+      \strng{authorfullhashraw}{5e14ef889d467243285a437c3619aed9}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Electronic Communications of the EASST}
+      \field{title}{A Coinductive Approach to Verified Exact Real Number Computation}
+      \field{volume}{23}
+      \field{year}{2009}
+      \verb{doi}
+      \verb 10.14279/tuj.eceasst.23.331
+      \endverb
+      \verb{urlraw}
+      \verb https://eceasst.org/index.php/eceasst/article/view/1598
+      \endverb
+      \verb{url}
+      \verb https://eceasst.org/index.php/eceasst/article/view/1598
+      \endverb
+    \endentry
+    \entry{BergerSeisenberger2012}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=bc1dff07b3c80a25bc5ff1cc47bd2e6f}{%
+           family={Berger},
+           familyi={B\bibinitperiod},
+           given={Ulrich},
+           giveni={U\bibinitperiod}}}%
+        {{hash=d235ba977b2f97a5f185ecd3b50063f9}{%
+           family={Seisenberger},
+           familyi={S\bibinitperiod},
+           given={Monika},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{255dfdede2ae0492b21f2d1264c5030a}
+      \strng{fullhash}{255dfdede2ae0492b21f2d1264c5030a}
+      \strng{fullhashraw}{255dfdede2ae0492b21f2d1264c5030a}
+      \strng{bibnamehash}{255dfdede2ae0492b21f2d1264c5030a}
+      \strng{authorbibnamehash}{255dfdede2ae0492b21f2d1264c5030a}
+      \strng{authornamehash}{255dfdede2ae0492b21f2d1264c5030a}
+      \strng{authorfullhash}{255dfdede2ae0492b21f2d1264c5030a}
+      \strng{authorfullhashraw}{255dfdede2ae0492b21f2d1264c5030a}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Logic and Analysis}
+      \field{title}{From Coinductive Proofs to Exact Real Arithmetic: Theory and Applications}
+      \field{volume}{4}
+      \field{year}{2012}
+      \field{pages}{1\bibrangedash 44}
+      \range{pages}{44}
+      \verb{eprint}
+      \verb 1101.2162
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1101.2162
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1101.2162
       \endverb
     \endentry
     \entry{Bishop1967}{book}{}{}
@@ -625,6 +796,53 @@
       \verb https://arxiv.org/abs/1902.07366
       \endverb
     \endentry
+    \entry{BoehmEtAl1986}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{hash=313c748d3865d791aac0928ccf8f8435}{%
+           family={Boehm},
+           familyi={B\bibinitperiod},
+           given={Hans-Juergen},
+           giveni={H\bibinithyphendelim J\bibinitperiod}}}%
+        {{hash=f2c5830b40a02bf5a40c0b7570454f93}{%
+           family={Cartwright},
+           familyi={C\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod}}}%
+        {{hash=f2a5188f6726ad31d3f7ad36d3a00d86}{%
+           family={Riggle},
+           familyi={R\bibinitperiod},
+           given={Mark},
+           giveni={M\bibinitperiod}}}%
+        {{hash=caa8646c6d4ee497c7b9578279c4eaae}{%
+           family={O'Donnell},
+           familyi={O\bibinitperiod},
+           given={Michael\bibnamedelima J.},
+           giveni={M\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{d7ff27c3a5a56bcbc2cb8366577f9f89}
+      \strng{fullhash}{f4cfd0b1f3b189ca8c79d40533fa0c61}
+      \strng{fullhashraw}{f4cfd0b1f3b189ca8c79d40533fa0c61}
+      \strng{bibnamehash}{d7ff27c3a5a56bcbc2cb8366577f9f89}
+      \strng{authorbibnamehash}{d7ff27c3a5a56bcbc2cb8366577f9f89}
+      \strng{authornamehash}{d7ff27c3a5a56bcbc2cb8366577f9f89}
+      \strng{authorfullhash}{f4cfd0b1f3b189ca8c79d40533fa0c61}
+      \strng{authorfullhashraw}{f4cfd0b1f3b189ca8c79d40533fa0c61}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 1986 ACM Conference on LISP and Functional Programming (LFP '86)}
+      \field{title}{Exact Real Arithmetic: A Case Study in Higher Order Programming}
+      \field{year}{1986}
+      \field{pages}{162\bibrangedash 173}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1145/319838.319860
+      \endverb
+    \endentry
     \entry{Booij2020}{misc}{}{}
       \name{author}{1}{}{%
         {{hash=9e9d67f18460a1e67c868b92bd94f0e3}{%
@@ -691,6 +909,44 @@
       \endverb
       \verb{url}
       \verb https://arxiv.org/abs/1706.05956
+      \endverb
+    \endentry
+    \entry{BooijLocators}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=a951c295ee234c8864c9d0ae649a8b25}{%
+           family={Booij},
+           familyi={B\bibinitperiod},
+           given={Auke},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{a951c295ee234c8864c9d0ae649a8b25}
+      \strng{fullhash}{a951c295ee234c8864c9d0ae649a8b25}
+      \strng{fullhashraw}{a951c295ee234c8864c9d0ae649a8b25}
+      \strng{bibnamehash}{a951c295ee234c8864c9d0ae649a8b25}
+      \strng{authorbibnamehash}{a951c295ee234c8864c9d0ae649a8b25}
+      \strng{authornamehash}{a951c295ee234c8864c9d0ae649a8b25}
+      \strng{authorfullhash}{a951c295ee234c8864c9d0ae649a8b25}
+      \strng{authorfullhashraw}{a951c295ee234c8864c9d0ae649a8b25}
+      \field{extraname}{3}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Mathematical Structures in Computer Science}
+      \field{note}{Choice-free signed-digit conversion via locators}
+      \field{title}{Extensional Constructive Real Analysis via Locators}
+      \field{volume}{31}
+      \field{year}{2021}
+      \field{pages}{64\bibrangedash 88}
+      \range{pages}{25}
+      \verb{eprint}
+      \verb 1805.06781
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1805.06781
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1805.06781
       \endverb
     \endentry
     \entry{BridgesRichman1987}{book}{}{}
@@ -1088,6 +1344,7 @@
       \strng{authornamehash}{01416a9d4e69d0dacd153e6f7bcd9ebd}
       \strng{authorfullhash}{01416a9d4e69d0dacd153e6f7bcd9ebd}
       \strng{authorfullhashraw}{01416a9d4e69d0dacd153e6f7bcd9ebd}
+      \field{extraname}{1}
       \field{sortinit}{E}
       \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
       \field{labelnamesource}{author}
@@ -1100,6 +1357,42 @@
       \range{pages}{34}
       \verb{doi}
       \verb 10.1016/S0304-3975(01)00178-5
+      \endverb
+    \endentry
+    \entry{EscardoSimpson2014}{misc}{}{}
+      \name{author}{2}{}{%
+        {{hash=4d8cf97a0dd01b4aeb3e81b3003a505c}{%
+           family={Escardó},
+           familyi={E\bibinitperiod},
+           given={Martín},
+           giveni={M\bibinitperiod}}}%
+        {{hash=cc9647d73dc394bd5705733781cb9b90}{%
+           family={Simpson},
+           familyi={S\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{bc452b9401f5d28c2182240ffc6bb3b1}
+      \strng{fullhash}{bc452b9401f5d28c2182240ffc6bb3b1}
+      \strng{fullhashraw}{bc452b9401f5d28c2182240ffc6bb3b1}
+      \strng{bibnamehash}{bc452b9401f5d28c2182240ffc6bb3b1}
+      \strng{authorbibnamehash}{bc452b9401f5d28c2182240ffc6bb3b1}
+      \strng{authornamehash}{bc452b9401f5d28c2182240ffc6bb3b1}
+      \strng{authorfullhash}{bc452b9401f5d28c2182240ffc6bb3b1}
+      \strng{authorfullhashraw}{bc452b9401f5d28c2182240ffc6bb3b1}
+      \field{extraname}{2}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Representation-independent approach via abstract datatypes for [-1,1]; midpoint algebra}
+      \field{title}{Abstract Datatypes for Real Numbers in Type Theory}
+      \field{year}{2014}
+      \verb{urlraw}
+      \verb https://martinescardo.github.io/papers/realadt.pdf
+      \endverb
+      \verb{url}
+      \verb https://martinescardo.github.io/papers/realadt.pdf
       \endverb
     \endentry
     \entry{TypeTopology}{misc}{}{}
@@ -1504,6 +1797,36 @@
       \verb https://arxiv.org/abs/2301.12405
       \endverb
     \endentry
+    \entry{Kaganovsky1998}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=d4107514143637c870a5c057fdb7d7d0}{%
+           family={Kaganovsky},
+           familyi={K\bibinitperiod},
+           given={Abraham},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{d4107514143637c870a5c057fdb7d7d0}
+      \strng{fullhash}{d4107514143637c870a5c057fdb7d7d0}
+      \strng{fullhashraw}{d4107514143637c870a5c057fdb7d7d0}
+      \strng{bibnamehash}{d4107514143637c870a5c057fdb7d7d0}
+      \strng{authorbibnamehash}{d4107514143637c870a5c057fdb7d7d0}
+      \strng{authornamehash}{d4107514143637c870a5c057fdb7d7d0}
+      \strng{authorfullhash}{d4107514143637c870a5c057fdb7d7d0}
+      \strng{authorfullhashraw}{d4107514143637c870a5c057fdb7d7d0}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Electronic Notes in Theoretical Computer Science}
+      \field{title}{Computing with Exact Real Numbers in a Radix-r System}
+      \field{volume}{13}
+      \field{year}{1998}
+      \field{pages}{92\bibrangedash 118}
+      \range{pages}{27}
+      \verb{doi}
+      \verb 10.1016/S1571-0661(05)80217-8
+      \endverb
+    \endentry
     \entry{Keisler1976}{book}{}{}
       \name{author}{1}{}{%
         {{hash=1c898e04bc68e412ad068cf443afa1f1}{%
@@ -1623,6 +1946,41 @@
       \verb 10.1017/CBO9780511550812
       \endverb
     \endentry
+    \entry{KoeppSchwichtenberg2022}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=8a0993346c2fd3ff0d2b269d16f81902}{%
+           family={Köpp},
+           familyi={K\bibinitperiod},
+           given={Ulrich},
+           giveni={U\bibinitperiod}}}%
+        {{hash=ef7cbdc8715256a88da924c9f0f1177a}{%
+           family={Schwichtenberg},
+           familyi={S\bibinitperiod},
+           given={Helmut},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{7597da71824296aaaf1065aa642e063f}
+      \strng{fullhash}{7597da71824296aaaf1065aa642e063f}
+      \strng{fullhashraw}{7597da71824296aaaf1065aa642e063f}
+      \strng{bibnamehash}{7597da71824296aaaf1065aa642e063f}
+      \strng{authorbibnamehash}{7597da71824296aaaf1065aa642e063f}
+      \strng{authornamehash}{7597da71824296aaaf1065aa642e063f}
+      \strng{authorfullhash}{7597da71824296aaaf1065aa642e063f}
+      \strng{authorfullhashraw}{7597da71824296aaaf1065aa642e063f}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Theoretical Computer Science}
+      \field{title}{Lookahead Analysis in Exact Real Arithmetic with Logical Methods}
+      \field{volume}{943}
+      \field{year}{2022}
+      \field{pages}{171\bibrangedash 186}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1016/j.tcs.2022.10.003
+      \endverb
+    \endentry
     \entry{KosteckiSDG}{misc}{}{}
       \name{author}{1}{}{%
         {{hash=a3d91d8394e6ac37c7827054ff49c72b}{%
@@ -1650,6 +2008,72 @@
       \endverb
       \verb{url}
       \verb https://www.fuw.edu.pl/~kostecki/sdg.pdf
+      \endverb
+    \endentry
+    \entry{KristensenMogelberg2021}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{hash=ff70fe4a1456de73f39ac4882ed76c9c}{%
+           family={Kristensen},
+           familyi={K\bibinitperiod},
+           given={Magnus\bibnamedelima Baunsgaard},
+           giveni={M\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=4e6dece1b144deb077e158d10a91a46a}{%
+           family={M{ø}gelberg},
+           familyi={M\bibinitperiod},
+           given={Rasmus\bibnamedelima Ejlers},
+           giveni={R\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \strng{namehash}{f020f50ac32cd47070386d4ac7f39769}
+      \strng{fullhash}{f020f50ac32cd47070386d4ac7f39769}
+      \strng{fullhashraw}{f020f50ac32cd47070386d4ac7f39769}
+      \strng{bibnamehash}{f020f50ac32cd47070386d4ac7f39769}
+      \strng{authorbibnamehash}{f020f50ac32cd47070386d4ac7f39769}
+      \strng{authornamehash}{f020f50ac32cd47070386d4ac7f39769}
+      \strng{authorfullhash}{f020f50ac32cd47070386d4ac7f39769}
+      \strng{authorfullhashraw}{f020f50ac32cd47070386d4ac7f39769}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proc.\ 37th Annual ACM/IEEE Symposium on Logic in Computer Science (LICS)}
+      \field{eprinttype}{arXiv}
+      \field{title}{Greatest HITs: Higher inductive types in coinductive definitions via induction under clocks}
+      \field{year}{2022}
+      \verb{eprint}
+      \verb 2102.01969
+      \endverb
+    \endentry
+    \entry{LorenzenShulman2024}{misc}{}{}
+      \name{author}{2}{}{%
+        {{hash=b2c14f93d4583a94c8806531a166bd99}{%
+           family={Lorenzen},
+           familyi={L\bibinitperiod},
+           given={Jarl\bibnamedelimb G.\bibnamedelimi Taxer{å}s},
+           giveni={J\bibinitperiod\bibinitdelim G\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+        {{hash=a49cc4742950659ae680e1c40f2295a9}{%
+           family={Shulman},
+           familyi={S\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{1c242b44bb93dc1b562958ce934a66c4}
+      \strng{fullhash}{1c242b44bb93dc1b562958ce934a66c4}
+      \strng{fullhashraw}{1c242b44bb93dc1b562958ce934a66c4}
+      \strng{bibnamehash}{1c242b44bb93dc1b562958ce934a66c4}
+      \strng{authorbibnamehash}{1c242b44bb93dc1b562958ce934a66c4}
+      \strng{authornamehash}{1c242b44bb93dc1b562958ce934a66c4}
+      \strng{authorfullhash}{1c242b44bb93dc1b562958ce934a66c4}
+      \strng{authorfullhashraw}{1c242b44bb93dc1b562958ce934a66c4}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.LO}
+      \field{eprinttype}{arXiv}
+      \field{title}{(Co)condition hits the Path}
+      \field{year}{2024}
+      \verb{eprint}
+      \verb 2405.12994
       \endverb
     \endentry
     \entry{LubarskyENTCS2007}{article}{}{}
@@ -1751,6 +2175,44 @@
       \range{pages}{14}
       \verb{doi}
       \verb 10.1007/978-3-540-72734-7_9
+      \endverb
+    \endentry
+    \entry{LubarskyRichman2015}{misc}{}{}
+      \name{author}{2}{}{%
+        {{hash=7b018b87e6c115cc46090f29257aa624}{%
+           family={Lubarsky},
+           familyi={L\bibinitperiod},
+           given={Robert\bibnamedelima S.},
+           giveni={R\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=ce7c0f943a91c7bf320eea32ce7f4de6}{%
+           family={Richman},
+           familyi={R\bibinitperiod},
+           given={Fred},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{54ea1fba9fa59f5fc958625b490756d0}
+      \strng{fullhash}{54ea1fba9fa59f5fc958625b490756d0}
+      \strng{fullhashraw}{54ea1fba9fa59f5fc958625b490756d0}
+      \strng{bibnamehash}{54ea1fba9fa59f5fc958625b490756d0}
+      \strng{authorbibnamehash}{54ea1fba9fa59f5fc958625b490756d0}
+      \strng{authornamehash}{54ea1fba9fa59f5fc958625b490756d0}
+      \strng{authorfullhash}{54ea1fba9fa59f5fc958625b490756d0}
+      \strng{authorfullhashraw}{54ea1fba9fa59f5fc958625b490756d0}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{title}{Signed-Bit Representations of Real Numbers}
+      \field{year}{2015}
+      \verb{eprint}
+      \verb 1510.00648
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1510.00648
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1510.00648
       \endverb
     \endentry
     \entry{MacLaneMoerdijk1992}{book}{}{}
@@ -2049,6 +2511,35 @@
       \endverb
       \verb{url}
       \verb https://arxiv.org/abs/2205.08354
+      \endverb
+    \endentry
+    \entry{Niqui2008}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=186ca998d35adb2c472b67de285ebb06}{%
+           family={Niqui},
+           familyi={N\bibinitperiod},
+           given={Milad},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{186ca998d35adb2c472b67de285ebb06}
+      \strng{fullhash}{186ca998d35adb2c472b67de285ebb06}
+      \strng{fullhashraw}{186ca998d35adb2c472b67de285ebb06}
+      \strng{bibnamehash}{186ca998d35adb2c472b67de285ebb06}
+      \strng{authorbibnamehash}{186ca998d35adb2c472b67de285ebb06}
+      \strng{authornamehash}{186ca998d35adb2c472b67de285ebb06}
+      \strng{authorfullhash}{186ca998d35adb2c472b67de285ebb06}
+      \strng{authorfullhashraw}{186ca998d35adb2c472b67de285ebb06}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Logical Methods in Computer Science}
+      \field{number}{3}
+      \field{title}{Coinductive Formal Reasoning in Exact Real Arithmetic}
+      \field{volume}{4}
+      \field{year}{2008}
+      \verb{doi}
+      \verb 10.2168/LMCS-4(3:6)2008
       \endverb
     \endentry
     \entry{nLabArchimedean}{misc}{}{}
@@ -2680,6 +3171,49 @@
       \range{pages}{10}
       \verb{doi}
       \verb 10.1090/S0002-9939-1992-1076586-6
+      \endverb
+    \endentry
+    \entry{SchwichtenbergWiesnet2021}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=ef7cbdc8715256a88da924c9f0f1177a}{%
+           family={Schwichtenberg},
+           familyi={S\bibinitperiod},
+           given={Helmut},
+           giveni={H\bibinitperiod}}}%
+        {{hash=1cbb15f07591fca1b002ae2e9e869c7b}{%
+           family={Wiesnet},
+           familyi={W\bibinitperiod},
+           given={Franziskus},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{8fc7ad2924be7ecd26b25f7563a1136a}
+      \strng{fullhash}{8fc7ad2924be7ecd26b25f7563a1136a}
+      \strng{fullhashraw}{8fc7ad2924be7ecd26b25f7563a1136a}
+      \strng{bibnamehash}{8fc7ad2924be7ecd26b25f7563a1136a}
+      \strng{authorbibnamehash}{8fc7ad2924be7ecd26b25f7563a1136a}
+      \strng{authornamehash}{8fc7ad2924be7ecd26b25f7563a1136a}
+      \strng{authorfullhash}{8fc7ad2924be7ecd26b25f7563a1136a}
+      \strng{authorfullhashraw}{8fc7ad2924be7ecd26b25f7563a1136a}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Logical Methods in Computer Science}
+      \field{note}{SdLim theorem; explicitly uses CC and DC}
+      \field{number}{2}
+      \field{title}{Limits in the Signed Digit Representation}
+      \field{volume}{17}
+      \field{year}{2021}
+      \field{pages}{7:1\bibrangedash 7:27}
+      \range{pages}{-1}
+      \verb{eprint}
+      \verb 2103.15702
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2103.15702
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2103.15702
       \endverb
     \endentry
     \entry{Shulman2022}{misc}{}{}
