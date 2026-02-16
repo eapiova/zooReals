@@ -28,8 +28,8 @@
 -- dec-resp         | IncDec.agda      | No    | Semantic: stream→ℝ(dec s) relates to s
 -- carry-raw        | IncDec.agda      | No    | Semantic: both sides same ℝ value
 -- borrow-raw       | IncDec.agda      | No    | Semantic: both sides same ℝ value
--- cons-resp        | Structure.agda   | No    | Semantic: stream→ℝ(d∷s) relates to s
--- inc⁻¹-𝕀 (×6)    | Structure.agda   | No    | Semantic: both sides same ℝ value
+-- cons-resp        | Structure.agda   | No    | PROVED (Phase B): 5-step triangle chain
+-- inc⁻¹-𝕀 (×6)    | Structure.agda   | No    | PROVED (Phase A): Stream-η + cong stream→ℝ
 -- carry-compl-𝕀    | Structure.agda   | No    | Semantic: ℝ arithmetic implication
 -- borrow-compl-𝕀   | Structure.agda   | No    | Semantic: ℝ arithmetic implication
 -- sep-L-𝕀         | Structure.agda   | No    | Semantic: ℝ arithmetic implication

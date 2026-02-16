@@ -134,12 +134,6 @@
     },
     {
       "module": "Reals.SignedDigit.HCIT.Structure",
-      "name": "cons-resp",
-      "class": "semantic-arithmetic",
-      "reason": "Semantic congruence of cons over quotient relation."
-    },
-    {
-      "module": "Reals.SignedDigit.HCIT.Structure",
       "name": "carry-compl-𝕀",
       "class": "semantic-arithmetic",
       "reason": "Completeness implication over quotient semantics."

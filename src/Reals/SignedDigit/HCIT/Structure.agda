@@ -72,6 +72,14 @@ open import Cubical.Tactics.CommRingSolverFast.FastRationalsReflection using (�
 ≡→∼ : ∀ (x y : ℝ) → x ≡ y → ∀ ε → x ∼[ ε ] y
 ≡→∼ x y h ε = subst (x ∼[ ε ]_) h (refl∼ x ε)
 
+-- Ring identity: (a+b·x)-(a+b·y) = b·(x-y) — proved with abstract variables
+-- so the ring solver sees clean syntax
+private
+  cancel-ℚ : ∀ (a b x y : ℚ) →
+    (a ℚP.+ b ℚP.· x) ℚP.- (a ℚP.+ b ℚP.· y)
+    ≡ b ℚP.· (x ℚP.- y)
+  cancel-ℚ a b x y = ℚ!!
+
 cons-resp : (d : Digit) (s t : 𝟛ᴺ) → s ≈sd t → (d ∷ s) ≈sd (d ∷ t)
 cons-resp d s t h = eqℝ _ _ close-all
   where
@@ -162,24 +170,39 @@ cons-resp d s t h = eqℝ _ _ close-all
       bridge-t
 
     -- Extract two-sided bound via ∼→∼' (rat-rat case gives extractable pair)
-    chain' = ∼→∼' _ _ chain-tol chain
+    chain' : (ℚP.- fst chain-tol ℚO.< approx s m ℚP.- approx t m)
+           × (approx s m ℚP.- approx t m ℚO.< fst chain-tol)
+    chain' = ∼→∼' (rat (approx s m)) (rat (approx t m)) chain-tol chain
 
     -- abs bound on inner difference
     abs-diff : abs (approx s m ℚP.- approx t m) ℚO.< fst chain-tol
-    abs-diff = absFrom<×< (fst chain-tol) _ (fst chain') (snd chain')
+    abs-diff = absFrom<×< (fst chain-tol) (approx s m ℚP.- approx t m)
+                 (fst chain') (snd chain')
 
-    -- Difference identity via approx-unfold:
-    -- approxℚ₊(d∷s) δ₀ - approxℚ₊(d∷t) δ₀ ≡ (1/2)·(approx s m - approx t m)
+    -- Difference identity via approx-unfold (split to help ring solver):
+    -- Step 1: rewrite via approx-unfold
+    diff-eq-a : approxℚ₊ (d ∷ s) δ₀ ℚP.- approxℚ₊ (d ∷ t) δ₀
+              ≡ (digitContrib d zero ℚP.+ inv2^ zero ℚP.· approx s m)
+                ℚP.- (digitContrib d zero ℚP.+ inv2^ zero ℚP.· approx t m)
+    diff-eq-a = cong₂ ℚP._-_ (approx-unfold (d ∷ s) m) (approx-unfold (d ∷ t) m)
+
+    -- Step 2: ring identity (a + b·x) - (a + b·y) = b·(x - y)
+    diff-eq-b : (digitContrib d zero ℚP.+ inv2^ zero ℚP.· approx s m)
+                ℚP.- (digitContrib d zero ℚP.+ inv2^ zero ℚP.· approx t m)
+              ≡ inv2^ zero ℚP.· (approx s m ℚP.- approx t m)
+    diff-eq-b = cancel-ℚ (digitContrib d zero) (inv2^ zero) (approx s m) (approx t m)
+
     diff-eq : approxℚ₊ (d ∷ s) δ₀ ℚP.- approxℚ₊ (d ∷ t) δ₀
             ≡ inv2^ zero ℚP.· (approx s m ℚP.- approx t m)
-    diff-eq = cong₂ ℚP._-_ (approx-unfold (d ∷ s) m) (approx-unfold (d ∷ t) m) ∙ ℚ!!
+    diff-eq = diff-eq-a ∙ diff-eq-b
 
     -- Scale: abs(1/2 · x) = 1/2 · abs(x) < 1/2 · fst chain-tol
     abs-scaled : abs (inv2^ zero ℚP.· (approx s m ℚP.- approx t m))
                ℚO.< inv2^ zero ℚP.· fst chain-tol
     abs-scaled = subst (ℚO._< inv2^ zero ℚP.· fst chain-tol)
-      (sym (pos·abs (inv2^ zero) _ (0≤inv2^ zero)))
-      (<-o· _ _ (inv2^ zero) (0<→< (inv2^ zero) ℚ.tt) abs-diff)
+      (sym (pos·abs (inv2^ zero) (approx s m ℚP.- approx t m) (0≤inv2^ zero)))
+      (<-o· (abs (approx s m ℚP.- approx t m)) (fst chain-tol)
+            (inv2^ zero) (0<→< (inv2^ zero) ℚ.tt) abs-diff)
 
     -- Key identity: (1/2)·(4δ₀ + 3γ) = inner-tol  (exact with γ = ε/3)
     scale-eq : inv2^ zero ℚP.· fst chain-tol ≡ fst inner-tol
