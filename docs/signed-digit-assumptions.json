@@ -205,30 +205,6 @@
       "reason": "Uniqueness proof depends on AC_omega-dependent semantics map."
     },
     {
-      "module": "Reals.SignedDigit.IncDec",
-      "name": "inc-resp",
-      "class": "semantic-arithmetic",
-      "reason": "Semantic congruence of inc under stream equivalence."
-    },
-    {
-      "module": "Reals.SignedDigit.IncDec",
-      "name": "dec-resp",
-      "class": "semantic-arithmetic",
-      "reason": "Semantic congruence of dec under stream equivalence."
-    },
-    {
-      "module": "Reals.SignedDigit.IncDec",
-      "name": "carry-raw",
-      "class": "semantic-arithmetic",
-      "reason": "Raw carry equation in stream semantics."
-    },
-    {
-      "module": "Reals.SignedDigit.IncDec",
-      "name": "borrow-raw",
-      "class": "semantic-arithmetic",
-      "reason": "Raw borrow equation in stream semantics."
-    },
-    {
       "module": "Reals.SignedDigit.Limit",
       "name": "nextRat-bounded",
       "class": "semantic-arithmetic",

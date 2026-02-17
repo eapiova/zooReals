@@ -24,11 +24,11 @@
 --
 -- Name             | File             | AC_ω? | Reason
 -- -----------------|------------------|-------|------------------------------------------
--- inc-resp         | IncDec.agda      | No    | Semantic: stream→ℝ(inc s) relates to s
--- dec-resp         | IncDec.agda      | No    | Semantic: stream→ℝ(dec s) relates to s
--- carry-raw        | IncDec.agda      | No    | Semantic: both sides same ℝ value
--- borrow-raw       | IncDec.agda      | No    | Semantic: both sides same ℝ value
--- cons-resp        | Structure.agda   | No    | PROVED (Phase B): 5-step triangle chain
+-- inc-resp         | IncDec.agda      | No    | PROVED: inc-sem + cons-resp triangle
+-- dec-resp         | IncDec.agda      | No    | PROVED: dec-sem + cons-resp triangle
+-- carry-raw        | IncDec.agda      | No    | PROVED: inc-sem + Stream-η
+-- borrow-raw       | IncDec.agda      | No    | PROVED: dec-sem + Stream-η
+-- cons-resp        | ConsResp.agda    | No    | PROVED (Phase B): 5-step triangle chain
 -- inc⁻¹-𝕀 (×6)    | Structure.agda   | No    | PROVED (Phase A): Stream-η + cong stream→ℝ
 -- carry-compl-𝕀    | Structure.agda   | No    | Semantic: ℝ arithmetic implication
 -- borrow-compl-𝕀   | Structure.agda   | No    | Semantic: ℝ arithmetic implication

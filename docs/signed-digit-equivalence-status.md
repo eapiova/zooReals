@@ -32,6 +32,13 @@ This note records the current formal status of the signed-digit equivalence work
 - `src/Reals/SignedDigit/Safe/Equivalence.agda:6`
   States full safe `ℝsd` exports are intentionally absent pending a genuine quotient-based safe representation.
 
+## HCIT Quotient Model Status
+
+The `𝕀sd-Alg` instance (`Structure.agda`) has 18 fields. Current status: **14/18 proved**, 4 postulated.
+
+- **Proved (14)**: Carrier, isSetCarrier, cons (`ConsResp.agda`), inc, dec, carry, borrow (`IncDec.agda`: `inc-resp`, `dec-resp`, `carry-raw`, `borrow-raw` — via `inc-sem`/`dec-sem` approximation bounds), inc⁻¹, inc⁰, inc⁺¹, dec⁺¹, dec⁰, dec⁻¹ (Stream-η), gen (SQ.elimProp).
+- **Postulated (4)**: `carry-compl-𝕀`, `borrow-compl-𝕀`, `sep-L-𝕀`, `sep-R-𝕀` (`Structure.agda:86–93`) — semantic arithmetic on quotient.
+
 ## Conclusions (Current Base Setup)
 
 - The repository does **not** currently contain a fully constructive proof of `ℝsd ≡ ℝ`.

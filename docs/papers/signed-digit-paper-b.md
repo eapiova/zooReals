@@ -23,5 +23,13 @@
 - Frozen by `src/Reals/SignedDigit/PaperB/Entrypoint.agda`.
 - Canonical names: `inc⁻¹`, `inc⁰`, `inc⁺¹`, `dec⁺¹`, `dec⁰`, `dec⁻¹`, `carry-compl`, `borrow-compl`, `sep-L`, `sep-R`, `gen`.
 
+## Quotient Model Status
+
+`𝕀sd-Alg` has **14/18 fields proved**. The 4 remaining postulates are:
+- `carry-compl-𝕀`, `borrow-compl-𝕀` (completeness, `Structure.agda:88–89`)
+- `sep-L-𝕀`, `sep-R-𝕀` (separation, `Structure.agda:92–93`)
+
+Recent: `inc-resp`, `dec-resp`, `carry-raw`, `borrow-raw` proved in `IncDec.agda` via `inc-sem`/`dec-sem` approximation bounds + `cons-resp` (`ConsResp.agda`).
+
 ## Assumption Source
 - Canonical ledger: `docs/signed-digit-assumptions.json`.
