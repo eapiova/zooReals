@@ -178,19 +178,13 @@
       "module": "Reals.SignedDigit.HCIT.Terminality",
       "name": "ι⁻¹",
       "class": "semantic-arithmetic",
-      "reason": "Inverse map is not imported from completed equivalence path in this module."
+      "reason": "Bounded inverse placeholder used to avoid heavy equivalence imports."
     },
     {
       "module": "Reals.SignedDigit.HCIT.Terminality",
       "name": "ι-section",
       "class": "semantic-arithmetic",
       "reason": "Section law for local inverse placeholder."
-    },
-    {
-      "module": "Reals.SignedDigit.HCIT.Terminality",
-      "name": "ι-retract",
-      "class": "semantic-arithmetic",
-      "reason": "Retract law for local inverse placeholder."
     },
     {
       "module": "Reals.SignedDigit.HCIT.Terminality",
@@ -203,6 +197,12 @@
       "name": "morph-unique",
       "class": "ac-omega",
       "reason": "Uniqueness proof depends on AC_omega-dependent semantics map."
+    },
+    {
+      "module": "Reals.SignedDigit.Interval",
+      "name": "ι-bounded",
+      "class": "semantic-arithmetic",
+      "reason": "Boundedness witness placing ι-images inside the interval [-1,1]."
     },
     {
       "module": "Reals.SignedDigit.Limit",
@@ -227,6 +227,54 @@
       "name": "limA-𝕀sd-close",
       "class": "ac-omega",
       "reason": "Quotient-lift closeness theorem depends on AC_omega lift."
+    },
+    {
+      "module": "Reals.SignedDigit.Midpoint.Average",
+      "name": "avg",
+      "class": "semantic-arithmetic",
+      "reason": "Placeholder stream-level averaging operator for midpoint construction."
+    },
+    {
+      "module": "Reals.SignedDigit.Midpoint.Average",
+      "name": "avg-sem",
+      "class": "semantic-arithmetic",
+      "reason": "Semantic correctness of stream-level averaging."
+    },
+    {
+      "module": "Reals.SignedDigit.Midpoint.RealStructure",
+      "name": "/2ᵣ-bounds",
+      "class": "semantic-arithmetic",
+      "reason": "Bounded-interval closure of midpoint operation over reals."
+    },
+    {
+      "module": "Reals.SignedDigit.Midpoint.Structure",
+      "name": "/2ᵣ-x+x",
+      "class": "semantic-arithmetic",
+      "reason": "Real arithmetic helper: halving doubled value returns original."
+    },
+    {
+      "module": "Reals.SignedDigit.Midpoint.Structure",
+      "name": "medial-ℝ-lemma",
+      "class": "semantic-arithmetic",
+      "reason": "Real arithmetic mediality helper for midpoint proofs."
+    },
+    {
+      "module": "Reals.SignedDigit.Midpoint.Structure",
+      "name": "ι-cons",
+      "class": "semantic-arithmetic",
+      "reason": "Semantic unfolding of cons under ι for midpoint bridge."
+    },
+    {
+      "module": "Reals.SignedDigit.Midpoint.Structure",
+      "name": "ι-bot",
+      "class": "semantic-arithmetic",
+      "reason": "Semantic value of bottom generator under ι."
+    },
+    {
+      "module": "Reals.SignedDigit.Midpoint.Structure",
+      "name": "ι-top",
+      "class": "semantic-arithmetic",
+      "reason": "Semantic value of top generator under ι."
     },
     {
       "module": "Reals.SignedDigit.Safe.Limit",

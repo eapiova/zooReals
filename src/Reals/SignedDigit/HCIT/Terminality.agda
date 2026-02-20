@@ -7,15 +7,13 @@
 -- The HCIT universal property: 𝕀sd is the terminal 𝕀-Algebra.
 -- For any 𝕀-Algebra A, there exists a unique 𝕀-Hom from A to 𝕀sd.
 --
--- KNOWN OBSTRUCTION: The semantics map sem : A.Carrier → ℝ requires
--- decomposing elements via gen (which gives only truncated existence)
--- and recursing on the decomposition. This requires AC_ω (countable
--- dependent choice), which is unavailable constructively.
--- See also: Safe/Limit.agda for the same obstruction in a different
--- context.
+-- KNOWN OBSTRUCTION: The semantics map sem : A.Carrier → ℝ[-1,1]
+-- requires decomposing elements via gen (which gives only truncated
+-- existence) and recursing on the decomposition. This requires AC_ω
+-- (countable dependent choice), unavailable constructively.
 --
 -- Strategy:
---   1. Postulate sem : A.Carrier → ℝ with its defining equation
+--   1. Postulate sem : A.Carrier → ℝ[-1,1] with projection equation
 --   2. Define morph : A.Carrier → 𝕀sd via ι⁻¹ ∘ sem
 --   3. Show morph is an 𝕀-Hom (preserves cons, inc, dec)
 --   4. Show uniqueness (any 𝕀-Hom A 𝕀sd equals morph)
@@ -37,13 +35,14 @@
 -- sem              | Terminality.agda | YES   | Decomposing via gen requires AC_ω
 -- sem-cons         | Terminality.agda | YES   | Part of sem specification
 -- sem-𝕀sd          | Terminality.agda | YES   | Part of sem specification
--- ι⁻¹             | Terminality.agda | NO*   | Exists via ℝsd≃ℝ but not imported
+-- ι⁻¹             | Terminality.agda | NO*   | Bounded inverse placeholder
 -- ι-section        | Terminality.agda | NO*   | Part of ι⁻¹ specification
--- ι-retract        | Terminality.agda | NO*   | Part of ι⁻¹ specification
+-- ι-retract        | Terminality.agda | No    | DERIVED from ι-section + ι-inj
 -- morph-is-hom     | Terminality.agda | YES   | Depends on sem-cons
 -- morph-unique     | Terminality.agda | YES   | Depends on sem
 --
--- NO* = not inherently AC_ω, but not imported from Equivalence.agda
+-- NO* = not inherently AC_ω, but kept local to avoid heavy equivalence
+-- imports in this module.
 
 module Reals.SignedDigit.HCIT.Terminality where
 
@@ -53,8 +52,7 @@ open import Cubical.Foundations.Function
 
 open import Cubical.HITs.SetQuotients as SQ
 
-open import Cubical.HITs.CauchyReals.Base using (ℝ; rat; lim; eqℝ)
-open import Cubical.HITs.CauchyReals.Closeness using (isSetℝ)
+open import Cubical.HITs.CauchyReals.Base using (rat)
 open import Cubical.HITs.CauchyReals.Order using (_+ᵣ_)
 open import Cubical.HITs.CauchyReals.Multiplication using (/2ᵣ)
 
@@ -62,6 +60,7 @@ open import Reals.SignedDigit.Core
 open import Reals.SignedDigit.Bounded
   using ( stream→ℝ; _≈sd_; 𝕀sd; [_]sd; isSet𝕀sd; ι
         ; digitToℚ )
+open import Reals.SignedDigit.Interval using (ℝ[-1,1]; ι↑)
 open import Reals.SignedDigit.IncDec
 open import Reals.SignedDigit.HCIT.Algebra
 open import Reals.SignedDigit.HCIT.Structure using (𝕀sd-Alg; cons𝕀)
@@ -80,34 +79,36 @@ open import Reals.SignedDigit.HCIT.Structure using (𝕀sd-Alg; cons𝕀)
 ------------------------------------------------------------------------
 -- Semantics map (POSTULATE: requires AC_ω)
 ------------------------------------------------------------------------
--- For any 𝕀-Algebra A, sem assigns a real number to each element.
--- Intuitively: sem (cons d x) = (digitToℚ d + sem x) / 2.
+-- For any 𝕀-Algebra A, sem assigns a bounded real to each element.
+-- Intuitively on first projections:
+--   fst (sem (cons d x)) = (digitToℚ d + fst (sem x)) / 2.
 -- Construction requires iterating gen to decompose elements, choosing
 -- representatives from truncated existentials — hence AC_ω.
 
 postulate
   -- POSTULATE: requires AC_ω (countable dependent choice)
-  sem : (A : 𝕀-Alg) → 𝕀-Alg.Carrier A → ℝ
+  sem : (A : 𝕀-Alg) → 𝕀-Alg.Carrier A → ℝ[-1,1]
 
-  -- The defining equation: sem(cons d x) = (digitToℚ d + sem x) / 2
+  -- Defining equation on underlying reals.
   sem-cons : (A : 𝕀-Alg) (d : Digit) (x : 𝕀-Alg.Carrier A)
-           → sem A (𝕀-Alg.cons A d x) ≡ /2ᵣ (rat (digitToℚ d) +ᵣ sem A x)
+           → fst (sem A (𝕀-Alg.cons A d x))
+           ≡ /2ᵣ (rat (digitToℚ d) +ᵣ fst (sem A x))
 
-  -- sem for 𝕀sd-Alg agrees with ι
-  sem-𝕀sd : (x : 𝕀sd) → sem 𝕀sd-Alg x ≡ ι x
+  -- sem for 𝕀sd-Alg agrees with ι on first projections.
+  sem-𝕀sd : (x : 𝕀sd) → fst (sem 𝕀sd-Alg x) ≡ ι x
 
 ------------------------------------------------------------------------
 -- The unique morphism A → 𝕀sd
 ------------------------------------------------------------------------
 
--- POSTULATE: the inverse map ℝ → 𝕀sd
--- This exists because 𝕀sd ≃ ℝ (via the surjection approach in
--- Equivalence.agda), but constructing it requires going through
--- the full equivalence proof.
+-- POSTULATE: bounded inverse map ℝ[-1,1] → 𝕀sd.
 postulate
-  ι⁻¹ : ℝ → 𝕀sd
-  ι-section : (x : ℝ) → ι (ι⁻¹ x) ≡ x
-  ι-retract : (x : 𝕀sd) → ι⁻¹ (ι x) ≡ x
+  ι⁻¹ : ℝ[-1,1] → 𝕀sd
+  ι-section : (x : ℝ[-1,1]) → ι (ι⁻¹ x) ≡ fst x
+
+-- Retract law on the image of ι, derived from ι-section and injectivity.
+ι-retract : (x : 𝕀sd) → ι⁻¹ (ι↑ x) ≡ x
+ι-retract x = ι-inj _ _ (ι-section (ι↑ x))
 
 -- The canonical morphism from any 𝕀-Algebra to 𝕀sd
 morph : (A : 𝕀-Alg) → 𝕀-Alg.Carrier A → 𝕀sd

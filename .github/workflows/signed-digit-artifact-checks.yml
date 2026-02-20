@@ -31,6 +31,11 @@ on:
         required: false
         default: false
         type: boolean
+      run_midpoint_agda_checks:
+        description: 'Include Midpoint modules when paper Agda checks are enabled.'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -80,6 +85,8 @@ jobs:
           sudo apt-get install -y poppler-utils
 
       - name: Attempt paper Agda checks
+        env:
+          RUN_MIDPOINT_AGDA_CHECKS: ${{ inputs.run_midpoint_agda_checks && '1' || '0' }}
         run: |
           if command -v agda >/dev/null 2>&1; then
             scripts/check_signeddigit_papers.sh

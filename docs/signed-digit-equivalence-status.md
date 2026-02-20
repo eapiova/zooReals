@@ -37,7 +37,19 @@ This note records the current formal status of the signed-digit equivalence work
 The `𝕀sd-Alg` instance (`Structure.agda`) has 18 fields. Current status: **14/18 proved**, 4 postulated.
 
 - **Proved (14)**: Carrier, isSetCarrier, cons (`ConsResp.agda`), inc, dec, carry, borrow (`IncDec.agda`: `inc-resp`, `dec-resp`, `carry-raw`, `borrow-raw` — via `inc-sem`/`dec-sem` approximation bounds), inc⁻¹, inc⁰, inc⁺¹, dec⁺¹, dec⁰, dec⁻¹ (Stream-η), gen (SQ.elimProp).
-- **Postulated (4)**: `carry-compl-𝕀`, `borrow-compl-𝕀`, `sep-L-𝕀`, `sep-R-𝕀` (`Structure.agda:86–93`) — semantic arithmetic on quotient.
+- **Postulated (4)**: `carry-compl-𝕀`, `borrow-compl-𝕀`, `sep-L-𝕀`, `sep-R-𝕀` (`Structure.agda:100–105`) — semantic arithmetic on quotient.
+- **Terminality surface (bounded codomain)**: `sem`, `sem-cons`, `sem-𝕀sd`, `ι⁻¹`, `ι-section`, `morph-is-hom`, `morph-unique` remain postulated in `Terminality.agda`; `ι-retract` is now derived from `ι-section` + `ι-inj`.
+
+## Midpoint Branch Status
+
+- Midpoint formalization files (`src/Reals/SignedDigit/Midpoint/**`) typecheck and are now tracked in the assumption ledger.
+- Shared bounded interval interface lives in `src/Reals/SignedDigit/Interval.agda`.
+- Current Midpoint/interval postulates (semantic-arithmetic class):
+  - `Interval.agda`: `ι-bounded`
+  - `Midpoint/Average.agda`: `avg`, `avg-sem`
+  - `Midpoint/RealStructure.agda`: `/2ᵣ-bounds`
+  - `Midpoint/Structure.agda`: `/2ᵣ-x+x`, `medial-ℝ-lemma`, `ι-cons`, `ι-bot`, `ι-top`
+- CI policy: Midpoint Agda checks are stage-gated (opt-in) via `RUN_MIDPOINT_AGDA_CHECKS=1`.
 
 ## Conclusions (Current Base Setup)
 

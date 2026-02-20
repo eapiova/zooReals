@@ -10,6 +10,7 @@ This ledger tracks:
 - every `postulate` declaration under `src/Reals/SignedDigit/`
 - dependency class (`semantic-arithmetic` or `ac-omega`)
 - module-level `--allow-unsolved-metas` usage
+- Midpoint assumptions (`src/Reals/SignedDigit/Midpoint/**`) and shared bounded-interval assumptions (`src/Reals/SignedDigit/Interval.agda`)
 
 The checker prints the discovered postulate inventory and fails on:
 - undocumented postulates

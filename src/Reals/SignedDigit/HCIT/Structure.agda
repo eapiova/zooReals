@@ -82,6 +82,18 @@ dec⁻¹-𝕀 = SQ.elimProp (λ _ → isSet𝕀sd _ _) λ s →
 ------------------------------------------------------------------------
 -- Completeness and separation (postulated — semantic arithmetic)
 ------------------------------------------------------------------------
+--
+-- Attempted route in this cycle:
+--   1. eliminate quotient representatives for x,y,
+--   2. transport hypotheses through ι,
+--   3. normalize to arithmetic implications over ℝ,
+--   4. reassemble quotient equalities via eq/.
+--
+-- Current blocker: the required implication lemmas at ℝ level are not
+-- yet present in reusable form (cross-head carry/borrow implications and
+-- converse separation implications under /2ᵣ normalization). Proving and
+-- packaging those lemmas is substantial and independent of the quotient
+-- elimination plumbing already in place.
 
 postulate
   -- Completeness (slide 14)

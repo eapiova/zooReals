@@ -15,10 +15,10 @@
 --   • dec𝕀 x ≡ bot𝕀 ⊕𝕀 x        (proved, no postulate)
 --
 -- POSTULATES:
---   avg, avg-sem    : stream-level average + semantics (algorithmic)
+--   avg, avg-sem    : stream-level average + semantics (from
+--                     Midpoint/Average.agda placeholder)
 --   ι-cons          : semantic unfolding of cons (limit computation)
 --   /2ᵣ-x+x        : ℝ arithmetic helper (provable via ≡Continuous)
---   /2ᵣ-+ᵣComm     : ℝ arithmetic helper (provable via ≡Continuous)
 --   medial-ℝ-lemma  : ℝ ring equation (provable via ≡Continuous)
 -- None require AC_ω.
 
@@ -31,11 +31,13 @@ open import Cubical.HITs.SetQuotients as SQ hiding ([_])
 open import Cubical.HITs.PropositionalTruncation as PT using (∥_∥₁)
 
 open import Cubical.Data.Sigma
+open import Cubical.Data.Rationals.Fast as ℚ using (_+_)
 
 open import Cubical.HITs.CauchyReals.Base using (ℝ; rat)
 open import Cubical.HITs.CauchyReals.Closeness using (isSetℝ)
-open import Cubical.HITs.CauchyReals.Order using (_+ᵣ_; +ᵣComm)
+open import Cubical.HITs.CauchyReals.Order using (_+ᵣ_; +ᵣComm; +ᵣ-rat)
 open import Cubical.HITs.CauchyReals.Multiplication using (/2ᵣ)
+open import Cubical.Tactics.CommRingSolverFast.FastRationalsReflection using (ℚ!!)
 
 open import Reals.SignedDigit.Core
 open import Reals.SignedDigit.Bounded
@@ -49,6 +51,7 @@ open import Reals.SignedDigit.HCIT.Structure
         ; carry-compl-𝕀; borrow-compl-𝕀
         ; sep-L-𝕀; sep-R-𝕀 )
 open import Reals.SignedDigit.Midpoint.Algebra
+open import Reals.SignedDigit.Midpoint.Average using (avg; avg-sem)
 open import Reals.SignedDigit.Midpoint.Comparison
   using (RemainingAxioms; build𝕀-Alg)
 
@@ -63,16 +66,6 @@ open import Reals.SignedDigit.Midpoint.Comparison
 ------------------------------------------------------------------------
 -- The midpoint operation on 𝕀sd
 ------------------------------------------------------------------------
-
--- POSTULATE: stream-level binary average.
--- This is a coinductive algorithm computing (s + t)/2 on digit
--- streams, using carry-propagation for digit sums of ±1.
--- Non-trivial but well-understood (cf. WK22 CoIAverage).
-postulate
-  avg : 𝟛ᴺ → 𝟛ᴺ → 𝟛ᴺ
-
-  -- Semantic correctness: avg computes the real average
-  avg-sem : ∀ s t → stream→ℝ (avg s t) ≡ /2ᵣ (stream→ℝ s +ᵣ stream→ℝ t)
 
 -- avg respects ≈sd in both arguments (derived from avg-sem)
 avg-resp-l : ∀ s s' t → s ≈sd s' → avg s t ≈sd avg s' t
@@ -212,7 +205,20 @@ cons-is-⊕ d x = ι-inj _ _
     where
     -- /2ᵣ (rat(digitToℚ -1d) +ᵣ rat(digitToℚ +1d)) ≡ rat(digitToℚ 0d)
     -- i.e., /2ᵣ (rat(-1) +ᵣ rat(1)) ≡ rat(0)
-    postulate ι-cons-mid : /2ᵣ (rat (digitToℚ -1d) +ᵣ rat (digitToℚ +1d)) ≡ rat (digitToℚ 0d)
+    ι-cons-mid : /2ᵣ (rat (digitToℚ -1d) +ᵣ rat (digitToℚ +1d)) ≡ rat (digitToℚ 0d)
+    ι-cons-mid =
+      cong /2ᵣ (+ᵣ-rat (digitToℚ -1d) (digitToℚ +1d))
+      ∙ cong /2ᵣ (cong rat q-1+1)
+      ∙ cong /2ᵣ
+          (cong rat (sym q0+0)
+           ∙ sym (+ᵣ-rat (digitToℚ 0d) (digitToℚ 0d)))
+      ∙ /2ᵣ-x+x (rat (digitToℚ 0d))
+      where
+      q-1+1 : (digitToℚ -1d ℚ.+ digitToℚ +1d) ≡ digitToℚ 0d
+      q-1+1 = ℚ!!
+
+      q0+0 : (digitToℚ 0d ℚ.+ digitToℚ 0d) ≡ digitToℚ 0d
+      q0+0 = ℚ!!
   ι-digitPoint +1d = ι-top
 
 -- inc𝕀 x ≡ top𝕀 ⊕𝕀 x  (from inc𝕀≡cons+1 + cons-is-⊕)

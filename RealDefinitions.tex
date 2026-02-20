@@ -42,6 +42,9 @@
 
 This document lists the first twenty-three constructive definitions of real numbers, partitions them into equivalence classes, and records the canonical embeddings. Note that while many equivalences hold in standard constructive mathematics (assuming Countable Choice, \(\mathsf{AC}_\omega\)), in plain Cubical Agda without \(\mathsf{AC}_\omega\), the hierarchy is more fractured (e.g., Cauchy reals are not provably Dedekind reals). General surveys and formalization resources include \cite{RichmanSurvey,TroelstraVanDalen1988,AgdaWiki}.
 
+\paragraph{Encoding-level viewpoint (Cubical Agda).}
+The entries below differ not only by mathematical motivation but also by type former: predicate records on \(\mathbb{Q}\) (Dedekind/one-sided cuts), sequence-with-modulus records (fast Cauchy), coinductive streams (digit encodings), and higher-inductive quotients (HIT-based completions). In Cubical Agda these encodings have different elimination principles and equality mechanisms, so ``same intended real continuum'' does not imply definitional sameness of types \cite{HoTT2013,Vezzosi2019,Booij2020}.
+
 \section*{1. Definitions (1--33)}
 \begin{enumerate}[leftmargin=*]
   \item $\mathbb{R}_\mathrm{D}$: Dedekind reals (located cuts of $\mathbb{Q}$) \cite{Dedekind1872,Bishop1967,BishopBridges1985,BridgesRichman1987,LubarskyRathjen2007,TomasiDedekind,Zanardo2012,MathOverflowLocales,Stout1976,nLabRealNumbers,Hall2010,Devillanova2021}.
@@ -82,6 +85,9 @@ This document lists the first twenty-three constructive definitions of real numb
 \section*{2. Equivalence Classes (Provable without Countable Choice)}
 Each class below consists of definitions that are often equivalent in constructive mathematics with \(\mathsf{AC}_\omega\). In plain Cubical Agda, equivalences between classes (e.g., A and B) may fail.
 
+\paragraph{Choice-sensitive boundary.}
+Sections 2--3 are read in a base system without countable choice. In this setting, existence statements that are merely propositional do not automatically provide witness-extracting functions, so reverse maps from cut-style encodings to sequence-style encodings are not taken as canonical unless explicitly justified \cite{BishopBridges1985,TroelstraVanDalen1988,Booij2020}.
+
 \subsection*{A. Dedekind-Type Completions}
 $\mathbb{R}_\mathrm{D}$, $\mathbb{R}_\mathrm{formal}$, Sheaf-theoretic reals, and the real numbers object in a topos all present the Dedekind completion of $\mathbb{Q}$ via localized/topos-theoretic perspectives \cite{MacLaneMoerdijk1992,Johnstone1982,Johnstone2002,nLabRealNumbers,Grossack2024}.
 
@@ -89,7 +95,7 @@ $\mathbb{R}_\mathrm{D}$, $\mathbb{R}_\mathrm{formal}$, Sheaf-theoretic reals, an
 $\mathbb{R}_\mathrm{C}$, $\mathbb{R}_\mathrm{FC}$, $\mathbb{R}_\mathrm{I}$, $\mathbb{R}_\mathrm{H}$, $\mathbb{R}_\mathrm{init}$, $\mathbb{R}_\mathrm{ES}$, and (axiomatically) $\mathbb{R}_\mathrm{CauComp}$ represent the Cauchy completion, differing only in presentation (explicit modulus, higher inductive, universal property, or internal closure of $\mathbb{Q}$ within $\mathbb{R}_\mathrm{D}$) \cite{HoTT2013,Booij2017,Booij2020,Murray2022,SchwichtenbergWiesnet2021}.
 
 \subsection*{C. Representation (Digit/Continued Fraction) Pre-Reals}
-\(\mathbb{R}_\mathrm{CF}\), \(\mathbb{R}_{b}\), \(\mathbb{R}_\mathrm{SD}\), Decimal/Base-10 reals give concrete digit- or fraction-based streams. These are not literally ``the reals'' until quotiented; they are ``presentations of \(\mathbb{R}\)''. Raw types are not fields because of non-unique encodings, but their quotients by the appropriate equivalence relation coincide with Class B~\cite{Weihrauch2000,WiesnetKopp2022,MathStackConstructiveReals,BergerHou2007,Berger2011,Niqui2008,Kaganovsky1998,KoeppSchwichtenberg2022,BoehmEtAl1986,LubarskyRichman2015,BooijLocators,SchwichtenbergWiesnet2021,BergerSeisenberger2012,BergerLloyd2009}.
+\(\mathbb{R}_\mathrm{CF}\), \(\mathbb{R}_{b}\), \(\mathbb{R}_\mathrm{SD}\), and decimal/base-$10$ variants are concrete stream/fraction presentations. Before quotienting they are representation objects rather than canonical field objects: non-unique encodings and carry/normalization phenomena obstruct direct field laws on raw codes. After quotienting by the appropriate digit/fraction equivalence (with suitable regularity/modulus side conditions), these presentations map into the Cauchy-completion family (Class B) \cite{Weihrauch2000,BoehmEtAl1986,BergerHou2007,Berger2011,Niqui2008,Kaganovsky1998,KoeppSchwichtenberg2022,WiesnetKopp2022,LubarskyRichman2015,BooijLocators,BergerSeisenberger2012,BergerLloyd2009,MathStackConstructiveReals}.
 
 \subsection*{D. Coalgebraic Subspaces}
 $[0,1]_\mathrm{coalg}$ and $\mathbb{R}^+_\mathrm{coalg}$ describe the unit interval and positive reals as terminal coalgebras. Constructively they model subspaces of $\mathbb{R}_\mathrm{D}$ but do not deliver the entire field without additional principles \cite{EscardoSimpson2001,AdamekMiliusMoss2025,nLabCoalgebraInterval,Rutten2000,EscardoSimpson2014}.
@@ -256,7 +262,7 @@ Eudoxus: R_E  ... (isolated; classically related to Cauchy/Dedekind)
 \section*{3. Canonical Embeddings (No Countable Choice)}
 \begin{itemize}[leftmargin=*]
   \item Cauchy into Dedekind: there is a canonical field embedding $\mathbb{R}_\mathrm{C} \hookrightarrow \mathbb{R}_\mathrm{D}$ that sends each Cauchy real to the located cut defined by its values \cite{BishopBridges1985,LubarskyENTCS2007,Lubarsky2007,MathOverflowDedekindCauchy}.
-  \item Cauchy/HIT equivalences: $\mathbb{R}_\mathrm{FC}$, $\mathbb{R}_\mathrm{I}$, $\mathbb{R}_\mathrm{H}$, $\mathbb{R}_\mathrm{init}$, $\mathbb{R}_\mathrm{ES}$, and $\mathbb{R}_\mathrm{CauComp}$ are inter-definable and embed into $\mathbb{R}_\mathrm{C}$ (hence into $\mathbb{R}_\mathrm{D}$) \cite{HoTT2013,Booij2017,Booij2020,EscardoSimpson2001}.
+  \item Cauchy/HIT family: \(\RFC\), \(\RI\), \(\RH\), \(\Rinit\), \(\RES\), and \(\RCauComp\) are Cauchy-completion-flavoured presentations. In this document (without \(\mathsf{AC}_\omega\)), we only assert the embeddings/identifications supported by the cited constructions and do not assume a blanket equivalence among all of them in plain Cubical Agda \cite{HoTT2013,Booij2017,Booij2020,EscardoSimpson2001,Murray2022}.
   \item Representation quotients: the quotient of $\mathbb{R}_\mathrm{CF}$, $\mathbb{R}_{b}$, or $\mathbb{R}_\mathrm{SD}$ by the digit-equivalence relation embeds into $\mathbb{R}_\mathrm{C}$. Without quotienting there is a surjection obstruction due to non-unique encodings (Booij~\cite{BooijLocators} shows locators provide a choice-free signed-digit conversion for Dedekind reals with extra structure) \cite{Weihrauch2000,BergerHou2007,MathStackConstructiveReals,WiesnetKopp2022,Berger2011,Niqui2008,Kaganovsky1998,KoeppSchwichtenberg2022,BoehmEtAl1986,LubarskyRichman2015,SchwichtenbergWiesnet2021,BergerSeisenberger2012,BergerLloyd2009}.
   \item Dedekind to generalized cuts: taking lower (resp. upper) shadows gives embeddings $\mathbb{R}_\mathrm{D} \to \mathbb{R}_\mathrm{L}$ and $\mathbb{R}_\mathrm{D} \to \mathbb{R}_\mathrm{U}$. Composing with double-negation closure embeds into $\mathbb{R}_\mathrm{M}$ \cite{Vickers1996,nLabOneSided,nLabMacNeille,MacNeille1937}.
   \item Coalgebraic subspaces: maps $[0,1]_\mathrm{coalg} \to [0,1] \subseteq \mathbb{R}_\mathrm{D}$ and $\mathbb{R}^+_\mathrm{coalg} \to \mathbb{R}^+ \subseteq \mathbb{R}_\mathrm{D}$ exist, but surjectivity constructs require additional principles \cite{EscardoSimpson2001,AdamekMiliusMoss2025,nLabCoalgebraInterval}.

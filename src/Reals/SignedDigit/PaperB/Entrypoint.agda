@@ -83,3 +83,43 @@ module StableAlg (A : 𝕀-Alg) where
           ; sep-L
           ; sep-R
           )
+
+------------------------------------------------------------------------
+-- Midpoint characterization exports
+------------------------------------------------------------------------
+
+open import Reals.SignedDigit.Midpoint.Algebra public
+  using ( MidpointAlg
+        ; PointedMidpointAlg
+        ; MidpointHom
+        ; PointedMidpointHom
+        )
+
+open import Reals.SignedDigit.Midpoint.Comparison public
+  using ( RemainingAxioms
+        ; build𝕀-Alg
+        )
+
+open import Reals.SignedDigit.Midpoint.Average public
+  using ( avg
+        ; avg-sem
+        )
+
+open import Reals.SignedDigit.Midpoint.Structure public
+  using ( _⊕𝕀_
+        ; bot𝕀
+        ; top𝕀
+        ; 𝕀sd-MidAlg
+        ; cons-is-⊕
+        ; inc-is-⊕
+        ; dec-is-⊕
+        ; midpoint-remaining
+        ; 𝕀sd-MidpointInduced-Alg
+        )
+
+open import Reals.SignedDigit.Midpoint.RealStructure public
+  using ( ℝ[-1,1]
+        ; ℝ[-1,1]-MidAlg
+        ; ι↑
+        ; ι↑-Hom
+        )
